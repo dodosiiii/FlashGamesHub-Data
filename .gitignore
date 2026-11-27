@@ -1,0 +1,8 @@
+/build/
+/FlashGamesHub.3dsx
+/FlashGamesHub.elf
+/FlashGamesHub.smdh
+/romfs/catalog.json
+/romfs/hub.json
+/romfs/ca-bundle.pem
+*.map

@@ -1,0 +1,1245 @@
+﻿{
+  "schema_version": 1,
+  "catalog_version": 2,
+  "updated_at": "2026-11-27",
+  "games": [
+    {
+      "id": "worlds-hardest-game-1",
+      "name": "The World's Hardest Game 1",
+      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "worlds-hardest-game",
+        "name": "The World's Hardest Game",
+        "episode": 1
+      }
+    },
+    {
+      "id": "worlds-hardest-game-2",
+      "name": "The World's Hardest Game 2",
+      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "worlds-hardest-game",
+        "name": "The World's Hardest Game",
+        "episode": 2
+      }
+    },
+    {
+      "id": "worlds-hardest-game-3",
+      "name": "The World's Hardest Game 3",
+      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "worlds-hardest-game",
+        "name": "The World's Hardest Game",
+        "episode": 3
+      }
+    },
+    {
+      "id": "worlds-hardest-game-4",
+      "name": "The World's Hardest Game 4",
+      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "worlds-hardest-game",
+        "name": "The World's Hardest Game",
+        "episode": 4
+      }
+    },
+    {
+      "id": "fancy-pants-adventures",
+      "name": "Fancy Pants Adventures",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "fancy-pants-adventures",
+        "name": "Fancy Pants Adventures"
+      }
+    },
+    {
+      "id": "bloxorz",
+      "name": "Bloxorz",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "riddle-school",
+      "name": "Riddle School",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "riddle-school",
+        "name": "Riddle School"
+      }
+    },
+    {
+      "id": "super-mario-starcatcher",
+      "name": "Super Mario Starcatcher",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "super-mario-starcatcher",
+        "name": "Super Mario Starcatcher"
+      }
+    },
+    {
+      "id": "super-mario-63",
+      "name": "Super Mario 63",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "chaos-faction-2",
+      "name": "Chaos Faction 2",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "chaos-faction",
+        "name": "Chaos Faction"
+      }
+    },
+    {
+      "id": "swords-and-sandals-3",
+      "name": "Swords and Sandals 3",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "swords-and-sandals",
+        "name": "Swords and Sandals"
+      }
+    },
+    {
+      "id": "swords-and-sandals-4",
+      "name": "Swords and Sandals 4",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "swords-and-sandals",
+        "name": "Swords and Sandals"
+      }
+    },
+    {
+      "id": "sonny",
+      "name": "Sonny",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "sonny",
+        "name": "Sonny"
+      }
+    },
+    {
+      "id": "earn-to-die",
+      "name": "Earn to Die",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "earn-to-die",
+        "name": "Earn to Die"
+      }
+    },
+    {
+      "id": "papas-pizzeria",
+      "name": "Papa's Pizzeria",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "papas-games",
+        "name": "Papa's Games"
+      }
+    },
+    {
+      "id": "papas-burgeria",
+      "name": "Papa's Burgeria",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "papas-games",
+        "name": "Papa's Games"
+      }
+    },
+    {
+      "id": "papas-freezeria",
+      "name": "Papa's Freezeria",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "papas-games",
+        "name": "Papa's Games"
+      }
+    },
+    {
+      "id": "car-eats-car",
+      "name": "Car Eats Car",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "car-eats-car",
+        "name": "Car Eats Car"
+      }
+    },
+    {
+      "id": "snail-bob",
+      "name": "Snail Bob",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "snail-bob",
+        "name": "Snail Bob"
+      }
+    },
+    {
+      "id": "wheely",
+      "name": "Wheely",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "wheely",
+        "name": "Wheely"
+      }
+    },
+    {
+      "id": "fireboy-and-watergirl",
+      "name": "Fireboy and Watergirl",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "fireboy-and-watergirl",
+        "name": "Fireboy and Watergirl"
+      }
+    },
+    {
+      "id": "truck-loader",
+      "name": "Truck Loader",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "truck-loader",
+        "name": "Truck Loader"
+      }
+    },
+    {
+      "id": "drag-racer-v3",
+      "name": "Drag Racer V3",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "boxhead",
+      "name": "Boxhead",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "boxhead",
+        "name": "Boxhead"
+      }
+    },
+    {
+      "id": "run-3",
+      "name": "Run 3",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "the-run",
+        "name": "The Run"
+      }
+    },
+    {
+      "id": "ninja-kitchen",
+      "name": "Ninja Kitchen",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "moto-x3m",
+      "name": "Moto X3M",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "moto-x3m",
+        "name": "Moto X3M"
+      }
+    },
+    {
+      "id": "plazma-burst-1",
+      "name": "Plazma Burst 1",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "plazma-burst",
+        "name": "Plazma Burst"
+      }
+    },
+    {
+      "id": "plazma-burst-2",
+      "name": "Plazma Burst 2",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "plazma-burst",
+        "name": "Plazma Burst"
+      }
+    },
+    {
+      "id": "raze-1",
+      "name": "Raze 1",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "raze",
+        "name": "Raze"
+      }
+    },
+    {
+      "id": "raze-2",
+      "name": "Raze 2",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "raze",
+        "name": "Raze"
+      }
+    },
+    {
+      "id": "raze-3",
+      "name": "Raze 3",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "raze",
+        "name": "Raze"
+      }
+    },
+    {
+      "id": "world-of-goo",
+      "name": "World of Goo",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "coming_soon",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "super-smash-flash",
+      "name": "Super Smash Flash",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "super-mario-crossover",
+      "name": "Super Mario Crossover",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "ultimate-flash-sonic",
+      "name": "Ultimate Flash Sonic",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "duck-life",
+      "name": "Duck Life",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "duck-life",
+        "name": "Duck Life"
+      }
+    },
+    {
+      "id": "red-ball",
+      "name": "Red Ball",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "red-ball",
+        "name": "Red Ball"
+      }
+    },
+    {
+      "id": "the-impossible-quiz",
+      "name": "The Impossible Quiz",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "age-of-war",
+      "name": "Age of War",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "dino-run",
+      "name": "Dino Run",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "bad-ice-cream",
+      "name": "Bad Ice Cream",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "bad-ice-cream",
+        "name": "Bad Ice Cream"
+      }
+    },
+    {
+      "id": "bloons-td",
+      "name": "Bloons TD",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "bloons-td",
+        "name": "Bloons TD"
+      }
+    },
+    {
+      "id": "raft-wars",
+      "name": "Raft Wars",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "strike-force-heroes",
+      "name": "Strike Force Heroes",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "henry-stickmin",
+      "name": "Henry Stickmin",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "henry-stickmin",
+        "name": "Henry Stickmin"
+      }
+    },
+    {
+      "id": "sonic-rpg",
+      "name": "Sonic RPG",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "mario-combat",
+      "name": "Mario Combat",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "pokemon-tower-defense",
+      "name": "Pokemon Tower Defense",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "gravitee-wars",
+      "name": "Gravitee Wars",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "submachine",
+      "name": "Submachine",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": {
+        "id": "submachine",
+        "name": "Submachine"
+      }
+    },
+    {
+      "id": "zombotron",
+      "name": "Zombotron",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "armor-mayhem",
+      "name": "Armor Mayhem",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "electricman",
+      "name": "Electricman",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "castle-clasher",
+      "name": "Castle Clasher",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "power-pamplona",
+      "name": "Power Pamplona",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "epic-battle-fantasy-3",
+      "name": "Epic Battle Fantasy 3",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "neopets",
+      "name": "Neopets",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "bfdia-5b",
+      "name": "BFDIA 5B",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "the-pirates-nitrome",
+      "name": "The Pirates Nitrome",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    },
+    {
+      "id": "zelda-and-the-lampshade-of-no-real-significance",
+      "name": "Zelda and the Lampshade of No Real Significance",
+      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
+      "genre": "A classer",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null
+    }
+  ]
+}

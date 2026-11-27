@@ -1,0 +1,74 @@
+.SUFFIXES:
+
+ifeq ($(strip $(DEVKITARM)),)
+$(error DEVKITARM n'est pas defini)
+endif
+
+TOPDIR ?= $(CURDIR)
+PROJECT_ROOT := $(abspath $(TOPDIR))
+TARGET := FlashGamesHub
+BUILD := build
+SOURCES := source
+INCLUDES := include
+ROMFS := romfs
+ARCH := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
+LIBDIRS := $(DEVKITPRO)/libctru $(DEVKITPRO)/portlibs/3ds
+INCLUDE := $(foreach dir,$(INCLUDES),-I$(PROJECT_ROOT)/$(dir)) $(foreach dir,$(LIBDIRS),-I$(dir)/include) -I$(PROJECT_ROOT)/$(BUILD)
+
+# Use the shell's PATH for the recursive make instead of passing a Windows
+# executable path into MSYS/bash or WSL.
+MAKE := make
+
+APP_TITLE := Flash Games Hub
+APP_DESCRIPTION := Catalogue de jeux homebrew Nintendo 3DS
+APP_AUTHOR := Flash Games Hub
+APP_ICON := $(DEVKITPRO)/libctru/default_icon.png
+
+CFLAGS := -g -Wall -Wextra -O2 -mword-relocations -ffunction-sections $(ARCH) -D__3DS__ $(INCLUDE)
+CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
+ASFLAGS := -g $(ARCH)
+LDFLAGS := -specs=3dsx.specs -g $(ARCH) -Wl,--gc-sections
+CPPFLAGS := -DCURL_STATICLIB
+LIBS := -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -lz -lcitro2d -lcitro3d -lctru -lm
+include $(DEVKITARM)/3ds_rules
+
+ifneq ($(BUILD),$(notdir $(CURDIR)))
+
+export DEVKITPRO DEVKITARM
+export OUTPUT := $(CURDIR)/$(TARGET)
+export TOPDIR := $(CURDIR)
+export VPATH := $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
+export DEPSDIR := $(CURDIR)/$(BUILD)
+
+CPPFILES := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+export OFILES_SOURCES := $(CPPFILES:.cpp=.o)
+export OFILES := $(OFILES_SOURCES)
+export LD := $(CXX)
+export LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+export INCLUDE
+export _3DSXDEPS := $(OUTPUT).smdh
+export _3DSXFLAGS += --smdh=$(OUTPUT).smdh --romfs=$(CURDIR)/$(ROMFS)
+
+.PHONY: all clean
+all: $(BUILD)
+	@$(MAKE) --no-print-directory -C $(BUILD) -f ../Makefile
+
+$(BUILD):
+	@mkdir -p $@
+
+clean:
+	@echo clean ...
+	@rm -fr $(BUILD) $(OUTPUT).3dsx $(OUTPUT).smdh $(OUTPUT).elf
+
+else
+
+.PHONY: all
+all: $(OUTPUT).3dsx
+
+$(OUTPUT).3dsx: $(OUTPUT).elf $(OUTPUT).smdh
+$(OUTPUT).elf: $(OFILES)
+$(OFILES_SOURCES):
+
+-include $(DEPSDIR)/*.d
+
+endif
