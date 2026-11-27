@@ -22,7 +22,11 @@ MAKE := make
 APP_TITLE := Flash Games Hub
 APP_DESCRIPTION := Catalogue de jeux homebrew Nintendo 3DS
 APP_AUTHOR := Flash Games Hub
-APP_ICON := $(DEVKITPRO)/libctru/default_icon.png
+APP_ICON := $(PROJECT_ROOT)/assets/hub-icon.png
+APP_BANNER := $(PROJECT_ROOT)/assets/hub-banner.png
+APP_BANNER_AUDIO := $(PROJECT_ROOT)/assets/silence.wav
+RSF := $(PROJECT_ROOT)/cia.rsf
+TOOLS := $(DEVKITPRO)/tools/bin
 
 CFLAGS := -g -Wall -Wextra -O2 -mword-relocations -ffunction-sections $(ARCH) -D__3DS__ $(INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
@@ -52,13 +56,17 @@ export _3DSXFLAGS += --smdh=$(OUTPUT).smdh --romfs=$(CURDIR)/$(ROMFS)
 .PHONY: all clean
 all: $(BUILD)
 	@$(MAKE) --no-print-directory DEVKITPRO="$(DEVKITPRO)" DEVKITARM="$(DEVKITARM)" -C $(BUILD) -f ../Makefile
+	@$(TOOLS)/bannertool.exe makesmdh -s "$(APP_TITLE)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -i "$(APP_ICON)" -f visible,nosavebackups -o "$(BUILD)/hub.icn"
+	@$(TOOLS)/bannertool.exe makebanner -i "$(APP_BANNER)" -a "$(APP_BANNER_AUDIO)" -o "$(BUILD)/hub.bnr"
+	@$(TOOLS)/makerom.exe -f cia -o "$(OUTPUT).cia" -target t -elf "$(OUTPUT).elf" -icon "$(BUILD)/hub.icn" -banner "$(BUILD)/hub.bnr" -rsf "$(RSF)"
+	@echo built ... $(TARGET).cia
 
 $(BUILD):
 	@mkdir -p $@
 
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).3dsx $(OUTPUT).smdh $(OUTPUT).elf
+	@rm -fr $(BUILD) $(OUTPUT).3dsx $(OUTPUT).cia $(OUTPUT).smdh $(OUTPUT).elf
 
 else
 

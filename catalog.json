@@ -9,10 +9,10 @@
       "description": "Version de test qui regroupe les quatre jeux The World's Hardest Game. Telechargement SHA-256 valide; compatibilite encore a verifier.",
       "genre": "Arcade / labyrinthe",
       "developer": null,
-      "cover": "github-upload/whg-v1.0.0-test/covers/worlds-hardest-game-logo.t3x",
+      "cover": "data/covers/worlds-hardest-game-logo.t3x",
       "screenshots": [
-        "github-upload/whg-v1.0.0-test/screenshots/gameplay-1.t3x",
-        "github-upload/whg-v1.0.0-test/screenshots/gameplay-2.t3x"
+        "data/screenshots/worlds-hardest-game/gameplay-1.t3x",
+        "data/screenshots/worlds-hardest-game/gameplay-2.t3x"
       ],
       "status": "development",
       "compatibility": {

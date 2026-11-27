@@ -19,15 +19,20 @@ struct CatalogGame {
     char genre[48];
     char developer[64];
     char cover[128];
+    char screenshots[3][128];
+    u8 screenshotCount;
     char version[24];
     char downloadFormat[12];
     char downloadUrl[256];
     char sha256[65];
+    char ciaUrl[256];
+    char ciaSha256[65];
     char compatibility3ds[16];
     char compatibilityNew3ds[16];
     char seriesId[64];
     char seriesName[80];
     u32 sizeBytes;
+    u32 ciaSizeBytes;
     u16 episode;
     GameStatus status;
 };
@@ -51,7 +56,9 @@ struct HubManifest {
 struct InstalledGame {
     char id[64];
     char version[24];
+    char format[12];
     u32 sizeBytes;
+    u64 titleId;
 };
 
 struct InstalledGameList {

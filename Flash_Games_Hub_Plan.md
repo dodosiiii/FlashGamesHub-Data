@@ -32,10 +32,9 @@ SUIVI DU PROJET
        covers/, screenshots/ et releases/ dans le dépôt de données.
 [fait] Publication de la correction du README dans FlashGamesHub-Data
        (branche main, commit acc83ae).
-[fait] Le catalogue initial garde les quatre World's Hardest Game
-       indisponibles jusqu'à la validation de leurs fichiers et compatibilités.
-[fait] La page Store affiche ces quatre jeux comme éléments à intégrer,
-       sans présenter leurs fichiers comme téléchargeables.
+[historique remplacé par la fiche de test] World's Hardest Game 1–4 est
+       maintenant une seule entrée de collection avec un paquet combiné;
+       la compatibilité reste à vérifier.
 [fait] Ajout d'un lecteur JSON version 1 avec contrôle de format et doublons,
        lecture du catalogue embarqué dans ROMFS et navigation dans ses jeux.
 [fait] Séparation du clone GitHub des données et du ROMFS intégré, pour
@@ -61,10 +60,11 @@ SUIVI DU PROJET
 [fait] Ajouter les titres connus du plan au catalogue de travail et afficher
        leur statut de disponibilité dans le Store.
 [fait] Ajouter les fiches détaillées et le regroupement visuel des séries.
-[à faire] Ajouter les affiches et captures vérifiées pendant la passe finale
-       du Hub, comme convenu.
-[à faire] Vérifier la connexion réseau HTTPS en fin de développement, selon
-       la demande de reporter les tests.
+[fait pour WHG 1–4] Ajouter les deux captures de gameplay et le logo fournis,
+       convertis au format Citro2D et publiés dans le dépôt de données.
+[à faire pour les autres jeux] Ajouter des affiches et captures vérifiées.
+[vérifié hors émulateur] Les URLs HTTPS publiées répondent 200 depuis l'hôte;
+       le téléchargement depuis Azahar/console reste à éprouver.
 [fait] Télécharger hub.json en HTTPS, le valider et le garder dans le cache SD.
 [fait] Lire hub.json embarqué si aucun cache n'existe et afficher la version
        publiée ou l'absence de publication sur la page Mises à jour.
@@ -85,20 +85,25 @@ SUIVI DU PROJET
        en cas d'échec ; les sauvegardes restent séparées.
 [fait] Rendre le remplacement de installed.json récupérable si la sauvegarde
        du manifeste ou son renommage échoue.
-[à faire] Relier l'enregistrement de installed.json à l'installation initiale
-       des jeux et intégrer une méthode de lancement compatible 3DS.
+[fait] Relier installed.json à l'installation initiale des paquets .3dsx et
+       lancer un jeu depuis la bibliothèque via le chargeur hb:ldr de Rosalina.
 [fait] Étape 1.8 : catalogue du Store, fiches disponibles et séries regroupées.
 [fait] Recherche avec le clavier 3DS, filtre de genre et filtre des favoris.
 [fait] Sauvegarde des favoris sur la carte SD, avec signalement si l'écriture échoue.
 [fait] Ajouter les titres prioritaires et les autres suggestions du plan au
        catalogue de travail sans les annoncer disponibles.
-[fait] Catalogue de travail porte a 61 fiches, dont les quatre World's
-       Hardest Game et les titres prioritaires et suggestions du plan.
+[fait] Catalogue de travail porte à 58 fiches, dont les titres prioritaires
+       et les suggestions du plan. World's Hardest Game 1–4 est une seule
+       fiche de collection avec un paquet .3dsx et un paquet .cia alternatifs.
 [fait] Regrouper les séries depuis leur identifiant et leur nom explicites
        dans les fiches de catalogue, avec détection historique par nom en repli.
 [fait] La fiche détaillée du Store présente la description, le genre, le
        développeur, la compatibilité, la version et la taille quand connus.
-[reporté à la passe finale] Affiches et captures vérifiées pour les jeux.
+[fait] Toucher une ligne du Store ouvre une fiche tactile avec description,
+       état des captures et bouton d'installation/téléchargement. La fiche
+       WHG combinée n'affiche pas de sélecteur d'épisode.
+[fait pour WHG 1–4] Captures d'écran préparées et affichées dans la fiche;
+       les autres jeux n'ont pas encore de médias vérifiés.
 [reporté à la passe finale] Compléter les genres et descriptions après
        vérification des titres; les fiches de travail ne valent pas validation.
 [fait] Étape 1.9 : bibliothèque des jeux installés.
@@ -109,39 +114,67 @@ SUIVI DU PROJET
        ses sauvegardes séparées sont conservées.
 [fait] Lancer un jeu .3dsx depuis la bibliothèque via le service hb:ldr de
        Rosalina; afficher un message si ce chargeur n'est pas disponible.
-[à faire] Vérifier le lancement sur console ou émulateur avec Rosalina.
+[reporté aux essais] Vérifier le lancement sur console ou émulateur avec Rosalina.
 [fait] Repérer à la racine les paquets de test whg-hub-3ds.3dsx (47 192 056
        octets) et whg-hub-3ds.cia (47 756 224 octets); le .3dsx porte la
        signature 3DSX. SHA-256 .3dsx :
        1f6697dbf90a17c0e2282eb7b46ea8e47d57b150342ee3a9f854646cd714b72a
        SHA-256 .cia :
        a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0.
-[à faire] Tester un téléchargement réseau réel après publication des paquets
-       sur une URL HTTPS; ne pas déclarer le jeu disponible avant cette étape.
-[fait] Préparer github-upload/whg-v1.0.0-test avec les deux paquets et les
-       instructions de publication manuelle comme assets d'une GitHub Release.
-[fait] Ajouter au catalogue local la fiche de test du World's Hardest Game 1,
-       en développement, avec l'URL prévue, la taille et le SHA-256 du .3dsx.
+[à vérifier aux essais] Télécharger réellement le paquet depuis Azahar/3DS.
+       Les fichiers sont publiés et l'URL répond 200 depuis le PC; cela ne
+       prouve pas encore le téléchargement dans l'émulateur.
+[fait] Préparer github-upload/whg-v1.0.0-test avec les deux paquets et
+       les instructions de publication directe dans la branche main.
+[fait] Ajouter au catalogue la fiche de test de la collection World's Hardest
+       Game 1–4, avec ses deux formats, URLs raw, tailles, SHA-256 et captures.
 [fait] Autoriser depuis le Store le téléchargement initial d'un paquet .3dsx
        de test, puis valider son empreinte et l'ajouter à la bibliothèque.
-[en cours] Étape 1.10 : téléchargement et installation des jeux.
-[à faire] Publier la release et data/catalog.json, puis vérifier le
-       téléchargement HTTPS depuis une console ou un émulateur.
-[à faire] Ajouter le téléchargement et l'installation des CIA dans l'étape
-       d'installation; le CIA de test est préparé comme asset séparé.
-[à faire] Vérifier la détection réseau de catalog.json et hub.json en fin de
-       développement, selon la demande de reporter les tests.
-[à faire] Mesurer la taille des jeux et du cache dans la page Stockage.
+[fait — .3dsx et CIA, compilation réussie] Étape 1.10 : téléchargement individuel en arrière-plan,
+       progression, validation de la taille et du SHA-256, remplacement
+       atomique avec conservation de l'ancienne version en cas d'échec,
+       enregistrement dans installed.json et conservation des sauvegardes.
+[fait — code à éprouver sur appareil] Installation CIA via AM, enregistrement
+       de son Title ID, lancement par NS et désinstallation depuis la bibliothèque.
+[reporté aux tests] Confirmer le téléchargement depuis le dépôt publié et le
+       lancement du jeu téléchargé sur console ou émulateur.
+[fait — commit 6b1c11f poussé sur main, sans Release] Publier catalog.json,
+       hub.json, les captures et le dossier de test. Les URLs raw du catalogue,
+       d'une capture et du CIA du jeu répondent 200 depuis l'hôte.
+[à vérifier aux essais] Confirmer le rafraîchissement du catalogue et les
+       téléchargements depuis Azahar/console. Une ancienne version du CIA peut
+       encore afficher le catalogue et les boutons d'épisode précédents.
+[à vérifier aux essais] Confirmer l'installation, le lancement et la
+       désinstallation des jeux CIA sur un environnement 3DS compatible.
+       Le CIA du Hub lui-même est également produit par la compilation.
+[reporté aux essais] Vérifier dans Azahar/console la détection réseau de
+       catalog.json et hub.json; les vérifications HTTP depuis le PC ne
+       remplacent pas cet essai d'intégration.
+[fait] Page Stockage : capacité totale, espace libre et occupé, taille
+       cumulée des jeux installés, cache du catalogue/manifeste et bouton
+       tactile/A pour vider uniquement ces fichiers de cache.
 [fait] Le script de compilation définit les chemins Windows DEVKITPRO et DEVKITARM.
 [fait] Corriger l'appel récursif de make et les variables devkitPro ; lancer
        directement le Makefile dans MSYS2.
 [fait] Produire FlashGamesHub.3dsx depuis les sources avec MSYS2.
+[fait] Ajouter les ressources visuelles d'origine du Hub et la génération
+       d'un CIA avec bannière, icône et contenu ROMFS via makerom.
+[fait] Produire FlashGamesHub.cia en plus du .3dsx; l'installation réelle du
+       CIA reste à vérifier pendant les essais sur appareil.
 [fait] Reconstruire proprement le projet : compilation et édition de liens
        réussies sans avertissement.
 [fait] Recompiler depuis MSYS2 après l'ajout de la mesure du cache.
-[à faire] Effectuer les tests sur console/emulateur uniquement apres la fin
-       du Hub, comme demandé.
-[à faire] Développer les modules du Hub selon les étapes ci-dessous.
+[préparé — étape 1.12 non terminée] Liste de tests : démarrage et
+       affichage sur 3DS/New 3DS, catalogue GitHub direct, mode hors ligne,
+       cache et vidage, téléchargement interrompu, SHA-256 incorrect, première
+       installation .3dsx et CIA, mises à jour, lancement et désinstallation
+       des deux formats, sauvegardes préservées et mesures Stockage. Aucun test
+       console/émulateur lancé,
+       conformément à la demande de les faire après cette phase.
+[fait — essais d'appareil encore attendus] Modules du Hub développés; les
+       sorties .3dsx et .cia sont produites et le dossier de données directes
+       GitHub est publié. Étape 1.12 reste ouverte jusqu'aux essais réels sur
+       Azahar/console; la compilation seule ne valide pas le fonctionnement.
 
 ============================================================
 OBJECTIF DU PROJET
@@ -280,8 +313,9 @@ Fonctions prévues :
 - fiches détaillées ;
 - regroupement des jeux par série.
 
-Les épisodes d'une série seront regroupés visuellement, mais leurs versions
-et leurs fichiers resteront indépendants.
+Les épisodes d'une série pourront être regroupés visuellement. Exception :
+la fiche de test World's Hardest Game 1–4 représente un paquet unique qui
+contient les quatre jeux; .3dsx et .cia sont deux formats de ce paquet.
 
 1.9 — Bibliothèque
 Afficher les jeux installés avec :
@@ -338,8 +372,9 @@ GRANDE ÉTAPE 2 — DÉVELOPPEMENT ET INTÉGRATION DES JEUX
 
 IMPORTANT : THE WORLD'S HARDEST GAME
 
-Les quatre jeux de The World's Hardest Game sont DÉJÀ DÉVELOPPÉS.
-Ils ne sont pas à refaire.
+La collection de The World's Hardest Game fournie pour les essais regroupe
+les quatre jeux dans un seul paquet. Elle ne doit pas être divisée en quatre
+fichiers CIA ni en quatre choix d'épisode dans cette fiche.
 
 Ils serviront de première collection et de base de référence pour :
 - intégrer des jeux déjà terminés dans le Hub ;
@@ -349,10 +384,9 @@ Ils serviront de première collection et de base de référence pour :
 - vérifier le téléchargement et la mise à jour ;
 - valider la bibliothèque et le lancement.
 
-Le premier jeu de la collection sera donc le premier jeu à intégrer au Hub
-pour valider le processus complet. Les quatre épisodes seront présentés
-ensemble dans une collection, avec une fiche et une version propres à chaque
-jeu.
+Cette collection est intégrée en premier pour valider le processus complet.
+Le Hub la présente dans une seule fiche « The World's Hardest Game (1–4) »,
+avec un .3dsx et son équivalent .cia comme deux formats du même paquet.
 
 ============================================================
 CONVERSION / PORTAGE DES JEUX FLASH
@@ -397,9 +431,8 @@ IMPORTANT :
   commentaires Reddit.
 - Quand de nouvelles demandes arrivent, le catalogue de travail sera mis
   à jour et l'ordre pourra changer.
-- Les quatre jeux The World's Hardest Game sont déjà développés. Ils
-  servent de première collection de test et ne sont pas comptés comme
-  nouveaux portages à réaliser.
+- La collection The World's Hardest Game fournie regroupe quatre jeux dans
+  un seul paquet de test; elle ne représente pas quatre CIA distincts.
 
 1. JEUX / SÉRIES LES PLUS DEMANDÉS — PRIORITÉ HAUTE
 
@@ -478,15 +511,13 @@ tant que leurs commentaires d'origine n'ont pas été vérifiés.
 
 3. PREMIÈRE COLLECTION D'INTÉGRATION — DÉJÀ DÉVELOPPÉE
 
-The World's Hardest Game :
-- The World's Hardest Game 1 — déjà développé.
-- The World's Hardest Game 2 — déjà développé.
-- The World's Hardest Game 3 — déjà développé.
-- The World's Hardest Game 4 — déjà développé.
+The World's Hardest Game : la collection de test fournie regroupe les quatre
+jeux dans un seul paquet. Le .3dsx et le .cia sont deux formats de ce paquet,
+pas quatre CIA distincts.
 
-Ces quatre jeux seront intégrés au Hub en premier pour tester le processus
-complet : fiches, versions, compatibilité, téléchargement, bibliothèque
-et lancement. Ils ne sont pas à refaire.
+Cette collection sert à éprouver le catalogue, le téléchargement, la
+bibliothèque, l'installation et le lancement. Aucun résultat de compatibilité
+n'est validé avant les essais sur appareil.
 
 ============================================================
 MÉTHODE POUR CHAQUE NOUVEAU JEU

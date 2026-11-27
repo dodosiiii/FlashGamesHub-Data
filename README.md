@@ -15,6 +15,10 @@ Le catalogue en ligne est heberge dans le depot public
 [FlashGamesHub-Data](https://github.com/dodosiiii/FlashGamesHub-Data).
 Le depot contient le catalogue initial, le manifeste du Hub et la structure
 des dossiers d'images et de publications. Le depot local est dans `data/`.
+Le Hub lit directement les fichiers de la branche `main` : les paquets de test
+sont dans [`github-upload/whg-v1.0.0-test`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/whg-v1.0.0-test),
+et le catalogue et le manifeste doivent être publiés à la racine sous
+`catalog.json` et `hub.json`. Aucun GitHub Release n'est requis.
 
 ## Compilation
 
@@ -28,8 +32,14 @@ cd "$(cygpath -u 'C:\Users\dodo\Desktop\projet')"
 make
 ```
 
-Le fichier produit sera `FlashGamesHub.3dsx`. `make clean` supprime les anciens
-artefacts avant une reconstruction propre.
+`make` produit `FlashGamesHub.3dsx` et `FlashGamesHub.cia`. Le CIA installe
+l'application depuis le menu HOME avec son icône et sa bannière. `make clean`
+supprime les anciens artefacts avant une reconstruction propre.
+
+Pour une installation CIA, copie `FlashGamesHub.cia` sur la carte SD et
+installe-le avec un gestionnaire CIA compatible. Pour Homebrew Launcher,
+copie `FlashGamesHub.3dsx` dans `/3ds/FlashGamesHub/` ; le catalogue et les
+certificats sont déjà inclus dans le fichier.
 
 Le script copie le catalogue et le manifeste depuis le depot `data/` et prepare
 les certificats racinaires de Windows pour verifier les connexions HTTPS. La
@@ -41,10 +51,14 @@ puis remplacer le fichier du jeu en conservant l'ancienne version en cas d'éche
 Les données de sauvegarde restent dans un dossier séparé. Les paquets `.3dsx`
 du catalogue peuvent être téléchargés, vérifiés par taille et SHA-256, puis
 ajoutés à la bibliothèque. La bibliothèque lance ces fichiers via le service
-`hb:ldr` de Rosalina. L'installation des `.cia` reste à intégrer.
-Dans le Store, `A` télécharge un paquet indiqué dans la fiche (ou ajoute un
-favori si aucun paquet n'est indiqué), `X` ouvre la recherche, `Y` change le
-genre, `Select` affiche uniquement les favoris et `B` réinitialise les filtres.
+`hb:ldr` de Rosalina. Les jeux `.cia` sont installés sur la carte SD et peuvent
+être lancés ou désinstallés depuis la bibliothèque. L'installation des CIA
+demande un environnement 3DS qui autorise le gestionnaire de titres.
+Dans le Store, toucher un jeu ou appuyer sur `A` ouvre sa fiche. La fiche
+présente la description, l'état des captures fournies et le bouton de
+téléchargement ou d'installation. `B` revient à la liste; `Y` change le format
+quand le jeu propose `.3dsx` et `.cia`. Dans la liste, `X` ouvre la recherche,
+`Y` change le genre et `Select` affiche uniquement les favoris.
 Dans la bibliothèque, `A` lance le jeu sélectionné si le service Rosalina est
 disponible, `X` met à jour le jeu, `Y` change son favori et `B` ouvre la
 confirmation de désinstallation.
