@@ -28,6 +28,9 @@ validation de son fichier et de sa compatibilite.
   `screenshots/mon-jeu/1.t3x`. Chaque fichier doit etre une feuille sprite
   Citro2D `.t3x` de 512 Kio maximum. La fiche permet de parcourir les captures;
   une liste vide affiche « Aucune capture publiée ».
+- `cover` peut référencer une image `.t3x` préparée comme les captures. Les
+  originaux JPG restent dans le dossier de publication pour faciliter les
+  modifications; le Hub télécharge les `.t3x` référencés par `screenshots`.
 - `compatibility` utilise `supported`, `unsupported` ou `unverified` pour
   `3ds` et `new_3ds`.
 - `status` utilise `available`, `unavailable`, `coming_soon`, `development`
