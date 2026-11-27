@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "catalog_version": 8,
-  "updated_at": "2026-11-27",
+  "catalog_version": 10,
+  "updated_at": "2026-11-28",
   "games": [
     {
       "id": "worlds-hardest-game-1",
@@ -13,7 +13,7 @@
         "data/screenshots/worlds-hardest-game/gameplay-1.t3x",
         "data/screenshots/worlds-hardest-game/gameplay-2.t3x"
       ],
-      "status": "development",
+      "status": "finished",
       "compatibility": {
         "3ds": "unverified",
         "new_3ds": "unverified"
@@ -26,8 +26,8 @@
       "cia_size_bytes": 47756224,
       "cia_sha256": "a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0",
       "file_type": "3dsx",
-      "description_fr": "Version de test réunissant les quatre jeux The World's Hardest Game. Téléchargement vérifié par SHA-256 ; compatibilité encore à confirmer.",
-      "description_en": "Test version featuring all four The World's Hardest Game titles. SHA-256-verified download; compatibility still needs confirmation.",
+      "description_fr": "Version de test terminée réunissant les quatre jeux The World's Hardest Game. Téléchargement vérifié par SHA-256 ; compatibilité encore à confirmer.",
+      "description_en": "Completed test build featuring all four The World's Hardest Game titles. SHA-256-verified download; compatibility still needs confirmation.",
       "cia_title_id": 1125900160607488
     },
     {
@@ -320,6 +320,28 @@
       },
       "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
       "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
+    },
+    {
+      "id": "papas-cheeseria",
+      "name": "Papa's Cheeseria",
+      "genre": "A classer",
+      "developer": null,
+      "cover": "data/covers/papas-cheeseria-logo.t3x",
+      "screenshots": [
+        "data/screenshots/papas-cheeseria/gameplay-1.t3x",
+        "data/screenshots/papas-cheeseria/gameplay-2.t3x"
+      ],
+      "status": "development",
+      "compatibility": {
+        "3ds": "unverified",
+        "new_3ds": "unverified"
+      },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "description_fr": "Jeu en cours de développement. Le téléchargement sera disponible lorsqu'une version compatible sera prête.",
+      "description_en": "Game in development. A download will be available when a compatible build is ready."
     },
     {
       "id": "car-eats-car",

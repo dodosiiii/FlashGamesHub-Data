@@ -1,0 +1,11 @@
+/input/*.swf
+/extracted/
+/assets/source/
+/assets/converted/
+/build/
+/romfs/
+/*.3dsx
+/*.cia
+/*.elf
+/*.smdh
+/*.t3x

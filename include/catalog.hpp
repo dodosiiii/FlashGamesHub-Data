@@ -10,6 +10,7 @@ enum class GameStatus : u8 {
     ComingSoon,
     Development,
     Discontinued,
+    Finished,
 };
 
 struct CatalogGame {

@@ -50,16 +50,21 @@ export OFILES := $(OFILES_SOURCES)
 export LD := $(CXX)
 export LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 export INCLUDE
-export _3DSXDEPS := $(OUTPUT).smdh
+export _3DSXDEPS := $(OUTPUT).smdh $(addprefix $(PROJECT_ROOT)/$(ROMFS)/,catalog.json hub.json ca-bundle.pem)
 export _3DSXFLAGS += --smdh=$(OUTPUT).smdh --romfs=$(CURDIR)/$(ROMFS)
 
-.PHONY: all clean
-all: $(BUILD)
+.PHONY: all clean prepare-romfs
+all: prepare-romfs $(BUILD)
 	@$(MAKE) --no-print-directory DEVKITPRO="$(DEVKITPRO)" DEVKITARM="$(DEVKITARM)" -C $(BUILD) -f ../Makefile
 	@$(TOOLS)/bannertool.exe makesmdh -s "$(APP_TITLE)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -i "$(APP_ICON)" -f visible,nosavebackups -o "$(BUILD)/hub.icn"
 	@$(TOOLS)/bannertool.exe makebanner -i "$(APP_BANNER)" -a "$(APP_BANNER_AUDIO)" -o "$(BUILD)/hub.bnr"
 	@$(TOOLS)/makerom.exe -f cia -o "$(OUTPUT).cia" -target t -elf "$(OUTPUT).elf" -icon "$(BUILD)/hub.icn" -banner "$(BUILD)/hub.bnr" -rsf "$(RSF)"
 	@echo built ... $(TARGET).cia
+
+prepare-romfs:
+	@mkdir -p "$(PROJECT_ROOT)/romfs"
+	@cmp -s "$(PROJECT_ROOT)/data/catalog.json" "$(PROJECT_ROOT)/romfs/catalog.json" || cp "$(PROJECT_ROOT)/data/catalog.json" "$(PROJECT_ROOT)/romfs/catalog.json"
+	@cmp -s "$(PROJECT_ROOT)/data/hub.json" "$(PROJECT_ROOT)/romfs/hub.json" || cp "$(PROJECT_ROOT)/data/hub.json" "$(PROJECT_ROOT)/romfs/hub.json"
 
 $(BUILD):
 	@mkdir -p $@
@@ -73,7 +78,7 @@ else
 .PHONY: all
 all: $(OUTPUT).3dsx
 
-$(OUTPUT).3dsx: $(OUTPUT).elf $(OUTPUT).smdh
+$(OUTPUT).3dsx: $(OUTPUT).elf $(_3DSXDEPS)
 $(OUTPUT).elf: $(OFILES)
 $(OFILES_SOURCES):
 

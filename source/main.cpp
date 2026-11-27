@@ -25,7 +25,7 @@ constexpr int kPageCount = 5;
 constexpr std::size_t kMaxFavorites = 64;
 constexpr std::size_t kMaxGenres = 16;
 constexpr float kDepth = 0.5f;
-constexpr const char* kHubVersion = "0.1.2-dev";
+constexpr const char* kHubVersion = "0.1.3-dev";
 constexpr const char* kDataDirectory = "sdmc:/3ds/FlashGamesHub";
 constexpr const char* kFavoritesPath = "sdmc:/3ds/FlashGamesHub/favorites.txt";
 constexpr const char* kFavoritesTempPath = "sdmc:/3ds/FlashGamesHub/favorites.txt.tmp";
@@ -158,6 +158,8 @@ std::size_t gGenreFilterIndex = 0;
 char gSearchQuery[128]{};
 bool gFavoritesOnly = false;
 bool gStoreCiaFormat = false;
+bool gIsNew3DS = false;
+bool gConsoleModelKnown = false;
 std::size_t gFiltered[GameCatalog::kMaxGames]{};
 std::size_t gGroupCount[GameCatalog::kMaxGames]{};  // nombre de jeux regroupes dans chaque ligne
 bool gGroupMixed[GameCatalog::kMaxGames]{};         // statuts differents dans le groupe
@@ -186,6 +188,8 @@ constexpr Translation kTranslations[] = {
     {"Indisponible", "Unavailable"},
     {"Bientôt", "Coming soon"},
     {"En dev.", "In dev."},
+    {"En développement", "In development"},
+    {"Terminé", "Finished"},
     {"Arrêté", "Discontinued"},
     {"Inconnu", "Unknown"},
     {"Compatible", "Compatible"},
@@ -286,6 +290,9 @@ constexpr Translation kTranslations[] = {
     {"Ép. %u", "Ep. %u"},
     {"Titre CIA introuvable", "CIA title not found"},
     {"Lancement CIA impossible", "Cannot launch CIA"},
+    {"Compatibilité non vérifiée", "Compatibility is unverified"},
+    {"Modèle de console indisponible", "Console model unavailable"},
+    {"Clavier de recherche indisponible", "Search keyboard unavailable"},
     {"Téléchargement terminé", "Download complete"},
     {"Téléchargement  %u %%", "Downloading  %u %%"},
     {"Jeu déjà installé", "Game already installed"},
@@ -657,6 +664,7 @@ const char* statusText(GameStatus status) {
         case GameStatus::ComingSoon: return L("Bientôt");
         case GameStatus::Development: return L("En dev.");
         case GameStatus::Discontinued: return L("Arrêté");
+        case GameStatus::Finished: return L("Terminé");
     }
     return L("Inconnu");
 }
@@ -668,6 +676,7 @@ u32 statusColor(GameStatus status) {
         case GameStatus::Development: return kInfo;
         case GameStatus::Unavailable: return kBad;
         case GameStatus::Discontinued: return kFaint;
+        case GameStatus::Finished: return kOk;
     }
     return kFaint;
 }
@@ -793,7 +802,10 @@ void syncInstalledCiaGames() {
     InstalledGameList installed{};
     const bool registryLoaded = loadInstalledGamesFromSd(&installed);
     struct stat registryInfo{};
-    const bool registryExists = stat("sdmc:/3ds/FlashGamesHub/installed.json", &registryInfo) == 0;
+    struct stat registryBackupInfo{};
+    const bool registryExists =
+        stat("sdmc:/3ds/FlashGamesHub/installed.json", &registryInfo) == 0 ||
+        stat("sdmc:/3ds/FlashGamesHub/installed.json.bak", &registryBackupInfo) == 0;
     if (registryExists && !registryLoaded) {
         std::free(titleIds);
         amExit();
@@ -1022,6 +1034,32 @@ bool sameSeries(const CatalogGame& a, const CatalogGame& b) {
     return std::strcmp(left, right) == 0;
 }
 
+std::size_t statusSortOrder(GameStatus status) {
+    switch (status) {
+        case GameStatus::Available:
+        case GameStatus::Finished: return 0;
+        case GameStatus::Development: return 1;
+        case GameStatus::ComingSoon: return 2;
+        case GameStatus::Unavailable: return 3;
+        case GameStatus::Discontinued: return 4;
+    }
+    return 5;
+}
+
+void sortCatalogIndicesByStatus(std::size_t* indices, std::size_t count) {
+    for (std::size_t i = 1; i < count; ++i) {
+        const std::size_t current = indices[i];
+        const std::size_t currentOrder = statusSortOrder(gCatalog.games[current].status);
+        std::size_t position = i;
+        while (position > 0 &&
+               currentOrder < statusSortOrder(gCatalog.games[indices[position - 1]].status)) {
+            indices[position] = indices[position - 1];
+            --position;
+        }
+        indices[position] = current;
+    }
+}
+
 void closeStoreDetail();
 
 // Recalcule la liste filtree (une fois par changement, pas a chaque image) en
@@ -1037,9 +1075,15 @@ void rebuildFilter() {
     }
     gFilteredCount = 0;
     if (gCatalogLoaded) {
+        std::size_t orderedIndices[GameCatalog::kMaxGames]{};
+        std::size_t orderedCount = 0;
         for (std::size_t i = 0; i < gCatalog.count; ++i) {
+            if (matchesFilters(gCatalog.games[i])) orderedIndices[orderedCount++] = i;
+        }
+        sortCatalogIndicesByStatus(orderedIndices, orderedCount);
+        for (std::size_t item = 0; item < orderedCount; ++item) {
+            const std::size_t i = orderedIndices[item];
             const CatalogGame& game = gCatalog.games[i];
-            if (!matchesFilters(game)) continue;
             bool merged = false;
             for (std::size_t f = 0; f < gFilteredCount; ++f) {
                 const CatalogGame& first = gCatalog.games[gFiltered[f]];
@@ -1084,6 +1128,7 @@ std::size_t groupMembers(std::size_t position, std::size_t* out, std::size_t cap
         if (!matchesFilters(gCatalog.games[i])) continue;
         if (sameSeries(selected, gCatalog.games[i])) out[count++] = i;
     }
+    sortCatalogIndicesByStatus(out, count);
     return count;
 }
 
@@ -1197,9 +1242,15 @@ bool hasPackageFormat(const CatalogGame* game, const char* format) {
     return std::strcmp(format, "3dsx") == 0 && game->downloadUrl[0] && game->sizeBytes && game->sha256[0];
 }
 
+bool supportsCurrentModel(const CatalogGame& game) {
+    if (!gConsoleModelKnown) return false;
+    const char* compatibility = gIsNew3DS ? game.compatibilityNew3ds : game.compatibility3ds;
+    return std::strcmp(compatibility, "supported") == 0;
+}
+
 bool storeGameCanInstall(const CatalogGame* game) {
     return game && (game->status == GameStatus::Available || game->status == GameStatus::Development) &&
-           hasPackageFormat(game, selectedStoreFormat(game));
+           supportsCurrentModel(*game) && hasPackageFormat(game, selectedStoreFormat(game));
 }
 
 void toggleFavoriteId(const char* id) {
@@ -1261,6 +1312,13 @@ void editStoreSearch() {
     char query[sizeof(gSearchQuery)]{};
     copyBoundedText(query, sizeof(query), gSearchQuery);
     const SwkbdButton result = swkbdInputText(&keyboard, query, sizeof(query));
+    if (result == SWKBD_BUTTON_NONE) {
+        const SwkbdResult keyboardResult = swkbdGetResult(&keyboard);
+        if (keyboardResult == SWKBD_INVALID_INPUT || keyboardResult == SWKBD_OUTOFMEM) {
+            showToast(L("Clavier de recherche indisponible"));
+        }
+        return;
+    }
     if (result == SWKBD_BUTTON_LEFT) query[0] = '\0';
     if (result == SWKBD_BUTTON_RIGHT || result == SWKBD_BUTTON_LEFT) {
         std::snprintf(gSearchQuery, sizeof(gSearchQuery), "%s", query);
@@ -1385,6 +1443,14 @@ void requestSelectedStoreDownload() {
     const CatalogGame* game = activeStoreGame();
     if (!game) return;
     if (getGamePackageState() != GamePackageState::Idle) return;
+    if (!gConsoleModelKnown) {
+        showToast(L("Modèle de console indisponible"));
+        return;
+    }
+    if (!supportsCurrentModel(*game)) {
+        showToast(L("Compatibilité non vérifiée"));
+        return;
+    }
     if (storeGameAlreadyInstalled(game)) {
         showToast(L("Jeu déjà installé"));
         return;
@@ -1492,6 +1558,15 @@ bool setHomebrewLoaderTarget(const char* path) {
 void launchSelectedGame() {
     if (!gInstalledGamesLoaded || gLibrarySel >= gInstalledGames.count) return;
     const InstalledGame& installed = gInstalledGames.games[gLibrarySel];
+    const CatalogGame* catalogGame = findCatalogGame(installed.id);
+    if (catalogGame && !gConsoleModelKnown) {
+        showToast(L("Modèle de console indisponible"));
+        return;
+    }
+    if (catalogGame && !supportsCurrentModel(*catalogGame)) {
+        showToast(L("Compatibilité non vérifiée"));
+        return;
+    }
     if (installed.format[0] && std::strcmp(installed.format, "cia") == 0) {
         if (!installed.titleId || R_FAILED(nsInit())) {
             showToast(L("Titre CIA introuvable"));
@@ -2202,6 +2277,8 @@ void drawBottomStoreDetail() {
     const GamePackageState packageState = getGamePackageState();
     const char* action = packageState == GamePackageState::Downloading ? L("Téléchargement...") :
                          packageState == GamePackageState::Installing ? L("Installation CIA...") :
+                         game->status == GameStatus::Development ? L("En développement") :
+                         game->status == GameStatus::Finished ? L("Terminé") :
                          alreadyInstalled ? L("Déjà installé") :
                          hasUpdate ? L("Mettre à jour") :
                          (std::strcmp(format, "cia") == 0 ? L("Installer CIA") : L("Télécharger .3dsx"));
@@ -2843,6 +2920,7 @@ void shutdownGraphics() {
 } // namespace
 
 int main() {
+    gConsoleModelKnown = R_SUCCEEDED(APT_CheckNew3DS(&gIsNew3DS));
     gRomfsReady = R_SUCCEEDED(romfsInit());
     loadSettings();
     loadFavorites();

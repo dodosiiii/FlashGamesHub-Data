@@ -1,0 +1,21 @@
+package cheeseria_gameassets_fla_fla
+{
+   import flash.display.MovieClip;
+   
+   [Embed(source="/_assets/assets.swf", symbol="symbol969")]
+   public dynamic class giveorder_tip_animation_1_279 extends MovieClip
+   {
+      
+      public function giveorder_tip_animation_1_279()
+      {
+         super();
+         addFrameScript(25,this.frame26);
+      }
+      
+      internal function frame26() : *
+      {
+         stop();
+      }
+   }
+}
+

@@ -1,0 +1,15 @@
+package takephoto
+{
+   import flash.media.Sound;
+   
+   [Embed(source="/_assets/78_takephoto.wav.mp3")]
+   public dynamic class wav extends Sound
+   {
+      
+      public function wav()
+      {
+         super();
+      }
+   }
+}
+

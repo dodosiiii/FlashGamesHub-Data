@@ -17,26 +17,23 @@ Le depot contient le catalogue initial, le manifeste du Hub et la structure
 des dossiers d'images et de publications. Le depot local est dans `data/`.
 Le Hub lit directement les fichiers de la branche `main` : les paquets de test
 sont dans [`github-upload/whg-v1.0.0-test`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/whg-v1.0.0-test),
-et le CIA du Hub v0.1.2-dev est dans
-[`github-upload/flash-games-hub-v0.1.2-dev`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/flash-games-hub-v0.1.2-dev).
+et le CIA du Hub v0.1.3-dev est dans
+[`github-upload/flash-games-hub-v0.1.3-dev`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/flash-games-hub-v0.1.3-dev).
 Le catalogue et le manifeste doivent être publiés à la racine sous
 `catalog.json` et `hub.json`. Aucun GitHub Release n'est requis.
 
 ## Compilation
 
 devkitPro, devkitARM, libctru et citro2d doivent etre installes dans
-`C:\devkitPro`. Ouvrir le shell MSYS2 de devkitPro puis lancer :
+`C:\devkitPro`. Depuis PowerShell, à la racine du projet, lancer :
 
-```sh
-export DEVKITPRO=/c/devkitPro
-export DEVKITARM=/c/devkitPro/devkitARM
-cd "$(cygpath -u 'C:\Users\dodo\Desktop\projet')"
-make
+```powershell
+.\build.ps1
 ```
 
-`make` produit `FlashGamesHub.3dsx` et `FlashGamesHub.cia`. Le CIA installe
-l'application depuis le menu HOME avec son icône et sa bannière. `make clean`
-supprime les anciens artefacts avant une reconstruction propre.
+Le script synchronise les ressources, puis produit `FlashGamesHub.3dsx` et
+`FlashGamesHub.cia`. Le CIA installe l'application depuis le menu HOME avec
+son icône et sa bannière. Lancer `.\build.ps1 clean` pour nettoyer les artefacts.
 
 L'interface et les descriptions du catalogue sont disponibles en anglais et
 en français; l'anglais est sélectionné par défaut.
@@ -67,5 +64,8 @@ quand le jeu propose `.3dsx` et `.cia`. Dans la liste, `X` ouvre la recherche,
 Dans la bibliothèque, `A` lance le jeu sélectionné si le service Rosalina est
 disponible, `X` met à jour le jeu, `Y` change son favori et `B` ouvre la
 confirmation de désinstallation.
+Le téléchargement depuis le Hub et le lancement depuis la bibliothèque sont
+bloqués si le catalogue ne marque pas le modèle de console utilisé comme
+compatible. Cela évite de lancer un paquet de test déclaré non vérifié.
 
 Les tests sur emulateur et sur console seront effectues apres la fin du Hub.

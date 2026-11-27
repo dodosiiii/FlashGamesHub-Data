@@ -1,5 +1,6 @@
 #include "installed_games.hpp"
 
+#include <cerrno>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -74,16 +75,19 @@ bool writeList(const InstalledGameList& games) {
     bool ok = outputSize == used;
     if (std::fclose(file) != 0) ok = false;
     if (ok) {
-        // Keep the previous registry recoverable if the final rename fails.
-        std::remove(kBackupPath);
-        const bool hadPrevious = std::rename(kInstalledPath, kBackupPath) == 0;
         struct stat previousInfo{};
-        if (!hadPrevious && stat(kInstalledPath, &previousInfo) == 0) {
-            ok = false;
-        } else if (std::rename(kTemporaryPath, kInstalledPath) != 0) {
+        errno = 0;
+        const bool hadPrevious = stat(kInstalledPath, &previousInfo) == 0;
+        if (!hadPrevious && errno != ENOENT) ok = false;
+        if (ok && hadPrevious && std::remove(kBackupPath) != 0) {
+            struct stat backupInfo{};
+            if (stat(kBackupPath, &backupInfo) == 0) ok = false;
+        }
+        if (ok && hadPrevious && std::rename(kInstalledPath, kBackupPath) != 0) ok = false;
+        if (ok && std::rename(kTemporaryPath, kInstalledPath) != 0) {
             ok = false;
             if (hadPrevious) std::rename(kBackupPath, kInstalledPath);
-        } else if (hadPrevious) {
+        } else if (ok) {
             std::remove(kBackupPath);
         }
     }
@@ -91,32 +95,64 @@ bool writeList(const InstalledGameList& games) {
     return ok;
 }
 
-} // namespace
+enum class ReadListResult { Missing, Invalid, Failed, Valid };
 
-bool loadInstalledGamesFromSd(InstalledGameList* output) {
-    if (!output) return false;
-    FILE* file = std::fopen(kInstalledPath, "rb");
-    if (!file) return false;
+ReadListResult readList(const char* path, InstalledGameList* output) {
+    errno = 0;
+    FILE* file = std::fopen(path, "rb");
+    if (!file) return errno == ENOENT ? ReadListResult::Missing : ReadListResult::Failed;
     if (std::fseek(file, 0, SEEK_END) != 0) {
         std::fclose(file);
-        return false;
+        return ReadListResult::Failed;
     }
     const long length = std::ftell(file);
-    if (length <= 0 || static_cast<unsigned long>(length) > kMaxFileBytes || std::fseek(file, 0, SEEK_SET) != 0) {
+    if (length < 0) {
         std::fclose(file);
-        return false;
+        return ReadListResult::Failed;
+    }
+    if (length == 0 || static_cast<unsigned long>(length) > kMaxFileBytes) {
+        std::fclose(file);
+        return ReadListResult::Invalid;
+    }
+    if (std::fseek(file, 0, SEEK_SET) != 0) {
+        std::fclose(file);
+        return ReadListResult::Failed;
     }
     char* json = static_cast<char*>(std::malloc(static_cast<std::size_t>(length) + 1));
     if (!json) {
         std::fclose(file);
-        return false;
+        return ReadListResult::Failed;
     }
     const std::size_t read = std::fread(json, 1, static_cast<std::size_t>(length), file);
-    std::fclose(file);
+    const bool closeOk = std::fclose(file) == 0;
     json[read] = '\0';
-    const bool valid = read == static_cast<std::size_t>(length) && parseInstalledGamesJson(json, read, output);
+    InstalledGameList parsed{};
+    const bool valid = read == static_cast<std::size_t>(length) && closeOk &&
+                       parseInstalledGamesJson(json, read, &parsed);
     std::free(json);
-    return valid;
+    if (!closeOk || read != static_cast<std::size_t>(length)) return ReadListResult::Failed;
+    if (!valid) return ReadListResult::Invalid;
+    *output = parsed;
+    return ReadListResult::Valid;
+}
+
+} // namespace
+
+bool loadInstalledGamesFromSd(InstalledGameList* output) {
+    if (!output) return false;
+    *output = InstalledGameList{};
+    const ReadListResult primary = readList(kInstalledPath, output);
+    if (primary == ReadListResult::Valid) return true;
+    if (primary == ReadListResult::Failed) return false;
+
+    InstalledGameList backup{};
+    if (readList(kBackupPath, &backup) != ReadListResult::Valid) return false;
+    if (primary == ReadListResult::Invalid && std::remove(kInstalledPath) != 0) {
+        return false;
+    }
+    if (std::rename(kBackupPath, kInstalledPath) != 0) return false;
+    *output = backup;
+    return true;
 }
 
 bool registerInstalledGame(InstalledGameList* games, const char* id, const char* version, u32 sizeBytes,

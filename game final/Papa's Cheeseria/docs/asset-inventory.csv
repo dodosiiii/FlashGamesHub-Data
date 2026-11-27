@@ -1,0 +1,12 @@
+path,format,size_bytes,details
+assets/icon.png,PNG,2154,"48x48 homebrew icon source"
+assets/ingredients/bread_white.png,PNG,12531,"128x80; extracted white bread frame"
+assets/ingredients/bread_wheat.png,PNG,13112,"128x80; extracted wholegrain bread frame"
+assets/ingredients/cheddar.png,PNG,19355,"128x80; extracted cheddar frame"
+assets/ingredients/mozzarella.png,PNG,19292,"128x80; extracted mozzarella frame"
+assets/ingredients/ingredients.t3s,Tex3DS source,89,"Texture atlas input; rgba4"
+romfs/gfx/ingredients.t3x,T3X,25241,"Built 3DS texture atlas"
+assets/audio/buttonclick.wav,WAV PCM signed 16-bit,3690,"Mono; 11025 Hz"
+romfs/audio/buttonclick.wav,WAV PCM signed 16-bit,3690,"Packaged button sound; mono; 11025 Hz"
+assets/audio/orderscreen_music.wav,WAV PCM signed 16-bit,586526,"Mono; 22050 Hz"
+romfs/audio/orderscreen_music.wav,WAV PCM signed 16-bit,586526,"Packaged music; mono; 22050 Hz"

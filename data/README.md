@@ -39,8 +39,8 @@ validation de son fichier et de sa compatibilite.
   modifications; le Hub télécharge les `.t3x` référencés par `screenshots`.
 - `compatibility` utilise `supported`, `unsupported` ou `unverified` pour
   `3ds` et `new_3ds`.
-- `status` utilise `available`, `unavailable`, `coming_soon`, `development`
-  ou `discontinued`.
+- `status` utilise `available`, `unavailable`, `coming_soon`, `development`,
+  `finished` ou `discontinued`.
 - `file_type` choisit le paquet principal (`3dsx` ou `cia`). Une fiche peut
   aussi proposer un paquet CIA secondaire via `cia_url`, `cia_size_bytes` et
   `cia_sha256`. Chaque paquet doit avoir son URL HTTPS, sa taille et son SHA-256.

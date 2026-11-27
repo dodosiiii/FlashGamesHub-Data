@@ -7,6 +7,8 @@ $ProjectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $DevkitProPath = 'C:\devkitPro'
 $DevkitArmPath = Join-Path $DevkitProPath 'devkitARM'
 $MakePath = Join-Path $DevkitProPath 'msys2\usr\bin\make.exe'
+$BashPath = Join-Path $DevkitProPath 'msys2\usr\bin\bash.exe'
+$CygpathPath = Join-Path $DevkitProPath 'msys2\usr\bin\cygpath.exe'
 $DataPath = Join-Path $ProjectRoot 'data'
 $RomfsPath = Join-Path $ProjectRoot 'romfs'
 
@@ -16,12 +18,16 @@ if (-not (Test-Path -LiteralPath $DevkitArmPath)) {
 if (-not (Test-Path -LiteralPath $MakePath)) {
     throw "make introuvable : $MakePath"
 }
+if (-not (Test-Path -LiteralPath $BashPath) -or -not (Test-Path -LiteralPath $CygpathPath)) {
+    throw 'Les outils Bash et cygpath de devkitPro sont requis pour compiler.'
+}
 if (-not (Test-Path -LiteralPath $DataPath)) {
     throw "Depot de donnees introuvable : $DataPath"
 }
 
 New-Item -ItemType Directory -Force -Path $RomfsPath | Out-Null
 Copy-Item -LiteralPath (Join-Path $DataPath 'catalog.json') -Destination (Join-Path $RomfsPath 'catalog.json') -Force
+Copy-Item -LiteralPath (Join-Path $DataPath 'hub.json') -Destination (Join-Path $RomfsPath 'hub.json') -Force
 Copy-Item -LiteralPath (Join-Path $DataPath 'catalog.json') -Destination (Join-Path $ProjectRoot 'catalog.json') -Force
 Copy-Item -LiteralPath (Join-Path $DataPath 'hub.json') -Destination (Join-Path $ProjectRoot 'hub.json') -Force
 
@@ -45,5 +51,10 @@ $CaBundlePath = Join-Path $RomfsPath 'ca-bundle.pem'
 
 $env:DEVKITPRO = $DevkitProPath
 $env:DEVKITARM = $DevkitArmPath
-& $MakePath "DEVKITPRO=$DevkitProPath" "DEVKITARM=$DevkitArmPath" -C $ProjectRoot @BuildArguments
+$UnixProjectRoot = (& $CygpathPath -u $ProjectRoot).Trim()
+$UnixDevkitProPath = (& $CygpathPath -u $DevkitProPath).Trim()
+$UnixDevkitArmPath = (& $CygpathPath -u $DevkitArmPath).Trim()
+$UnixMakePath = (& $CygpathPath -u $MakePath).Trim()
+$BuildCommand = 'cd "$1" && export DEVKITPRO="$2" DEVKITARM="$3" && make_path="$4" && shift 4 && "$make_path" "$@"'
+& $BashPath -lc $BuildCommand build $UnixProjectRoot $UnixDevkitProPath $UnixDevkitArmPath $UnixMakePath @BuildArguments
 exit $LASTEXITCODE

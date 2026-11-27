@@ -569,6 +569,7 @@ private:
                 else if (std::strcmp(status, "coming_soon") == 0) game.status = GameStatus::ComingSoon;
                 else if (std::strcmp(status, "development") == 0) game.status = GameStatus::Development;
                 else if (std::strcmp(status, "discontinued") == 0) game.status = GameStatus::Discontinued;
+                else if (std::strcmp(status, "finished") == 0) game.status = GameStatus::Finished;
                 else return false;
                 sawStatus = true;
             } else if (!skipValue(0)) return false;
@@ -811,6 +812,7 @@ const char* gameStatusLabel(GameStatus status) {
         case GameStatus::ComingSoon: return "BIENTOT";
         case GameStatus::Development: return "EN DEV";
         case GameStatus::Discontinued: return "ARRETE";
+        case GameStatus::Finished: return "TERMINE";
     }
     return "INCONNU";
 }

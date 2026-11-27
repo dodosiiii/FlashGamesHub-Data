@@ -197,16 +197,7 @@ int gamePackageProgressCallback(void*, curl_off_t totalDownload, curl_off_t down
 }
 
 CURLcode performHttps(CURL* curl) {
-    CURLcode res = curl_easy_perform(curl);
-    if (res == CURLE_PEER_FAILED_VERIFICATION || res == CURLE_SSL_CACERT_BADFILE ||
-        res == CURLE_SSL_CONNECT_ERROR) {
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-        gResponseSize = 0;
-        gResponseBuffer[0] = '\0';
-        res = curl_easy_perform(curl);
-    }
-    return res;
+    return curl_easy_perform(curl);
 }
 
 bool fetch(CURL* curl, const char* url) {
@@ -417,7 +408,10 @@ void gamePackageWorker(void* userData) {
     struct stat targetInfo{};
     const bool registryLoaded = loadInstalledGamesFromSd(&installedGames);
     struct stat registryInfo{};
-    const bool registryExists = stat("sdmc:/3ds/FlashGamesHub/installed.json", &registryInfo) == 0;
+    struct stat registryBackupInfo{};
+    const bool registryExists =
+        stat("sdmc:/3ds/FlashGamesHub/installed.json", &registryInfo) == 0 ||
+        stat("sdmc:/3ds/FlashGamesHub/installed.json.bak", &registryBackupInfo) == 0;
     const bool registryValid = registryLoaded || !registryExists;
     const bool targetExists = stat(targetPath, &targetInfo) == 0 && targetInfo.st_size > 0;
     const bool isUpdate = isInstalledGame(installedGames, game.id, &installed);
