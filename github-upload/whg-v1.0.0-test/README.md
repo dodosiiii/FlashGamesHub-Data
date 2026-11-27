@@ -1,37 +1,11 @@
-# The World's Hardest Game 1 — test release
+Publie ce dossier `github-upload/whg-v1.0.0-test/`, puis copie les fichiers
+`data/catalog.json` et `data/hub.json` à la racine de la branche `main` sous
+les noms `catalog.json` et `hub.json` dans `dodosiiii/FlashGamesHub-Data`.
+Ce dossier contient aussi les deux captures de gameplay et leur version
+`.t3x` utilisée par la fiche du jeu, ainsi que le logo converti et les images
+JPG originales.
 
-Ces deux fichiers sont prêts à être ajoutés comme pièces jointes à une GitHub
-Release du dépôt `dodosiiii/FlashGamesHub-Data`.
-
-## Publication manuelle
-
-1. Créer une release avec le tag `whg-v1.0.0-test`.
-2. Ajouter `whg-hub-3ds.3dsx` et `whg-hub-3ds.cia` depuis ce dossier.
-3. Publier ensuite `data/catalog.json` à la racine de la branche `main`.
-4. Dans le Hub, ouvrir le Store puis actualiser le catalogue.
-5. Sélectionner The World's Hardest Game 1 et appuyer sur `A` pour télécharger
-   le `.3dsx` de test.
-6. Ouvrir la bibliothèque et appuyer sur `A` pour lancer le jeu avec le
-   chargeur Rosalina, si `hb:ldr` est disponible.
-
-Le catalogue pointe vers cette pièce jointe :
-
-`https://github.com/dodosiiii/FlashGamesHub-Data/releases/download/whg-v1.0.0-test/whg-hub-3ds.3dsx`
-
-Le Hub vérifie la taille attendue et le SHA-256 avant d'ajouter le `.3dsx` à la
-bibliothèque. L'entrée reste marquée `development` et les modèles restent
-`unverified` jusqu'aux essais sur console.
-
-Le `.cia` est joint pour les essais manuels. Le Hub ne le télécharge ni ne
-l'installe pour le moment; le flux actuel utilise le `.3dsx`.
-
-Le catalogue source à publier séparément est `data/catalog.json` dans le
-projet. Il doit remplacer le fichier `catalog.json` à la racine de `main` dans
-le dépôt de données.
-
-## Empreintes de référence
-
-| Fichier | Taille | SHA-256 |
-| --- | ---: | --- |
-| `whg-hub-3ds.3dsx` | 47 192 056 octets | `1f6697dbf90a17c0e2282eb7b46ea8e47d57b150342ee3a9f854646cd714b72a` |
-| `whg-hub-3ds.cia` | 47 756 224 octets | `a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0` |
+Les fichiers dépassent la limite de 25 MB par fichier pour l'envoi depuis le
+navigateur GitHub. Utilise GitHub Desktop ou Git en ligne de commande. Le Hub
+télécharge directement le `.3dsx` ou le `.cia` depuis `raw.githubusercontent.com`;
+aucune Release n'est nécessaire.
