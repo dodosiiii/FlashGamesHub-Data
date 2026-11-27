@@ -36,6 +36,10 @@ constexpr std::size_t kMaxCatalogBytes = 256 * 1024;
 constexpr u32 kMaxHubCiaBytes = 32 * 1024 * 1024;
 constexpr u64 kHubTitleId = 0x000400000F64B000ULL;
 constexpr u32 kSocBufferSize = 0x100000;
+constexpr long kPackageTimeoutMs = 1800000L;
+constexpr long kPackageLowSpeedLimit = 1024L;
+constexpr long kPackageLowSpeedTime = 120L;
+constexpr long kPackageBufferSize = 64L * 1024L;
 
 LightLock gStateLock;
 bool gLockInitialized = false;
@@ -366,13 +370,14 @@ bool installCiaPackage(const char* path, bool overwrite, u64 expectedTitleId, u6
             break;
         }
         u32 written = 0;
-        result = FSFILE_Write(installHandle, &written, offset, buffer, static_cast<u32>(count), FS_WRITE_FLUSH);
+        result = FSFILE_Write(installHandle, &written, offset, buffer, static_cast<u32>(count), 0);
         if (R_FAILED(result) || written != count) ok = false;
         else offset += written;
     }
     if (input && std::fclose(input) != 0) ok = false;
     if (ok) {
-        result = AM_FinishCiaInstall(installHandle);
+        result = FSFILE_Flush(installHandle);
+        if (R_SUCCEEDED(result)) result = AM_FinishCiaInstall(installHandle);
         if (R_FAILED(result)) AM_CancelCIAInstall(installHandle);
     } else {
         AM_CancelCIAInstall(installHandle);
@@ -452,7 +457,10 @@ void gamePackageWorker(void* userData) {
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 8000L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 120000L);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, kPackageTimeoutMs);
+        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, kPackageLowSpeedLimit);
+        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, kPackageLowSpeedTime);
+        curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, kPackageBufferSize);
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "FlashGamesHub/0.1");
         curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
@@ -565,7 +573,10 @@ void hubUpdateWorker(void* userData) {
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 8000L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 120000L);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, kPackageTimeoutMs);
+        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, kPackageLowSpeedLimit);
+        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, kPackageLowSpeedTime);
+        curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, kPackageBufferSize);
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "FlashGamesHub/0.1");
         curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
