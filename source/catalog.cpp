@@ -1,9 +1,22 @@
 #include "catalog.hpp"
 
 #include <cstdint>
+#include <cstdio>
 #include <cstring>
 
 namespace {
+
+// Diagnostic : derniere cause d'echec du parseur, ecrite sur la SD par
+// parseCatalogJson (sdmc:/3ds/FlashGamesHub/parse_error.txt).
+char gParseError[192] = "";
+char gCurrentKey[64] = "";
+std::size_t gGameIndex = 0;
+
+void noteParseError(const char* what, std::size_t a = 0, std::size_t b = 0) {
+    if (gParseError[0]) return;  // garde la premiere cause (la plus proche de l'origine)
+    std::snprintf(gParseError, sizeof(gParseError), "%s key=%s game#%u a=%u b=%u", what, gCurrentKey,
+                  static_cast<unsigned>(gGameIndex), static_cast<unsigned>(a), static_cast<unsigned>(b));
+}
 
 class JsonReader {
 public:
@@ -106,7 +119,7 @@ public:
             if (!parseString(key, sizeof(key)) || !consume(':')) return false;
             if (std::strcmp(key, "schema_version") == 0) {
                 u32 version = 0;
-                if (!parseUnsigned(version) || version != 1) return false;
+                if (!parseUnsigned(version) || (version != 1 && version != 2)) return false;
                 sawSchemaVersion = true;
             } else if (std::strcmp(key, "games") == 0) {
                 if (sawGames || !parseInstalledList(output)) return false;
@@ -125,6 +138,8 @@ public:
         }
         return true;
     }
+
+    std::size_t position() const { return mPosition; }
 
 private:
     const char* mInput;
@@ -200,7 +215,10 @@ private:
             if (overflow) return true;
             boundary = used;
             if (used + count >= capacity) {
-                if (!truncate) return false;
+                if (!truncate) {
+                    noteParseError("string overflow (escape)", capacity);
+                    return false;
+                }
                 overflow = true;
                 return true;
             }
@@ -220,7 +238,10 @@ private:
                 if (overflow) continue;
                 if ((c & 0xC0) != 0x80) boundary = used;
                 if (used + 1 >= capacity) {
-                    if (!truncate) return false;
+                    if (!truncate) {
+                        noteParseError("string overflow", capacity);
+                        return false;
+                    }
                     overflow = true;
                     continue;
                 }
@@ -272,6 +293,21 @@ private:
         }
         if (!isTokenBoundary()) return false;
         output = static_cast<u32>(value);
+        return true;
+    }
+
+    bool parseUnsigned64(u64& output) {
+        skipWhitespace();
+        if (mPosition >= mLength || mInput[mPosition] < '0' || mInput[mPosition] > '9') return false;
+        if (mInput[mPosition] == '0' && mPosition + 1 < mLength && mInput[mPosition + 1] >= '0' && mInput[mPosition + 1] <= '9') return false;
+        u64 value = 0;
+        while (mPosition < mLength && mInput[mPosition] >= '0' && mInput[mPosition] <= '9') {
+            const u64 digit = static_cast<u64>(mInput[mPosition++] - '0');
+            if (value > (UINT64_MAX - digit) / 10) return false;
+            value = value * 10 + digit;
+        }
+        if (!isTokenBoundary()) return false;
+        output = value;
         return true;
     }
 
@@ -427,6 +463,32 @@ private:
         return false;
     }
 
+    bool parseScreenshots(CatalogGame& game) {
+        if (!consume('[')) return false;
+        skipWhitespace();
+        if (consume(']')) return true;
+        while (mPosition < mLength) {
+            if (mInput[mPosition] == '"') {
+                if (game.screenshotCount < 3) {
+                    if (!parseString(game.screenshots[game.screenshotCount], sizeof(game.screenshots[0]))) return false;
+                    if (game.screenshots[game.screenshotCount][0]) ++game.screenshotCount;
+                } else {
+                    char ignored[256]{};
+                    if (!parseString(ignored, sizeof(ignored))) return false;
+                }
+            } else if (mPosition + 4 <= mLength && std::memcmp(mInput + mPosition, "null", 4) == 0) {
+                char ignored[4]{};
+                if (!parseStringOrNull(ignored, sizeof(ignored))) return false;
+            } else {
+                return false;
+            }
+            skipWhitespace();
+            if (consume(']')) return true;
+            if (!consume(',')) return false;
+        }
+        return false;
+    }
+
     bool parseGame(CatalogGame& game) {
         if (!consume('{')) return false;
         bool sawStatus = false;
@@ -436,6 +498,7 @@ private:
         while (mPosition < mLength) {
             char key[64]{};
             if (!parseString(key, sizeof(key)) || !consume(':')) return false;
+            std::snprintf(gCurrentKey, sizeof(gCurrentKey), "%s", key);
             if (std::strcmp(key, "id") == 0) {
                 if (!parseStringOrNull(game.id, sizeof(game.id))) return false;
             } else if (std::strcmp(key, "name") == 0) {
@@ -448,6 +511,8 @@ private:
                 if (!parseStringOrNull(game.developer, sizeof(game.developer), true)) return false;
             } else if (std::strcmp(key, "cover") == 0) {
                 if (!parseStringOrNull(game.cover, sizeof(game.cover))) return false;
+            } else if (std::strcmp(key, "screenshots") == 0) {
+                if (!parseScreenshots(game)) return false;
             } else if (std::strcmp(key, "version") == 0) {
                 if (!parseStringOrNull(game.version, sizeof(game.version))) return false;
             } else if (std::strcmp(key, "file_type") == 0) {
@@ -456,6 +521,12 @@ private:
                 if (!parseStringOrNull(game.downloadUrl, sizeof(game.downloadUrl))) return false;
             } else if (std::strcmp(key, "sha256") == 0) {
                 if (!parseStringOrNull(game.sha256, sizeof(game.sha256))) return false;
+            } else if (std::strcmp(key, "cia_url") == 0) {
+                if (!parseStringOrNull(game.ciaUrl, sizeof(game.ciaUrl))) return false;
+            } else if (std::strcmp(key, "cia_sha256") == 0) {
+                if (!parseStringOrNull(game.ciaSha256, sizeof(game.ciaSha256))) return false;
+            } else if (std::strcmp(key, "cia_size_bytes") == 0) {
+                if (!parseUnsignedOrNull(game.ciaSizeBytes)) return false;
             } else if (std::strcmp(key, "compatibility") == 0) {
                 if (!parseCompatibility(game)) return false;
                 sawCompatibility = true;
@@ -482,13 +553,22 @@ private:
                     if (!((*c >= 'a' && *c <= 'z') || (*c >= '0' && *c <= '9') || *c == '-')) return false;
                 }
                 if (game.status == GameStatus::Available) {
-                    if (!game.version[0] || std::strcmp(game.downloadFormat, "3dsx") != 0 || !game.downloadUrl[0] ||
+                    if (!game.version[0] || (std::strcmp(game.downloadFormat, "3dsx") != 0 &&
+                        std::strcmp(game.downloadFormat, "cia") != 0) || !game.downloadUrl[0] ||
                         std::strncmp(game.downloadUrl, "https://", 8) != 0 ||
                         game.sizeBytes == 0 || std::strlen(game.sha256) != 64) return false;
                     bool hasSupportedModel = std::strcmp(game.compatibility3ds, "supported") == 0 ||
                                              std::strcmp(game.compatibilityNew3ds, "supported") == 0;
                     if (!hasSupportedModel) return false;
                     for (const char* hash = game.sha256; *hash; ++hash) {
+                        if (!((*hash >= '0' && *hash <= '9') || (*hash >= 'a' && *hash <= 'f') || (*hash >= 'A' && *hash <= 'F'))) return false;
+                    }
+                }
+                const bool anyCiaField = game.ciaUrl[0] || game.ciaSha256[0] || game.ciaSizeBytes;
+                if (anyCiaField) {
+                    if (!game.ciaUrl[0] || std::strncmp(game.ciaUrl, "https://", 8) != 0 ||
+                        game.ciaSizeBytes == 0 || std::strlen(game.ciaSha256) != 64) return false;
+                    for (const char* hash = game.ciaSha256; *hash; ++hash) {
                         if (!((*hash >= '0' && *hash <= '9') || (*hash >= 'a' && *hash <= 'f') || (*hash >= 'A' && *hash <= 'F'))) return false;
                     }
                 }
@@ -504,11 +584,17 @@ private:
         skipWhitespace();
         if (consume(']')) return true;
         while (mPosition < mLength) {
-            if (catalog->count >= GameCatalog::kMaxGames) return false;
+            gGameIndex = catalog->count;
             CatalogGame game{};
             game.status = GameStatus::Unavailable;
             if (!parseGame(game)) return false;
-            catalog->games[catalog->count++] = game;
+            if (catalog->count >= GameCatalog::kMaxGames) {
+                // Catalogue plus grand que kMaxGames : on garde les premiers jeux
+                // au lieu de rejeter tout le fichier.
+                noteParseError("catalogue tronque: kMaxGames atteint", GameCatalog::kMaxGames);
+            } else {
+                catalog->games[catalog->count++] = game;
+            }
             skipWhitespace();
             if (consume(']')) return true;
             if (!consume(',')) return false;
@@ -533,10 +619,16 @@ private:
             } else if (std::strcmp(key, "size_bytes") == 0) {
                 if (!parseUnsigned(game.sizeBytes)) return false;
                 sawSize = true;
+            } else if (std::strcmp(key, "file_type") == 0) {
+                if (!parseString(game.format, sizeof(game.format))) return false;
+            } else if (std::strcmp(key, "title_id") == 0) {
+                if (!parseUnsigned64(game.titleId)) return false;
             } else if (!skipValue(0)) return false;
             skipWhitespace();
             if (consume('}')) {
                 if (!sawId || !sawVersion || !sawSize || !game.id[0] || !game.version[0]) return false;
+                if (!game.format[0]) std::snprintf(game.format, sizeof(game.format), "3dsx");
+                if (std::strcmp(game.format, "3dsx") != 0 && std::strcmp(game.format, "cia") != 0) return false;
                 for (const char* c = game.id; *c; ++c) {
                     if (!((*c >= 'a' && *c <= 'z') || (*c >= '0' && *c <= '9') || *c == '-')) return false;
                 }
@@ -608,7 +700,20 @@ private:
 bool parseCatalogJson(const char* json, std::size_t length, GameCatalog* output) {
     if (!json || !output || length == 0) return false;
     *output = GameCatalog{};
-    if (JsonReader(json, length).parseCatalog(output)) return true;
+    gParseError[0] = '\0';
+    gCurrentKey[0] = '\0';
+    gGameIndex = 0;
+    JsonReader reader(json, length);
+    const bool ok = reader.parseCatalog(output);
+    if (gParseError[0] || !ok) {
+        if (!gParseError[0]) noteParseError("syntaxe/regle de validation", reader.position(), length);
+        if (FILE* log = std::fopen("sdmc:/3ds/FlashGamesHub/parse_error.txt", "wb")) {
+            std::fprintf(log, "%s ok=%d pos=%u len=%u\n", gParseError, ok ? 1 : 0,
+                         static_cast<unsigned>(reader.position()), static_cast<unsigned>(length));
+            std::fclose(log);
+        }
+    }
+    if (ok) return true;
     *output = GameCatalog{};  // ne jamais laisser un catalogue a moitie rempli
     return false;
 }

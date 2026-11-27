@@ -46,15 +46,18 @@ bool validVersion(const char* version) {
 
 bool writeList(const InstalledGameList& games) {
     std::size_t used = 0;
-    int written = std::snprintf(gJsonBuffer, sizeof(gJsonBuffer), "{\"schema_version\":1,\"games\":[");
+    int written = std::snprintf(gJsonBuffer, sizeof(gJsonBuffer), "{\"schema_version\":2,\"games\":[");
     if (written < 0 || static_cast<std::size_t>(written) >= sizeof(gJsonBuffer)) return false;
     used = static_cast<std::size_t>(written);
     for (std::size_t i = 0; i < games.count; ++i) {
         const InstalledGame& game = games.games[i];
         if (!validId(game.id) || !validVersion(game.version)) return false;
+        const char* format = game.format[0] ? game.format : "3dsx";
+        if (std::strcmp(format, "3dsx") != 0 && std::strcmp(format, "cia") != 0) return false;
         written = std::snprintf(gJsonBuffer + used, sizeof(gJsonBuffer) - used,
-                                "%s{\"id\":\"%s\",\"version\":\"%s\",\"size_bytes\":%u}",
-                                i ? "," : "", game.id, game.version, static_cast<unsigned>(game.sizeBytes));
+                                "%s{\"id\":\"%s\",\"version\":\"%s\",\"size_bytes\":%u,\"file_type\":\"%s\",\"title_id\":%llu}",
+                                i ? "," : "", game.id, game.version, static_cast<unsigned>(game.sizeBytes), format,
+                                static_cast<unsigned long long>(game.titleId));
         if (written < 0 || static_cast<std::size_t>(written) >= sizeof(gJsonBuffer) - used) return false;
         used += static_cast<std::size_t>(written);
     }
@@ -116,8 +119,11 @@ bool loadInstalledGamesFromSd(InstalledGameList* output) {
     return valid;
 }
 
-bool registerInstalledGame(InstalledGameList* games, const char* id, const char* version, u32 sizeBytes) {
-    if (!games || !validId(id) || !validVersion(version)) return false;
+bool registerInstalledGame(InstalledGameList* games, const char* id, const char* version, u32 sizeBytes,
+                           const char* format, u64 titleId) {
+    if (!games || !validId(id) || !validVersion(version) || !format ||
+        (std::strcmp(format, "3dsx") != 0 && std::strcmp(format, "cia") != 0) ||
+        (std::strcmp(format, "cia") == 0 && titleId == 0)) return false;
     InstalledGameList updated = *games;
     std::size_t index = updated.count;
     for (std::size_t i = 0; i < updated.count; ++i) {
@@ -134,7 +140,9 @@ bool registerInstalledGame(InstalledGameList* games, const char* id, const char*
     std::memset(&game, 0, sizeof(game));
     std::memcpy(game.id, id, std::strlen(id) + 1);
     std::memcpy(game.version, version, std::strlen(version) + 1);
+    std::memcpy(game.format, format, std::strlen(format) + 1);
     game.sizeBytes = sizeBytes;
+    game.titleId = titleId;
     if (!writeList(updated)) return false;
     *games = updated;
     return true;

@@ -2,6 +2,7 @@
 #include <citro2d.h>
 #include "catalog.hpp"
 #include "catalog_network.hpp"
+#include "embedded_romfs.hpp"
 #include "installed_games.hpp"
 
 #include <cmath>
@@ -75,6 +76,11 @@ constexpr float kChipHeight = 22.0f;
 constexpr float kStoreListTop = 70.0f;
 constexpr float kStoreRowHeight = 27.0f;
 constexpr std::size_t kStoreRows = 5;
+constexpr float kStoreDetailBackX = 16.0f;
+constexpr float kStoreDetailFormatX = 76.0f;
+constexpr float kStoreDetailDownloadX = 166.0f;
+constexpr float kStoreDetailButtonY = 174.0f;
+constexpr float kStoreDetailButtonH = 26.0f;
 constexpr float kLibraryListTop = 44.0f;
 constexpr float kLibraryRowHeight = 27.0f;
 constexpr std::size_t kLibraryRows = 6;
@@ -94,6 +100,10 @@ constexpr float kLangEnX = 162.0f;
 constexpr float kLangY = 76.0f;
 constexpr float kLangW = 128.0f;
 constexpr float kLangH = 34.0f;
+constexpr float kClearCacheX = 10.0f;
+constexpr float kClearCacheY = 174.0f;
+constexpr float kClearCacheW = 300.0f;
+constexpr float kClearCacheH = 26.0f;
 
 // ---------------------------------------------------------------------------
 // Etat
@@ -103,6 +113,11 @@ C3D_RenderTarget* gTop = nullptr;
 C3D_RenderTarget* gBottom = nullptr;
 C2D_TextBuf gTextBuffer = nullptr;
 C2D_TextBuf gMeasureBuffer = nullptr;
+C2D_SpriteSheet gStoreScreenshotSheet = nullptr;
+char gStoreScreenshotSheetPath[256]{};
+char gPendingScreenshotCachePath[256]{};
+bool gScreenshotLoading = false;
+bool gScreenshotFailed = false;
 
 GameCatalog gCatalog{};
 GameCatalog gCachedCatalog{};
@@ -117,12 +132,23 @@ bool gRomfsReady = false;
 bool gStorageAvailable = false;
 u64 gStorageFreeBytes = 0;
 u64 gStorageTotalBytes = 0;
+u64 gCachedInstalledBytes = 0;
+u64 gCachedCatalogDataBytes = 0;
 bool gQuit = false;
+u64 gRelaunchTitleId = 0;
 bool gDownloading = false;
 bool gConfirmUninstall = false;
+bool gStoreDetailOpen = false;
+std::size_t gStoreDetailGameIndex = GameCatalog::kMaxGames;
+std::size_t gStoreScreenshotIndex = 0;
 
 int gCurrentPage = kPageStore;
 float gTabIndicator = 0.0f;
+float gStoreScrollAnim = 0.0f;
+float gLibraryScrollAnim = 0.0f;
+float gStoreSelAnim = 0.0f;
+float gLibrarySelAnim = 0.0f;
+float gProgressAnim = 0.0f;
 unsigned gFrame = 0;
 unsigned gHoldFrames = 0;
 
@@ -131,6 +157,7 @@ std::size_t gGenreCount = 0;
 std::size_t gGenreFilterIndex = 0;
 char gSearchQuery[128]{};
 bool gFavoritesOnly = false;
+bool gStoreCiaFormat = false;
 std::size_t gFiltered[GameCatalog::kMaxGames]{};
 std::size_t gGroupCount[GameCatalog::kMaxGames]{};  // nombre de jeux regroupes dans chaque ligne
 bool gGroupMixed[GameCatalog::kMaxGames]{};         // statuts differents dans le groupe
@@ -230,12 +257,42 @@ constexpr Translation kTranslations[] = {
     {"Actualiser", "Refresh"},
     {"Télécharger la mise à jour", "Download update"},
     {"Télécharger", "Download"},
+    {"Installer CIA", "Install CIA"},
+    {"Format .3dsx", ".3dsx format"},
+    {"Format .cia", ".cia format"},
+    {"Installation CIA...", "Installing CIA..."},
+    {"Fiche du jeu", "Game details"},
+    {"Retour", "Back"},
+    {"Épisodes", "Episodes"},
+    {"Captures d’écran", "Screenshots"},
+    {"Aucune capture publiée", "No screenshots published"},
+    {"Chargement de la capture...", "Loading screenshot..."},
+    {"Ouvrir la fiche", "Open details"},
+    {"Télécharger .3dsx", "Download .3dsx"},
+    {"Jeu installé", "Game installed"},
+    {"Échec de l'installation", "Installation failed"},
+    {"Désinstallation indisponible", "Uninstall unavailable"},
+    {"Jeu supprimé, bibliothèque à actualiser", "Game removed; refresh library"},
+    {"Titre CIA introuvable", "CIA title not found"},
+    {"Lancement CIA impossible", "Cannot launch CIA"},
     {"Téléchargement terminé", "Download complete"},
+    {"Téléchargement  %u %%", "Downloading  %u %%"},
     {"Jeu déjà installé", "Game already installed"},
+    {"Déjà installé", "Already installed"},
+    {"Mettre à jour", "Update"},
+    {"Hub mis à jour", "Hub updated"},
+    {"Échec de la mise à jour du Hub", "Hub update failed"},
+    {"Màj Hub", "Update Hub"},
+    {"Màj Jeux", "Update Games"},
+    {"Captures", "Screenshots"},
     {"Téléchargement...", "Downloading..."},
     {"Aucune mise à jour", "No update available"},
     {"Mise à jour installée", "Update installed"},
     {"Échec, version précédente conservée", "Failed; previous version kept"},
+    {"Cache catalogue", "Catalog cache"},
+    {"Vider le cache", "Clear cache"},
+    {"Cache vidé", "Cache cleared"},
+    {"Échec du vidage du cache", "Failed to clear cache"},
     {"Fichier vérifié", "File verified"},
     {"Espace libre", "Free space"},
     {"Espace utilisé", "Used space"},
@@ -659,22 +716,31 @@ char* readSmallFile(const char* path, long maxBytes, std::size_t* outLength) {
     return contents;
 }
 
-bool loadEmbeddedCatalog() {
-    std::size_t length = 0;
-    char* contents = readSmallFile("romfs:/catalog.json", 128 * 1024, &length);
-    if (!contents) return false;
-    const bool valid = parseCatalogJson(contents, length, &gCatalog);
-    std::free(contents);
-    return valid;
+bool loadEmbeddedCatalog(GameCatalog* output) {
+    if (!output) return false;
+    if (gRomfsReady) {
+        std::size_t length = 0;
+        char* contents = readSmallFile("romfs:/catalog.json", 128 * 1024, &length);
+        if (contents) {
+            const bool valid = parseCatalogJson(contents, length, output);
+            std::free(contents);
+            if (valid) return true;
+        }
+    }
+    return parseCatalogJson(kEmbeddedCatalogJson, kEmbeddedCatalogJsonLength, output);
 }
 
 bool loadEmbeddedHubManifest() {
-    std::size_t length = 0;
-    char* contents = readSmallFile("romfs:/hub.json", 16 * 1024, &length);
-    if (!contents) return false;
-    const bool valid = parseHubManifestJson(contents, length, &gHubManifest);
-    std::free(contents);
-    return valid;
+    if (gRomfsReady) {
+        std::size_t length = 0;
+        char* contents = readSmallFile("romfs:/hub.json", 16 * 1024, &length);
+        if (contents) {
+            const bool valid = parseHubManifestJson(contents, length, &gHubManifest);
+            std::free(contents);
+            if (valid) return true;
+        }
+    }
+    return parseHubManifestJson(kEmbeddedHubJson, kEmbeddedHubJsonLength, &gHubManifest);
 }
 
 bool loadInstalledGames() {
@@ -730,7 +796,12 @@ bool saveFavorites() {
     return ok;
 }
 
+u64 installedGamesBytes();
+u64 cachedDataBytes();
+
 void readStorageStats() {
+    gCachedInstalledBytes = installedGamesBytes();
+    gCachedCatalogDataBytes = cachedDataBytes();
     FS_ArchiveResource resource{};
     if (R_FAILED(FSUSER_GetSdmcArchiveResource(&resource)) || resource.clusterSize == 0) {
         gStorageAvailable = false;
@@ -861,9 +932,13 @@ bool sameSeries(const CatalogGame& a, const CatalogGame& b) {
     return std::strcmp(left, right) == 0;
 }
 
+void closeStoreDetail();
+
 // Recalcule la liste filtree (une fois par changement, pas a chaque image) en
 // conservant autant que possible le jeu selectionne.
 void rebuildFilter() {
+    if (gStoreDetailOpen) closeStoreDetail();
+    else gStoreDetailGameIndex = GameCatalog::kMaxGames;
     if (gGenreFilterIndex > gGenreCount) gGenreFilterIndex = 0;
     char previousId[64]{};
     const std::size_t previousSelection = gStoreSel;
@@ -925,6 +1000,116 @@ std::size_t groupMembers(std::size_t position, std::size_t* out, std::size_t cap
 const CatalogGame* selectedStoreGame() {
     if (gStoreSel >= gFilteredCount) return nullptr;
     return &gCatalog.games[gFiltered[gStoreSel]];
+}
+
+const CatalogGame* activeStoreGame() {
+    if (gStoreDetailOpen && gStoreDetailGameIndex < gCatalog.count) return &gCatalog.games[gStoreDetailGameIndex];
+    return selectedStoreGame();
+}
+
+void requestStoreScreenshot();
+
+bool openSelectedStoreDetail() {
+    if (!gCatalogLoaded || gStoreSel >= gFilteredCount) return false;
+    std::size_t members[6]{};
+    const std::size_t count = groupMembers(gStoreSel, members, 6);
+    if (count == 0) return false;
+    gStoreDetailGameIndex = members[0];
+    gStoreDetailOpen = true;
+    gStoreScreenshotIndex = 0;
+    requestStoreScreenshot();
+    return true;
+}
+
+void closeStoreDetail() {
+    gStoreDetailOpen = false;
+    gStoreDetailGameIndex = GameCatalog::kMaxGames;
+    gStoreScreenshotIndex = 0;
+    gScreenshotLoading = false;
+    gScreenshotFailed = false;
+    gPendingScreenshotCachePath[0] = '\0';
+    gStoreScreenshotSheetPath[0] = '\0';
+    if (gStoreScreenshotSheet) {
+        C2D_SpriteSheetFree(gStoreScreenshotSheet);
+        gStoreScreenshotSheet = nullptr;
+    }
+}
+
+void requestStoreScreenshot() {
+    stopScreenshotCache();
+    if (gStoreScreenshotSheet) {
+        C2D_SpriteSheetFree(gStoreScreenshotSheet);
+        gStoreScreenshotSheet = nullptr;
+    }
+    gStoreScreenshotSheetPath[0] = '\0';
+    gPendingScreenshotCachePath[0] = '\0';
+    gScreenshotLoading = false;
+    gScreenshotFailed = false;
+    const CatalogGame* game = activeStoreGame();
+    if (!gStoreDetailOpen || !game) return;
+    const char* mediaPath = nullptr;
+    if (game->screenshotCount > 0) {
+        if (gStoreScreenshotIndex >= game->screenshotCount) gStoreScreenshotIndex = 0;
+        mediaPath = game->screenshots[gStoreScreenshotIndex];
+    } else if (game->cover[0]) {
+        mediaPath = game->cover;
+    } else {
+        return;
+    }
+
+    u32 pathHash = 2166136261u;
+    for (const unsigned char* c = reinterpret_cast<const unsigned char*>(mediaPath); *c; ++c)
+        pathHash = (pathHash ^ *c) * 16777619u;
+    char localPath[256];
+    std::snprintf(localPath, sizeof(localPath), "sdmc:/3ds/FlashGamesHub/screenshots/%s-%u-%08lx.t3x",
+                  game->id, static_cast<unsigned>(gStoreScreenshotIndex), static_cast<unsigned long>(pathHash));
+    struct stat info{};
+    if (stat(localPath, &info) == 0 && info.st_size > 0) {
+        gStoreScreenshotSheet = C2D_SpriteSheetLoad(localPath);
+        if (gStoreScreenshotSheet) {
+            std::snprintf(gStoreScreenshotSheetPath, sizeof(gStoreScreenshotSheetPath), "%s", localPath);
+            return;
+        }
+        std::remove(localPath);
+    }
+    char embeddedPath[256];
+    const char* relativePath = mediaPath[0] == '/' ? mediaPath + 1 : mediaPath;
+    std::snprintf(embeddedPath, sizeof(embeddedPath), "romfs:/%s", relativePath);
+    gStoreScreenshotSheet = C2D_SpriteSheetLoad(embeddedPath);
+    if (gStoreScreenshotSheet) {
+        std::snprintf(gStoreScreenshotSheetPath, sizeof(gStoreScreenshotSheetPath), "%s", embeddedPath);
+        return;
+    }
+    if (startScreenshotCache(mediaPath, localPath)) {
+        std::snprintf(gPendingScreenshotCachePath, sizeof(gPendingScreenshotCachePath), "%s", localPath);
+        gScreenshotLoading = true;
+    } else {
+        gScreenshotFailed = true;
+    }
+}
+
+bool hasCiaPackage(const CatalogGame* game) {
+    return game && game->ciaUrl[0] && game->ciaSizeBytes && std::strlen(game->ciaSha256) == 64;
+}
+
+const char* selectedStoreFormat(const CatalogGame* game) {
+    if (!game) return "3dsx";
+    if (std::strcmp(game->downloadFormat, "cia") == 0) return "cia";
+    return gStoreCiaFormat && hasCiaPackage(game) ? "cia" : game->downloadFormat;
+}
+
+bool hasPackageFormat(const CatalogGame* game, const char* format) {
+    if (!game || !format) return false;
+    if (std::strcmp(format, "cia") == 0) {
+        if (std::strcmp(game->downloadFormat, "cia") == 0) return game->downloadUrl[0] && game->sizeBytes && game->sha256[0];
+        return hasCiaPackage(game);
+    }
+    return std::strcmp(format, "3dsx") == 0 && game->downloadUrl[0] && game->sizeBytes && game->sha256[0];
+}
+
+bool storeGameCanInstall(const CatalogGame* game) {
+    return game && (game->status == GameStatus::Available || game->status == GameStatus::Development) &&
+           hasPackageFormat(game, selectedStoreFormat(game));
 }
 
 void toggleFavoriteId(const char* id) {
@@ -1020,6 +1205,7 @@ bool findGameUpdate(std::size_t installedIndex, const CatalogGame** catalogGame)
     const CatalogGame* current = findCatalogGame(installed.id);
     if (catalogGame) *catalogGame = current;
     return current && current->status == GameStatus::Available &&
+           hasPackageFormat(current, installed.format[0] ? installed.format : "3dsx") &&
            compareVersions(current->version, installed.version) > 0;
 }
 
@@ -1054,43 +1240,104 @@ void requestFirstGameUpdate() {
         showToast(L("Aucune mise à jour"));
         return;
     }
-    if (getGamePackageState() == GamePackageState::Downloading) return;
-    if (!startGamePackageDownload(update)) showToast(L("Téléchargement indisponible"));
+    if (getGamePackageState() != GamePackageState::Idle) return;
+    const char* format = gInstalledGames.games[index].format[0] ? gInstalledGames.games[index].format : "3dsx";
+    if (!startGamePackageDownload(update, format)) showToast(L("Téléchargement indisponible"));
+}
+
+bool hubUpdateAvailable();
+
+void requestHubUpdate() {
+    if (!hubUpdateAvailable()) {
+        showToast(L("Aucune mise à jour"));
+        return;
+    }
+    if (getGamePackageState() != GamePackageState::Idle) return;
+    if (!startHubUpdateDownload(&gHubManifest)) showToast(L("Téléchargement indisponible"));
 }
 
 void requestSelectedGameUpdate() {
     if (!gInstalledGamesLoaded || gLibrarySel >= gInstalledGames.count) return;
-    if (getGamePackageState() == GamePackageState::Downloading) return;
+    if (getGamePackageState() != GamePackageState::Idle) return;
     const CatalogGame* update = nullptr;
     if (!findGameUpdate(gLibrarySel, &update) || !update) {
         showToast(L("Aucune mise à jour"));
         return;
     }
-    if (!startGamePackageDownload(update)) showToast(L("Téléchargement indisponible"));
+    const char* format = gInstalledGames.games[gLibrarySel].format[0] ? gInstalledGames.games[gLibrarySel].format : "3dsx";
+    if (!startGamePackageDownload(update, format)) showToast(L("Téléchargement indisponible"));
+}
+
+const InstalledGame* findInstalledGame(const char* id) {
+    if (!id || !id[0] || !gInstalledGamesLoaded) return nullptr;
+    for (std::size_t i = 0; i < gInstalledGames.count; ++i) {
+        if (std::strcmp(gInstalledGames.games[i].id, id) == 0) return &gInstalledGames.games[i];
+    }
+    return nullptr;
+}
+
+bool storeGameHasUpdate(const CatalogGame* game) {
+    if (!game) return false;
+    const InstalledGame* installed = findInstalledGame(game->id);
+    if (!installed) return false;
+    const char* format = installed->format[0] ? installed->format : "3dsx";
+    return game->status == GameStatus::Available && hasPackageFormat(game, format) &&
+           compareVersions(game->version, installed->version) > 0;
+}
+
+bool storeGameAlreadyInstalled(const CatalogGame* game) {
+    if (!game) return false;
+    const InstalledGame* installed = findInstalledGame(game->id);
+    return installed && compareVersions(game->version, installed->version) <= 0;
 }
 
 void requestSelectedStoreDownload() {
-    const CatalogGame* game = selectedStoreGame();
-    if (!game || !game->downloadUrl[0] ||
-        (game->status != GameStatus::Available && game->status != GameStatus::Development) ||
-        std::strcmp(game->downloadFormat, "3dsx") != 0) {
-        if (game) toggleGroupFavorite(gStoreSel);
+    const CatalogGame* game = activeStoreGame();
+    if (!game) return;
+    if (getGamePackageState() != GamePackageState::Idle) return;
+    if (storeGameAlreadyInstalled(game)) {
+        showToast(L("Jeu déjà installé"));
         return;
     }
-    if (getGamePackageState() == GamePackageState::Downloading) return;
-    for (std::size_t i = 0; i < gInstalledGames.count; ++i) {
-        if (std::strcmp(gInstalledGames.games[i].id, game->id) == 0 &&
-            compareVersions(game->version, gInstalledGames.games[i].version) <= 0) {
-            showToast(L("Jeu déjà installé"));
-            return;
-        }
+    const InstalledGame* installed = findInstalledGame(game->id);
+    const char* format = installed && installed->format[0] ? installed->format : selectedStoreFormat(game);
+    if (!storeGameCanInstall(game) ||
+        (!std::strcmp(format, "3dsx") && std::strcmp(game->downloadFormat, "3dsx") != 0)) {
+        showToast(L("Téléchargement indisponible"));
+        return;
     }
-    if (!startGamePackageDownload(game)) showToast(L("Téléchargement indisponible"));
+    if (!startGamePackageDownload(game, format)) showToast(L("Téléchargement indisponible"));
 }
 
 void uninstallSelectedGame() {
     if (!gInstalledGamesLoaded || gLibrarySel >= gInstalledGames.count) return;
     const InstalledGame installed = gInstalledGames.games[gLibrarySel];
+    const char* format = installed.format[0] ? installed.format : "3dsx";
+    if (std::strcmp(format, "cia") == 0) {
+        if (!installed.titleId || R_FAILED(amInit())) {
+            showToast(L("Désinstallation indisponible"));
+            return;
+        }
+        const Result result = AM_DeleteTitle(MEDIATYPE_SD, installed.titleId);
+        amExit();
+        if (R_FAILED(result)) {
+            showToast(L("Échec de la désinstallation"));
+            return;
+        }
+        if (!unregisterInstalledGame(&gInstalledGames, installed.id)) {
+            showToast(L("Jeu supprimé, bibliothèque à actualiser"));
+            return;
+        }
+        if (gInstalledGames.count == 0) {
+            gLibrarySel = 0;
+            gLibraryScroll = 0;
+        } else if (gLibrarySel >= gInstalledGames.count) {
+            gLibrarySel = gInstalledGames.count - 1;
+        }
+        clampScroll(gLibrarySel, gInstalledGames.count, kLibraryRows, &gLibraryScroll);
+        showToast(L("Jeu désinstallé"));
+        return;
+    }
     char path[224];
     char pendingPath[240];
     std::snprintf(path, sizeof(path), "sdmc:/3ds/FlashGamesHub/games/%s/%s.3dsx", installed.id, installed.id);
@@ -1112,7 +1359,8 @@ void uninstallSelectedGame() {
         return;
     }
     if (std::remove(pendingPath) != 0) {
-        registerInstalledGame(&gInstalledGames, installed.id, installed.version, installed.sizeBytes);
+        registerInstalledGame(&gInstalledGames, installed.id, installed.version, installed.sizeBytes,
+                              format, installed.titleId);
         showToast(L("Échec de la désinstallation"));
         return;
     }
@@ -1154,6 +1402,17 @@ bool setHomebrewLoaderTarget(const char* path) {
 void launchSelectedGame() {
     if (!gInstalledGamesLoaded || gLibrarySel >= gInstalledGames.count) return;
     const InstalledGame& installed = gInstalledGames.games[gLibrarySel];
+    if (installed.format[0] && std::strcmp(installed.format, "cia") == 0) {
+        if (!installed.titleId || R_FAILED(nsInit())) {
+            showToast(L("Titre CIA introuvable"));
+            return;
+        }
+        const Result result = NS_LaunchTitle(installed.titleId, 0, nullptr);
+        nsExit();
+        if (R_SUCCEEDED(result)) gQuit = true;
+        else showToast(L("Lancement CIA impossible"));
+        return;
+    }
     char path[224];
     std::snprintf(path, sizeof(path), "sdmc:/3ds/FlashGamesHub/games/%s/%s.3dsx", installed.id, installed.id);
     struct stat info{};
@@ -1161,7 +1420,7 @@ void launchSelectedGame() {
         showToast(L("Fichier de jeu introuvable"));
         return;
     }
-    if (getGamePackageState() == GamePackageState::Downloading) return;
+    if (getGamePackageState() != GamePackageState::Idle) return;
     if (!setHomebrewLoaderTarget(path)) {
         showToast(L("Chargeur Homebrew indisponible"));
         return;
@@ -1189,6 +1448,19 @@ u64 cachedDataBytes() {
         if (stat(path, &info) == 0 && info.st_size > 0) total += static_cast<u64>(info.st_size);
     }
     return total;
+}
+
+void clearCatalogCache() {
+    const char* paths[] = {kCachedCatalogPath, kCachedManifestPath};
+    bool ok = true;
+    for (const char* path : paths) {
+        if (std::remove(path) != 0) {
+            struct stat info{};
+            if (stat(path, &info) == 0) ok = false;
+        }
+    }
+    readStorageStats();
+    showToast(L(ok ? "Cache vidé" : "Échec du vidage du cache"));
 }
 
 void hubStatus(const char** text, u32* color) {
@@ -1245,7 +1517,9 @@ void applyDownloadedCatalog() {
 }
 
 void refreshCatalog() {
-    if (getCatalogUpdateState() == CatalogUpdateState::Downloading) return;
+    if (getCatalogUpdateState() == CatalogUpdateState::Downloading ||
+        getGamePackageState() != GamePackageState::Idle) return;
+    stopScreenshotCache();
     stopCatalogDownload();
     startCatalogDownload();
 }
@@ -1255,9 +1529,12 @@ void refreshCatalog() {
 // ---------------------------------------------------------------------------
 
 void drawSpinner(float x, float y) {
-    const unsigned active = (gFrame / 8) % 3;
+    const float phase = static_cast<float>(gFrame) * 0.22f;
     for (unsigned i = 0; i < 3; ++i) {
-        C2D_DrawCircleSolid(x + static_cast<float>(i) * 9.0f, y, kDepth, 2.6f, i == active ? kText : kFaint);
+        const float wave = std::sin(phase - static_cast<float>(i) * 0.9f);
+        const float offsetY = -wave * 2.2f;
+        const u32 color = wave > 0.35f ? kAccent : (wave > -0.25f ? kText : kFaint);
+        C2D_DrawCircleSolid(x + static_cast<float>(i) * 9.0f, y + offsetY, kDepth, 2.6f, color);
     }
 }
 
@@ -1374,14 +1651,15 @@ void drawGameDetail(const CatalogGame& game) {
     drawDotLabel(columnX, 176, compatibilityColor(game.compatibilityNew3ds), "New 3DS", 0.33f, kMuted);
     drawText(compatibilityText(game.compatibilityNew3ds), columnX + 66, 176, 0.33f, kText);
 
-    char details[96];
+    char details[128];
     char size[24];
-    details[0] = '\0';
-    if (game.version[0]) std::snprintf(details, sizeof(details), "Version %s", game.version);
-    if (game.sizeBytes > 0) {
-        formatSize(game.sizeBytes, size, sizeof(size));
+    const char* selectedFormat = selectedStoreFormat(&game);
+    const u32 selectedBytes = std::strcmp(selectedFormat, "cia") == 0 ? game.ciaSizeBytes : game.sizeBytes;
+    std::snprintf(details, sizeof(details), "%s  ·  .%s", game.version[0] ? game.version : "", selectedFormat);
+    if (selectedBytes > 0) {
+        formatSize(selectedBytes, size, sizeof(size));
         const std::size_t used = std::strlen(details);
-        std::snprintf(details + used, sizeof(details) - used, "%s%s", used ? "  ·  " : "", size);
+        std::snprintf(details + used, sizeof(details) - used, "  ·  %s", size);
     }
     drawText(details, columnX, 194, 0.33f, kMuted);
     if (isFavorite(game.id)) {
@@ -1430,12 +1708,43 @@ void drawTopStore() {
         else drawTopMessage(L("Catalogue indisponible"), L("Vérifiez la connexion Wi-Fi, puis actualisez."));
         return;
     }
-    const CatalogGame* game = selectedStoreGame();
+    const CatalogGame* game = activeStoreGame();
     if (!game) {
         drawTopMessage(L("Aucun résultat"), L("Aucun jeu ne correspond à la recherche ou aux filtres."));
         return;
     }
-    if (gGroupCount[gStoreSel] > 1) drawGroupDetail(gStoreSel);
+    if (gStoreDetailOpen) {
+        drawCardOutlined(20, 48, 360, 162, kSurface, kBorder);
+        char fitted[128];
+        fitText(game->name, 330, 0.56f, fitted, sizeof(fitted));
+        drawText(fitted, 34, 58, 0.56f, kText);
+        drawCard(34, 82, 332, 112, kSurface2);
+        if (gStoreScreenshotSheet) {
+            const C2D_Image image = C2D_SpriteSheetGetImage(gStoreScreenshotSheet, 0);
+            if (image.subtex && image.subtex->width && image.subtex->height) {
+                const float scale = std::min(324.0f / image.subtex->width, 104.0f / image.subtex->height);
+                C2D_DrawImageAt(image, 200.0f - image.subtex->width * scale * 0.5f,
+                                86.0f + (104.0f - image.subtex->height * scale) * 0.5f,
+                                kDepth, nullptr, scale, scale);
+            }
+            if (game->screenshotCount > 1) {
+                char countLabel[16];
+                std::snprintf(countLabel, sizeof(countLabel), "< %u/%u >", static_cast<unsigned>(gStoreScreenshotIndex + 1),
+                              static_cast<unsigned>(game->screenshotCount));
+                drawPill(310, 195, 52, 14, kSurface);
+                drawCentered(countLabel, 336, 196.5f, 0.27f, kText);
+            }
+        } else if (game->screenshotCount == 0 && !game->cover[0]) {
+            drawCentered(L("Aucune capture publiée"), 200, 128, 0.38f, kMuted);
+        } else if (gScreenshotLoading) {
+            drawSpinner(191, 122);
+            drawCentered(L("Chargement de la capture..."), 200, 136, 0.36f, kMuted);
+        } else {
+            drawCentered(L("Capture indisponible"), 200, 128, 0.38f, kMuted);
+        }
+        return;
+    }
+    if (!gStoreDetailOpen && gGroupCount[gStoreSel] > 1) drawGroupDetail(gStoreSel);
     else drawGameDetail(*game);
 }
 
@@ -1555,10 +1864,10 @@ void drawTopStorage() {
     std::snprintf(line, sizeof(line), "Total %s", totalText);
     drawRight(line, 364, 144, 0.34f, kMuted);
 
-    formatSize(installedGamesBytes(), value, sizeof(value));
+    formatSize(gCachedInstalledBytes, value, sizeof(value));
     std::snprintf(line, sizeof(line), L("Jeux installés  %s"), value);
     drawText(line, 36, 178, 0.38f, kText);
-    formatSize(cachedDataBytes(), value, sizeof(value));
+    formatSize(gCachedCatalogDataBytes, value, sizeof(value));
     std::snprintf(line, sizeof(line), L("Cache catalogue  %s"), value);
     drawText(line, 36, 192, 0.32f, kMuted);
 }
@@ -1578,25 +1887,39 @@ void drawTopScreen() {
     C2D_SceneBegin(gTop);
     drawTopHeader();
 
-    static const Hint storeHints[] = {{"A", "Télécharger"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
+    static const Hint storeHints[] = {{"A", "Ouvrir la fiche"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
+    static const Hint storeFormatHints[] = {{"A", "Ouvrir la fiche"}, {"X", "Chercher"}, {"Y", "Format"}, {"SELECT", "Favoris"}};
+    static const Hint storeDetailHints[] = {{"A", "Télécharger"}, {"B", "Retour"}, {"◀▶", "Captures"}, {"SELECT", "Favori"}};
+    static const Hint storeDetailFormatHints[] = {{"A", "Télécharger"}, {"B", "Retour"}, {"Y", "Format"}, {"SELECT", "Favori"}};
     static const Hint storeFavoriteHints[] = {{"A", "Favori"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
     static const Hint libraryHints[] = {{"A", "Lancer"}, {"X", "Màj"}, {"Y", "Favori"}, {"B", "Désinstaller"}};
     static const Hint updatesHints[] = {{"A", "Actualiser"}, {"L R", "Onglets"}, {"START", "Quitter"}};
-    static const Hint storageHints[] = {{"L R", "Onglets"}, {"START", "Quitter"}};
+    static const Hint updatesHubHints[] = {{"A", "Màj Hub"}, {"X", "Actualiser"}, {"Y", "Màj Jeux"}, {"L R", "Onglets"}};
+    static const Hint updatesGameHints[] = {{"A", "Màj Jeux"}, {"X", "Actualiser"}, {"L R", "Onglets"}, {"START", "Quitter"}};
+    static const Hint storageHints[] = {{"A", "Vider le cache"}, {"L R", "Onglets"}, {"START", "Quitter"}};
     static const Hint settingsHints[] = {{"A", "Langue"}, {"L R", "Onglets"}, {"START", "Quitter"}};
 
     switch (gCurrentPage) {
         case kPageStore:
             drawTopStore();
-            drawTopFooter(selectedStoreGame() && selectedStoreGame()->downloadUrl[0] ? storeHints : storeFavoriteHints, 4);
+            if (gStoreDetailOpen) {
+                const CatalogGame* active = activeStoreGame();
+                const bool dual = hasCiaPackage(active) && hasPackageFormat(active, "3dsx");
+                drawTopFooter(dual ? storeDetailFormatHints : storeDetailHints, 4);
+            } else {
+                drawTopFooter(hasCiaPackage(selectedStoreGame()) ? storeFormatHints :
+                              (selectedStoreGame() && selectedStoreGame()->downloadUrl[0] ? storeHints : storeFavoriteHints), 4);
+            }
             break;
         case kPageLibrary:
             drawTopLibrary();
-            drawTopFooter(libraryHints, 2);
+            drawTopFooter(libraryHints, 4);
             break;
         case kPageUpdates:
             drawTopUpdates();
-            drawTopFooter(updatesHints, 3);
+            if (hubUpdateAvailable()) drawTopFooter(updatesHubHints, 4);
+            else if (firstGameUpdate(nullptr, nullptr)) drawTopFooter(updatesGameHints, 4);
+            else drawTopFooter(updatesHints, 3);
             break;
         case kPageSettings:
             drawTopSettings();
@@ -1604,7 +1927,7 @@ void drawTopScreen() {
             break;
         default:
             drawTopStorage();
-            drawTopFooter(storageHints, 2);
+            drawTopFooter(storageHints, 3);
             break;
     }
 }
@@ -1616,6 +1939,7 @@ void drawTopScreen() {
 void drawTabBar() {
     drawRect(0, 0, kBottomWidth, kTabBarHeight, kSurface);
     drawRect(0, kTabBarHeight, kBottomWidth, 1, kBorder);
+    drawCard(gTabIndicator + 6.0f, 4.0f, kTabWidth - 12.0f, kTabBarHeight - 8.0f, kSurface2);
     const float scale = 0.36f;
     for (int i = 0; i < kPageCount; ++i) {
         const float x = static_cast<float>(i) * kTabWidth;
@@ -1626,17 +1950,49 @@ void drawTabBar() {
 
     const unsigned pending = static_cast<unsigned>(countGameUpdates()) + (hubUpdateAvailable() ? 1u : 0u);
     if (pending > 0) {
-        C2D_DrawCircleSolid(2.0f * kTabWidth + kTabWidth - 8.0f, 9.0f, kDepth, 3.2f, kAccent);
+        C2D_DrawCircleSolid(2.0f * kTabWidth + kTabWidth - 10.0f, 9.0f, kDepth, 3.2f, kAccent);
     }
 }
 
 void drawBottomFooter(const char* idleText) {
     drawRect(0, kFooterY, kBottomWidth, 1, kBorder);
+    const GamePackageState packageState = getGamePackageState();
+    const bool packageDownloading = packageState == GamePackageState::Downloading;
     if (gToastFrames > 0) {
-        drawText(gToast, 12, 219, 0.34f, kAccent);
-    } else if (gDownloading || getGamePackageState() == GamePackageState::Downloading) {
-        drawSpinner(16, 225);
-        drawText(L(gDownloading ? "Synchronisation..." : "Téléchargement..."), 34, 219, 0.34f, kMuted);
+        char fitted[64];
+        fitText(gToast, 224.0f, 0.33f, fitted, sizeof(fitted));
+        const float pillW = textWidth(fitted, 0.33f) + 18.0f;
+        drawPill(10, 213, pillW, 20, kAccentDim);
+        drawText(fitted, 19, 217, 0.33f, kAccent);
+    } else if (gDownloading || packageDownloading || packageState == GamePackageState::Installing) {
+        drawSpinner(16, 223);
+        if (packageState == GamePackageState::Installing) {
+            drawText(L("Installation CIA..."), 34, 217, 0.34f, kMuted);
+        } else if (packageDownloading) {
+            u64 downloaded = 0;
+            u64 total = 0;
+            getGamePackageProgress(&downloaded, &total);
+            const unsigned percent = total ? static_cast<unsigned>((downloaded * 100) / total) : 0;
+            char progress[64];
+            if (total > 0) {
+                char dlSize[24];
+                char totSize[24];
+                formatSize(downloaded, dlSize, sizeof(dlSize));
+                formatSize(total, totSize, sizeof(totSize));
+                std::snprintf(progress, sizeof(progress), "%u %%  ·  %s / %s", percent, dlSize, totSize);
+            } else {
+                std::snprintf(progress, sizeof(progress), L("Téléchargement  %u %%"), percent);
+            }
+            drawText(progress, 34, 216, 0.33f, kMuted);
+            drawCard(12, 234, 296, 4, kSurface2);
+            if (gProgressAnim > 0.005f) {
+                float fill = 296.0f * gProgressAnim;
+                if (fill < 6.0f) fill = 6.0f;
+                drawCard(12, 234, fill, 4, kAccent);
+            }
+        } else {
+            drawText(L("Synchronisation..."), 34, 217, 0.34f, kMuted);
+        }
     } else if (idleText) {
         drawText(idleText, 12, 219, 0.34f, kMuted);
     }
@@ -1645,14 +2001,17 @@ void drawBottomFooter(const char* idleText) {
     drawRight(version, 308, 220, 0.30f, kFaint);
 }
 
-void drawScrollbar(float top, float height, std::size_t count, std::size_t rows, std::size_t scroll) {
+void drawScrollbar(float top, float height, std::size_t count, std::size_t rows, float scrollAnim) {
     if (count <= rows) return;
-    drawRect(309, top, 3, height, kSurface2);
+    drawCard(309, top, 3, height, kSurface2);
     float thumb = height * static_cast<float>(rows) / static_cast<float>(count);
     if (thumb < 14.0f) thumb = 14.0f;
     const float travel = height - thumb;
-    const float offset = travel * static_cast<float>(scroll) / static_cast<float>(count - rows);
-    drawRect(309, top + offset, 3, thumb, kMuted);
+    float ratio = scrollAnim / static_cast<float>(count - rows);
+    if (ratio < 0.0f) ratio = 0.0f;
+    if (ratio > 1.0f) ratio = 1.0f;
+    const float offset = travel * ratio;
+    drawCard(309, top + offset, 3, thumb, kMuted);
 }
 
 void drawPanelMessage(const char* title, const char* message) {
@@ -1670,7 +2029,95 @@ void drawFavoriteMarker(float x, float y, bool favorite, u32 rowColor) {
     }
 }
 
+void drawBottomStoreDetail() {
+    const CatalogGame* game = activeStoreGame();
+    if (!game) {
+        drawBottomFooter(nullptr);
+        return;
+    }
+    drawCardOutlined(10, 42, 300, 164, kSurface, kBorder);
+    char fitted[128];
+    fitText(game->name, 194, 0.47f, fitted, sizeof(fitted));
+    drawText(fitted, 20, 49, 0.47f, kText);
+    drawRight(statusText(game->status), 278, 52, 0.30f, statusColor(game->status));
+    drawFavoriteMarker(292, 57, isFavorite(game->id), kSurface);
+
+    std::size_t members[6]{};
+    const std::size_t count = gStoreSel < gFilteredCount ? groupMembers(gStoreSel, members, 6) : 0;
+    float descriptionY = 72.0f;
+    if (count > 1) {
+        drawText(L("Épisodes"), 20, 68, 0.28f, kFaint);
+        const float chipWidth = 44.0f;
+        for (std::size_t i = 0; i < count; ++i) {
+            const float x = 18.0f + static_cast<float>(i) * 48.0f;
+            const CatalogGame& episode = gCatalog.games[members[i]];
+            char episodeLabel[16];
+            std::snprintf(episodeLabel, sizeof(episodeLabel), "Ép. %u", episode.episode ? episode.episode : static_cast<unsigned>(i + 1));
+            drawButton(x, 82, chipWidth, 20, episodeLabel, members[i] == gStoreDetailGameIndex);
+        }
+        descriptionY = 106.0f;
+    }
+
+    const char* description = game->description[0] ? game->description : L("Aucune description.");
+    drawWrapped(cachedWrap(gDescriptionWrap, description, 272, 0.33f, count > 1 ? 2 : 3), 20,
+                descriptionY, 11.5f, 0.33f, kMuted);
+
+    drawText(L("Captures d’écran"), 20, 130, 0.28f, kFaint);
+    drawCard(18, 141, 284, 24, kSurface2);
+    if (game->screenshotCount == 0 && !game->cover[0]) {
+        drawCentered(L("Aucune capture publiée"), 160, 149, 0.30f, kMuted);
+    } else if (gStoreScreenshotSheet) {
+        const C2D_Image image = C2D_SpriteSheetGetImage(gStoreScreenshotSheet, 0);
+        if (image.subtex && image.subtex->width && image.subtex->height) {
+            const float scale = std::min(280.0f / image.subtex->width, 22.0f / image.subtex->height);
+            C2D_DrawImageAt(image, 160.0f - image.subtex->width * scale * 0.5f,
+                            142.0f + (22.0f - image.subtex->height * scale) * 0.5f,
+                            kDepth, nullptr, scale, scale);
+        }
+        if (game->screenshotCount > 1) {
+            drawText("<", 24, 146, 0.38f, kText);
+            drawText(">", 288, 146, 0.38f, kText);
+            char countLabel[16];
+            std::snprintf(countLabel, sizeof(countLabel), "%u/%u", static_cast<unsigned>(gStoreScreenshotIndex + 1),
+                          static_cast<unsigned>(game->screenshotCount));
+            drawRight(countLabel, 282, 148, 0.25f, kText);
+        }
+    } else if (gScreenshotLoading) {
+        drawSpinner(151, 153);
+    } else if (gScreenshotFailed) {
+        drawCentered(L("Capture indisponible"), 160, 149, 0.30f, kMuted);
+    } else {
+        drawCentered(L("Capture indisponible"), 160, 149, 0.30f, kMuted);
+    }
+
+    drawButton(kStoreDetailBackX, kStoreDetailButtonY, 54, kStoreDetailButtonH, L("Retour"), true);
+    const bool dualFormat = hasCiaPackage(game) && hasPackageFormat(game, "3dsx");
+    const float downloadX = dualFormat ? kStoreDetailDownloadX : kStoreDetailFormatX;
+    const float downloadWidth = dualFormat ? 136.0f : 226.0f;
+    if (dualFormat) {
+        drawButton(kStoreDetailFormatX, kStoreDetailButtonY, 84, kStoreDetailButtonH,
+                   L(gStoreCiaFormat ? "Format .cia" : "Format .3dsx"), true);
+    }
+    const char* format = selectedStoreFormat(game);
+    const bool alreadyInstalled = storeGameAlreadyInstalled(game);
+    const bool hasUpdate = storeGameHasUpdate(game);
+    const bool canInstall = storeGameCanInstall(game) && !alreadyInstalled;
+    const GamePackageState packageState = getGamePackageState();
+    const char* action = packageState == GamePackageState::Downloading ? L("Téléchargement...") :
+                         packageState == GamePackageState::Installing ? L("Installation CIA...") :
+                         alreadyInstalled ? L("Déjà installé") :
+                         hasUpdate ? L("Mettre à jour") :
+                         (std::strcmp(format, "cia") == 0 ? L("Installer CIA") : L("Télécharger .3dsx"));
+    drawButton(downloadX, kStoreDetailButtonY, downloadWidth, kStoreDetailButtonH, action,
+               canInstall && packageState == GamePackageState::Idle);
+    drawBottomFooter(nullptr);
+}
+
 void drawBottomStore() {
+    if (gStoreDetailOpen) {
+        drawBottomStoreDetail();
+        return;
+    }
     char label[96];
     std::snprintf(label, sizeof(label), L("Genre : %s"), gGenreFilterIndex == 0 ? L("Tous") : gGenres[gGenreFilterIndex - 1]);
     drawChip(10, kChipY, 112, label, gGenreFilterIndex > 0, false);
@@ -1702,8 +2149,8 @@ void drawBottomStore() {
         const bool selected = position == gStoreSel;
         const float y = kStoreListTop + static_cast<float>(row) * kStoreRowHeight;
         const u32 rowColor = selected ? kSurface2 : kSurface;
-        drawCard(10, y, 294, kStoreRowHeight - 3, rowColor);
-        if (selected) drawRect(10, y + 4, 3, kStoreRowHeight - 11, kAccent);
+        if (selected) drawCardOutlined(10, y, 294, kStoreRowHeight - 3, rowColor, kBorder);
+        else drawCard(10, y, 294, kStoreRowHeight - 3, rowColor);
 
         char fitted[96];
         const std::size_t members = gGroupCount[position];
@@ -1724,8 +2171,15 @@ void drawBottomStore() {
         drawRight(status, 266, y + 7, 0.31f, kMuted);
         C2D_DrawCircleSolid(266.0f - statusWidth - 8.0f, y + 12.5f, kDepth, 3.0f, mixed ? kInfo : statusColor(game.status));
         drawFavoriteMarker(287, y + 12, groupIsFavorite(position), rowColor);
+        drawText("›", 297, y + 4, 0.42f, selected ? kAccent : kFaint);
     }
-    drawScrollbar(kStoreListTop, static_cast<float>(kStoreRows) * kStoreRowHeight - 3.0f, gFilteredCount, kStoreRows, gStoreScroll);
+    if (gFilteredCount > 0) {
+        float selRel = gStoreSelAnim - gStoreScrollAnim;
+        if (selRel < 0.0f) selRel = 0.0f;
+        if (selRel > static_cast<float>(kStoreRows - 1)) selRel = static_cast<float>(kStoreRows - 1);
+        drawRect(10, kStoreListTop + selRel * kStoreRowHeight + 4.0f, 3.0f, kStoreRowHeight - 11.0f, kAccent);
+    }
+    drawScrollbar(kStoreListTop, static_cast<float>(kStoreRows) * kStoreRowHeight - 3.0f, gFilteredCount, kStoreRows, gStoreScrollAnim);
 
     char count[48];
     std::snprintf(count, sizeof(count), L("Jeu %u sur %u"), static_cast<unsigned>(gStoreSel + 1), static_cast<unsigned>(gFilteredCount));
@@ -1746,11 +2200,12 @@ void drawBottomLibrary() {
         const bool update = findGameUpdate(index, &current);
         const bool selected = index == gLibrarySel;
         const float y = kLibraryListTop + static_cast<float>(row) * kLibraryRowHeight;
-        drawCard(10, y, 294, kLibraryRowHeight - 3, selected ? kSurface2 : kSurface);
-        if (selected) drawRect(10, y + 4, 3, kLibraryRowHeight - 11, kAccent);
+        const u32 rowColor = selected ? kSurface2 : kSurface;
+        if (selected) drawCardOutlined(10, y, 294, kLibraryRowHeight - 3, rowColor, kBorder);
+        else drawCard(10, y, 294, kLibraryRowHeight - 3, rowColor);
 
         char fitted[96];
-        fitText(current && current->name[0] ? current->name : installed.id, 170, 0.42f, fitted, sizeof(fitted));
+        fitText(current && current->name[0] ? current->name : installed.id, 166, 0.42f, fitted, sizeof(fitted));
         drawText(fitted, 20, y + 2, 0.42f, selected ? kText : kMuted);
 
         char details[64];
@@ -1761,19 +2216,25 @@ void drawBottomLibrary() {
         } else {
             std::snprintf(details, sizeof(details), "v%s", installed.version);
         }
-        fitText(details, 170, 0.30f, fitted, sizeof(fitted));
+        fitText(details, 166, 0.30f, fitted, sizeof(fitted));
         drawText(fitted, 20, y + 13, 0.30f, kFaint);
 
         if (update) {
-            drawPill(222, y + 5, 74, 15, kAccentDim);
-            drawCentered(L("Mise à jour"), 259, y + 6.5f, 0.28f, kAccent);
+            drawPill(200, y + 5, 74, 15, kAccentDim);
+            drawCentered(L("Mise à jour"), 237, y + 6.5f, 0.28f, kAccent);
         } else {
-            drawRight(L("À jour"), 292, y + 7, 0.31f, kFaint);
+            drawRight(L("À jour"), 274, y + 7, 0.31f, kFaint);
         }
-        if (isFavorite(installed.id)) drawFavoriteMarker(287, y + 12, true, selected ? kSurface2 : kSurface);
+        drawFavoriteMarker(290, y + 12, isFavorite(installed.id), rowColor);
+    }
+    if (gInstalledGames.count > 0) {
+        float selRel = gLibrarySelAnim - gLibraryScrollAnim;
+        if (selRel < 0.0f) selRel = 0.0f;
+        if (selRel > static_cast<float>(kLibraryRows - 1)) selRel = static_cast<float>(kLibraryRows - 1);
+        drawRect(10, kLibraryListTop + selRel * kLibraryRowHeight + 4.0f, 3.0f, kLibraryRowHeight - 11.0f, kAccent);
     }
     drawScrollbar(kLibraryListTop, static_cast<float>(kLibraryRows) * kLibraryRowHeight - 3.0f, gInstalledGames.count,
-                  kLibraryRows, gLibraryScroll);
+                  kLibraryRows, gLibraryScrollAnim);
 
     char count[48];
     std::snprintf(count, sizeof(count), L("%u jeu(x) installé(s)"), static_cast<unsigned>(gInstalledGames.count));
@@ -1795,8 +2256,13 @@ void drawBottomUpdates() {
         std::snprintf(line, sizeof(line), L("Installée %s"), kHubVersion);
     }
     char fitted[96];
-    fitText(line, 276, 0.32f, fitted, sizeof(fitted));
+    fitText(line, hubUpdateAvailable() ? 174.0f : 276.0f, 0.32f, fitted, sizeof(fitted));
     drawText(fitted, 22, 84, 0.32f, kMuted);
+
+    const GamePackageState packageState = getGamePackageState();
+    if (hubUpdateAvailable()) {
+        drawButton(202, 56, 96, 34, L("Mettre à jour"), packageState == GamePackageState::Idle);
+    }
 
     drawCardOutlined(10, 114, 300, 42, kSurface, kBorder);
     drawText(L("JEUX INSTALLÉS"), 22, 121, 0.28f, kFaint);
@@ -1822,17 +2288,16 @@ void drawBottomUpdates() {
 
     drawButton(kRefreshButtonX, kRefreshButtonY, 144.0f, kRefreshButtonH,
                gDownloading ? L("Actualisation...") : L("Actualiser"), !gDownloading);
-    const GamePackageState packageState = getGamePackageState();
     const bool hasUpdate = firstGameUpdate(nullptr, nullptr);
-    const char* updateButtonLabel = packageState == GamePackageState::Downloading ? L("Téléchargement...") :
+    const char* updateButtonLabel = packageState == GamePackageState::Downloading || packageState == GamePackageState::Installing ? L("Téléchargement...") :
                                     hasUpdate ? L("Télécharger la mise à jour") : L("Aucune mise à jour");
     drawButton(kGameUpdateButtonX, kRefreshButtonY, kGameUpdateButtonW, kRefreshButtonH,
-               updateButtonLabel, hasUpdate && packageState != GamePackageState::Downloading);
+               updateButtonLabel, hasUpdate && packageState == GamePackageState::Idle);
     drawBottomFooter(nullptr);
 }
 
 void drawBottomStorage() {
-    drawCardOutlined(10, 42, 300, 156, kSurface, kBorder);
+    drawCardOutlined(10, 42, 300, 164, kSurface, kBorder);
     if (!gStorageAvailable) {
         drawCentered(L("Carte SD indisponible"), 160, 100, 0.5f, kText);
         drawCentered(L("Les mesures s'afficheront ici."), 160, 126, 0.34f, kMuted);
@@ -1840,16 +2305,17 @@ void drawBottomStorage() {
         return;
     }
     const u64 used = gStorageTotalBytes > gStorageFreeBytes ? gStorageTotalBytes - gStorageFreeBytes : 0;
-    const char* labels[4] = {L("Espace libre"), L("Espace utilisé"), L("Capacité totale"), L("Jeux installés")};
-    u64 values[4] = {gStorageFreeBytes, used, gStorageTotalBytes, installedGamesBytes()};
-    for (int i = 0; i < 4; ++i) {
-        const float y = 52.0f + static_cast<float>(i) * 36.0f;
+    const char* labels[5] = {L("Espace libre"), L("Espace utilisé"), L("Capacité totale"), L("Jeux installés"), L("Cache catalogue")};
+    u64 values[5] = {gStorageFreeBytes, used, gStorageTotalBytes, gCachedInstalledBytes, gCachedCatalogDataBytes};
+    for (int i = 0; i < 5; ++i) {
+        const float y = 47.0f + static_cast<float>(i) * 25.0f;
         char value[32];
         formatSize(values[i], value, sizeof(value));
-        drawText(labels[i], 24, y + 6, 0.38f, kMuted);
-        drawRight(value, 296, y + 5, 0.44f, kText);
-        if (i < 3) drawRect(24, y + 29, 272, 1, kBorder);
+        drawText(labels[i], 24, y + 4, 0.34f, kMuted);
+        drawRight(value, 296, y + 3, 0.40f, kText);
+        if (i < 4) drawRect(24, y + 22, 272, 1, kBorder);
     }
+    drawButton(kClearCacheX, kClearCacheY, kClearCacheW, kClearCacheH, L("Vider le cache"), true);
     drawBottomFooter(nullptr);
 }
 
@@ -1889,16 +2355,32 @@ void drawBottomScreen() {
 
 void changePage(int direction) {
     gCurrentPage = (gCurrentPage + kPageCount + direction) % kPageCount;
+    if (gCurrentPage != kPageStore) closeStoreDetail();
     if (gCurrentPage == kPageStorage) readStorageStats();
 }
 
 void goToPage(int page) {
     if (page < 0 || page >= kPageCount) return;
     gCurrentPage = page;
+    if (gCurrentPage != kPageStore) closeStoreDetail();
     if (gCurrentPage == kPageStorage) readStorageStats();
 }
 
 void moveSelection(int direction) {
+    if (gCurrentPage == kPageStore && gStoreDetailOpen) {
+        if (gStoreSel >= gFilteredCount || gGroupCount[gStoreSel] < 2) return;
+        std::size_t members[6]{};
+        const std::size_t count = groupMembers(gStoreSel, members, 6);
+        if (count == 0) return;
+        std::size_t current = 0;
+        while (current < count && members[current] != gStoreDetailGameIndex) ++current;
+        if (current == count) current = 0;
+        current = (current + count + (direction < 0 ? count - 1 : 1)) % count;
+        gStoreDetailGameIndex = members[current];
+        gStoreScreenshotIndex = 0;
+        requestStoreScreenshot();
+        return;
+    }
     if (gCurrentPage == kPageStore && gFilteredCount > 0) {
         gStoreSel = (gStoreSel + (direction < 0 ? gFilteredCount - 1 : 1)) % gFilteredCount;
         clampScroll(gStoreSel, gFilteredCount, kStoreRows, &gStoreScroll);
@@ -1917,6 +2399,35 @@ void handleStoreTouch(const touchPosition& touch) {
         if (!gDownloading && inside(touch, kPanelButtonX, kPanelButtonY, kPanelButtonW, kPanelButtonH)) refreshCatalog();
         return;
     }
+    if (gStoreDetailOpen) {
+        const CatalogGame* game = activeStoreGame();
+        if (game && inside(touch, 276, 44, 34, 24)) {
+            toggleFavoriteId(game->id);
+        } else if (inside(touch, kStoreDetailBackX, kStoreDetailButtonY, 54, kStoreDetailButtonH)) {
+            closeStoreDetail();
+        } else if (inside(touch, kStoreDetailDownloadX, kStoreDetailButtonY, 136, kStoreDetailButtonH) ||
+                   (!(hasCiaPackage(game) && hasPackageFormat(game, "3dsx")) &&
+                    inside(touch, kStoreDetailFormatX, kStoreDetailButtonY, 226, kStoreDetailButtonH))) {
+            requestSelectedStoreDownload();
+        } else if (hasCiaPackage(game) && hasPackageFormat(game, "3dsx") &&
+                   inside(touch, kStoreDetailFormatX, kStoreDetailButtonY, 84, kStoreDetailButtonH)) {
+            gStoreCiaFormat = !gStoreCiaFormat;
+        } else if (gStoreSel < gFilteredCount && gGroupCount[gStoreSel] > 1 &&
+                   inside(touch, 18, 82, 284, 20)) {
+            std::size_t members[6]{};
+            const std::size_t count = groupMembers(gStoreSel, members, 6);
+            const std::size_t episode = static_cast<std::size_t>((touch.px - 18) / 48);
+            if (episode < count && touch.px < 18.0f + static_cast<float>(count) * 48.0f) {
+                gStoreDetailGameIndex = members[episode];
+                gStoreScreenshotIndex = 0;
+                requestStoreScreenshot();
+            }
+        } else if (game && game->screenshotCount > 1 && inside(touch, 18, 141, 284, 24)) {
+            gStoreScreenshotIndex = (gStoreScreenshotIndex + (touch.px < 160 ? game->screenshotCount - 1 : 1)) % game->screenshotCount;
+            requestStoreScreenshot();
+        }
+        return;
+    }
     if (inside(touch, 10, kChipY, 112, kChipHeight)) {
         cycleGenreFilter();
     } else if (inside(touch, 128, kChipY, 118, kChipHeight)) {
@@ -1932,6 +2443,7 @@ void handleStoreTouch(const touchPosition& touch) {
         if (position < gFilteredCount) {
             gStoreSel = position;
             if (touch.px >= kFavoriteHitX) toggleGroupFavorite(position);
+            else openSelectedStoreDetail();
         }
     }
 }
@@ -1941,7 +2453,16 @@ void handleLibraryTouch(const touchPosition& touch) {
     if (inside(touch, 0, kLibraryListTop, kBottomWidth, static_cast<float>(kLibraryRows) * kLibraryRowHeight)) {
         const std::size_t row = static_cast<std::size_t>((touch.py - kLibraryListTop) / kLibraryRowHeight);
         const std::size_t index = gLibraryScroll + row;
-        if (index < gInstalledGames.count) gLibrarySel = index;
+        if (index < gInstalledGames.count) {
+            if (touch.px >= kFavoriteHitX) {
+                gLibrarySel = index;
+                toggleFavoriteId(gInstalledGames.games[index].id);
+            } else if (gLibrarySel == index) {
+                launchSelectedGame();
+            } else {
+                gLibrarySel = index;
+            }
+        }
     }
 }
 
@@ -1953,11 +2474,15 @@ void handleTouch(const touchPosition& touch) {
     if (gCurrentPage == kPageStore) handleStoreTouch(touch);
     else if (gCurrentPage == kPageLibrary) handleLibraryTouch(touch);
     else if (gCurrentPage == kPageUpdates) {
-        if (inside(touch, kRefreshButtonX, kRefreshButtonY, 144.0f, kRefreshButtonH)) {
+        if (hubUpdateAvailable() && inside(touch, 202, 56, 96, 34)) {
+            requestHubUpdate();
+        } else if (inside(touch, kRefreshButtonX, kRefreshButtonY, 144.0f, kRefreshButtonH)) {
             if (!gDownloading) refreshCatalog();
         } else if (inside(touch, kGameUpdateButtonX, kRefreshButtonY, kGameUpdateButtonW, kRefreshButtonH)) {
             requestFirstGameUpdate();
         }
+    } else if (gCurrentPage == kPageStorage) {
+        if (inside(touch, kClearCacheX, kClearCacheY, kClearCacheW, kClearCacheH)) clearCatalogCache();
     } else if (gCurrentPage == kPageSettings) {
         if (inside(touch, kLangFrX, kLangY, kLangW, kLangH)) setLanguage(0);
         else if (inside(touch, kLangEnX, kLangY, kLangW, kLangH)) setLanguage(1);
@@ -1994,8 +2519,19 @@ void handleInput() {
         gQuit = true;
         return;
     }
-    if (down & (KEY_L | KEY_LEFT)) changePage(-1);
-    if (down & (KEY_R | KEY_RIGHT)) changePage(1);
+    if (down & KEY_L) changePage(-1);
+    if (down & KEY_R) changePage(1);
+    if (gCurrentPage == kPageStore && gStoreDetailOpen) {
+        const CatalogGame* game = activeStoreGame();
+        if (game && game->screenshotCount > 1 && (down & (KEY_LEFT | KEY_RIGHT))) {
+            gStoreScreenshotIndex = (gStoreScreenshotIndex + ((down & KEY_LEFT) ? game->screenshotCount - 1 : 1)) %
+                                    game->screenshotCount;
+            requestStoreScreenshot();
+        }
+    } else {
+        if (down & KEY_LEFT) changePage(-1);
+        if (down & KEY_RIGHT) changePage(1);
+    }
 
     // Haut / bas avec repetition quand on maintient la touche.
     int move = 0;
@@ -2014,18 +2550,41 @@ void handleInput() {
     if (move != 0) moveSelection(move);
 
     if (gCurrentPage == kPageStore) {
-        if (down & KEY_A) {
-            const CatalogGame* game = selectedStoreGame();
-            if (game && game->downloadUrl[0]) requestSelectedStoreDownload();
-            else if (game) toggleGroupFavorite(gStoreSel);
-            else if (!gCatalogLoaded && !gDownloading) refreshCatalog();
-        }
-        if (down & KEY_X) editStoreSearch();
-        if (down & KEY_Y) cycleGenreFilter();
-        if (down & KEY_B) resetFilters();
-        if (down & KEY_SELECT) {
-            gFavoritesOnly = !gFavoritesOnly;
-            rebuildFilter();
+        if (gStoreDetailOpen) {
+            if (down & KEY_A) requestSelectedStoreDownload();
+            if (down & KEY_B) closeStoreDetail();
+            if (down & KEY_Y) {
+                const CatalogGame* game = activeStoreGame();
+                if (hasCiaPackage(game) && hasPackageFormat(game, "3dsx")) {
+                    gStoreCiaFormat = !gStoreCiaFormat;
+                    showToast(L(gStoreCiaFormat ? "Format .cia" : "Format .3dsx"));
+                }
+            }
+            if (down & KEY_SELECT) {
+                const CatalogGame* game = activeStoreGame();
+                if (game) toggleFavoriteId(game->id);
+            }
+        } else {
+            if (down & KEY_A) {
+                const CatalogGame* game = selectedStoreGame();
+                if (game) openSelectedStoreDetail();
+                else if (!gCatalogLoaded && !gDownloading) refreshCatalog();
+            }
+            if (down & KEY_X) editStoreSearch();
+            if (down & KEY_Y) {
+                const CatalogGame* game = selectedStoreGame();
+                if (hasCiaPackage(game) && hasPackageFormat(game, "3dsx")) {
+                    gStoreCiaFormat = !gStoreCiaFormat;
+                    showToast(L(gStoreCiaFormat ? "Format .cia" : "Format .3dsx"));
+                } else {
+                    cycleGenreFilter();
+                }
+            }
+            if (down & KEY_B) resetFilters();
+            if (down & KEY_SELECT) {
+                gFavoritesOnly = !gFavoritesOnly;
+                rebuildFilter();
+            }
         }
     } else if (gCurrentPage == kPageLibrary) {
         if (down & KEY_A) launchSelectedGame();
@@ -2034,14 +2593,23 @@ void handleInput() {
             toggleFavoriteId(gInstalledGames.games[gLibrarySel].id);
         }
         if (down & KEY_B && gInstalledGamesLoaded && gLibrarySel < gInstalledGames.count) {
-            if (getGamePackageState() == GamePackageState::Downloading) showToast(L("Téléchargement..."));
+            if (getGamePackageState() != GamePackageState::Idle) showToast(L("Téléchargement..."));
             else gConfirmUninstall = true;
         }
     } else if (gCurrentPage == kPageUpdates) {
         if (down & KEY_A) {
-            if (firstGameUpdate(nullptr, nullptr)) requestFirstGameUpdate();
+            if (hubUpdateAvailable()) requestHubUpdate();
+            else if (firstGameUpdate(nullptr, nullptr)) requestFirstGameUpdate();
             else if (!gDownloading) refreshCatalog();
         }
+        if (down & KEY_X) {
+            if (!gDownloading) refreshCatalog();
+        }
+        if (down & KEY_Y) {
+            if (firstGameUpdate(nullptr, nullptr)) requestFirstGameUpdate();
+        }
+    } else if (gCurrentPage == kPageStorage) {
+        if (down & KEY_A) clearCatalogCache();
     } else if (gCurrentPage == kPageSettings) {
         if (down & KEY_A) setLanguage(gLang == 0 ? 1 : 0);
     }
@@ -2058,18 +2626,63 @@ void updateAnimation() {
     if (gToastFrames > 0) --gToastFrames;
     GamePackageResult packageResult{};
     if (takeGamePackageResult(&packageResult)) {
-        if (packageResult.state == GamePackageState::Installed) {
+        if (packageResult.isHubUpdate) {
+            if (packageResult.state == GamePackageState::Installed) {
+                showToast(L("Hub mis à jour"));
+                if (!envIsHomebrew() && packageResult.titleId != 0) {
+                    gRelaunchTitleId = packageResult.titleId;
+                    gQuit = true;
+                }
+            } else {
+                showToast(L("Échec de la mise à jour du Hub"));
+            }
+        } else if (packageResult.state == GamePackageState::Installed) {
             gInstalledGamesLoaded = loadInstalledGames();
             if (gInstalledGamesLoaded && gLibrarySel >= gInstalledGames.count) gLibrarySel = 0;
-            showToast(L("Téléchargement terminé"));
+            showToast(L("Jeu installé"));
         } else {
-            showToast(L("Échec, version précédente conservée"));
+            showToast(L("Échec de l'installation"));
         }
     }
+    ScreenshotCacheResult screenshotResult{};
+    if (takeScreenshotCacheResult(&screenshotResult)) {
+        const bool currentRequest = gPendingScreenshotCachePath[0] &&
+                                    std::strcmp(gPendingScreenshotCachePath, screenshotResult.localPath) == 0;
+        if (gStoreDetailOpen && currentRequest && screenshotResult.state == ScreenshotCacheState::Ready) {
+            gStoreScreenshotSheet = C2D_SpriteSheetLoad(screenshotResult.localPath);
+            if (gStoreScreenshotSheet) {
+                std::snprintf(gStoreScreenshotSheetPath, sizeof(gStoreScreenshotSheetPath), "%s", screenshotResult.localPath);
+            } else {
+                gScreenshotFailed = true;
+            }
+        } else if (gStoreDetailOpen && currentRequest) {
+            gScreenshotFailed = true;
+        }
+        gScreenshotLoading = false;
+        gPendingScreenshotCachePath[0] = '\0';
+        if (gStoreDetailOpen && !currentRequest) requestStoreScreenshot();
+    }
     gDownloading = getCatalogUpdateState() == CatalogUpdateState::Downloading;
+    auto smoothTo = [](float& current, float target, float speed) {
+        current += (target - current) * speed;
+        if (std::fabs(target - current) < 0.02f) current = target;
+    };
     const float target = static_cast<float>(gCurrentPage) * kTabWidth;
     gTabIndicator += (target - gTabIndicator) * 0.35f;
-    if (gTabIndicator - target < 0.5f && target - gTabIndicator < 0.5f) gTabIndicator = target;
+    if (std::fabs(target - gTabIndicator) < 0.5f) gTabIndicator = target;
+    smoothTo(gStoreScrollAnim, static_cast<float>(gStoreScroll), 0.30f);
+    smoothTo(gLibraryScrollAnim, static_cast<float>(gLibraryScroll), 0.30f);
+    smoothTo(gStoreSelAnim, static_cast<float>(gStoreSel), 0.35f);
+    smoothTo(gLibrarySelAnim, static_cast<float>(gLibrarySel), 0.35f);
+    if (getGamePackageState() == GamePackageState::Downloading) {
+        u64 downloaded = 0;
+        u64 total = 0;
+        getGamePackageProgress(&downloaded, &total);
+        const float targetProgress = total > 0 ? static_cast<float>(downloaded) / static_cast<float>(total) : 0.0f;
+        gProgressAnim += (targetProgress - gProgressAnim) * 0.25f;
+    } else {
+        gProgressAnim = 0.0f;
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -2134,13 +2747,15 @@ int main() {
     if (loadCachedHubManifest(&gHubManifest)) {
         gHubManifestLoaded = true;
     } else {
-        gHubManifestLoaded = gRomfsReady && loadEmbeddedHubManifest();
+        gHubManifestLoaded = loadEmbeddedHubManifest();
     }
-    if (loadCachedCatalog(&gCachedCatalog)) {
+    const bool hasCachedCatalog = loadCachedCatalog(&gCachedCatalog);
+    const bool hasEmbeddedCatalog = loadEmbeddedCatalog(&gCatalog);
+    if (hasCachedCatalog && (!hasEmbeddedCatalog || gCachedCatalog.catalogVersion >= gCatalog.catalogVersion)) {
         gCatalog = gCachedCatalog;
         gCatalogLoaded = true;
-    } else if (gRomfsReady) {
-        gCatalogLoaded = loadEmbeddedCatalog();
+    } else {
+        gCatalogLoaded = hasEmbeddedCatalog;
     }
     rebuildGenres();
     rebuildFilter();
@@ -2163,8 +2778,13 @@ int main() {
         C3D_FrameEnd(0);
     }
 
+    stopScreenshotCache();
     stopCatalogDownload();
     shutdownGraphics();
     if (gRomfsReady) romfsExit();
+    if (gRelaunchTitleId != 0) {
+        APT_PrepareToDoApplicationJump(0, gRelaunchTitleId, MEDIATYPE_SD);
+        APT_DoApplicationJump(nullptr, 0, nullptr);
+    }
     return 0;
 }
