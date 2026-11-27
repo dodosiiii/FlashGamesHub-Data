@@ -24,10 +24,19 @@ validation de son fichier et de sa compatibilite.
   `developer`, `cover`, `screenshots`, `status`, `compatibility`, `version`,
   `size_bytes`, `download_url`, `sha256` et, si besoin, `series`.
 - Les champs encore inconnus restent `null`.
+- `screenshots` est une liste de chemins relatifs au depot, par exemple
+  `screenshots/mon-jeu/1.t3x`. Chaque fichier doit etre une feuille sprite
+  Citro2D `.t3x` de 512 Kio maximum. La fiche permet de parcourir les captures;
+  une liste vide affiche « Aucune capture publiée ».
 - `compatibility` utilise `supported`, `unsupported` ou `unverified` pour
   `3ds` et `new_3ds`.
 - `status` utilise `available`, `unavailable`, `coming_soon`, `development`
   ou `discontinued`.
+- `file_type` choisit le paquet principal (`3dsx` ou `cia`). Une fiche peut
+  aussi proposer un paquet CIA secondaire via `cia_url`, `cia_size_bytes` et
+  `cia_sha256`. Chaque paquet doit avoir son URL HTTPS, sa taille et son SHA-256.
+- Les CIA sont installés sur la carte SD avec le gestionnaire de titres 3DS;
+  les `.3dsx` sont rangés dans le dossier du Hub et démarrés via Rosalina.
 
 `hub.json` reste avec `published: false` tant qu'une version CIA n'est pas
 publiee avec son empreinte SHA-256.

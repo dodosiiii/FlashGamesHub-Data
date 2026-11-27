@@ -1,12 +1,12 @@
-﻿{
+{
   "schema_version": 1,
-  "catalog_version": 3,
+  "catalog_version": 5,
   "updated_at": "2026-11-27",
   "games": [
     {
       "id": "worlds-hardest-game-1",
-      "name": "The World's Hardest Game 1",
-      "description": "Version de test fournie localement; telechargement SHA-256 valide, compatibilite encore a verifier.",
+      "name": "The World's Hardest Game (1–4)",
+      "description": "Version de test qui regroupe les quatre jeux The World's Hardest Game. Telechargement SHA-256 valide; compatibilite encore a verifier.",
       "genre": "Arcade / labyrinthe",
       "developer": null,
       "cover": null,
@@ -18,83 +18,12 @@
       },
       "version": "1.0.0",
       "size_bytes": 47192056,
-      "download_url": "https://github.com/dodosiiii/FlashGamesHub-Data/releases/download/whg-v1.0.0-test/whg-hub-3ds.3dsx",
+      "download_url": "https://raw.githubusercontent.com/dodosiiii/FlashGamesHub-Data/main/github-upload/whg-v1.0.0-test/whg-hub-3ds.3dsx",
       "sha256": "1f6697dbf90a17c0e2282eb7b46ea8e47d57b150342ee3a9f854646cd714b72a",
-      "series": {
-        "id": "worlds-hardest-game",
-        "name": "The World's Hardest Game",
-        "episode": 1
-      },
+      "cia_url": "https://raw.githubusercontent.com/dodosiiii/FlashGamesHub-Data/main/github-upload/whg-v1.0.0-test/whg-hub-3ds.cia",
+      "cia_size_bytes": 47756224,
+      "cia_sha256": "a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0",
       "file_type": "3dsx"
-    },
-    {
-      "id": "worlds-hardest-game-2",
-      "name": "The World's Hardest Game 2",
-      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
-      "genre": "Arcade / labyrinthe",
-      "developer": null,
-      "cover": null,
-      "screenshots": [],
-      "status": "unavailable",
-      "compatibility": {
-        "3ds": "unverified",
-        "new_3ds": "unverified"
-      },
-      "version": null,
-      "size_bytes": null,
-      "download_url": null,
-      "sha256": null,
-      "series": {
-        "id": "worlds-hardest-game",
-        "name": "The World's Hardest Game",
-        "episode": 2
-      }
-    },
-    {
-      "id": "worlds-hardest-game-3",
-      "name": "The World's Hardest Game 3",
-      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
-      "genre": "Arcade / labyrinthe",
-      "developer": null,
-      "cover": null,
-      "screenshots": [],
-      "status": "unavailable",
-      "compatibility": {
-        "3ds": "unverified",
-        "new_3ds": "unverified"
-      },
-      "version": null,
-      "size_bytes": null,
-      "download_url": null,
-      "sha256": null,
-      "series": {
-        "id": "worlds-hardest-game",
-        "name": "The World's Hardest Game",
-        "episode": 3
-      }
-    },
-    {
-      "id": "worlds-hardest-game-4",
-      "name": "The World's Hardest Game 4",
-      "description": "Jeu deja developpe; integration et compatibilite 3DS a valider.",
-      "genre": "Arcade / labyrinthe",
-      "developer": null,
-      "cover": null,
-      "screenshots": [],
-      "status": "unavailable",
-      "compatibility": {
-        "3ds": "unverified",
-        "new_3ds": "unverified"
-      },
-      "version": null,
-      "size_bytes": null,
-      "download_url": null,
-      "sha256": null,
-      "series": {
-        "id": "worlds-hardest-game",
-        "name": "The World's Hardest Game",
-        "episode": 4
-      }
     },
     {
       "id": "fancy-pants-adventures",
