@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "catalog_version": 1,
+  "updated_at": "2026-11-27",
+  "games": [
+    {
+      "id": "worlds-hardest-game-1",
+      "name": "The World's Hardest Game 1",
+      "description": "Premier episode de la collection de jeux deja developpes, en attente d'integration et de publication.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": { "3ds": "unverified", "new_3ds": "unverified" },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": { "id": "worlds-hardest-game", "name": "The World's Hardest Game", "episode": 1 }
+    },
+    {
+      "id": "worlds-hardest-game-2",
+      "name": "The World's Hardest Game 2",
+      "description": "Deuxieme episode de la collection de jeux deja developpes, en attente d'integration et de publication.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": { "3ds": "unverified", "new_3ds": "unverified" },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": { "id": "worlds-hardest-game", "name": "The World's Hardest Game", "episode": 2 }
+    },
+    {
+      "id": "worlds-hardest-game-3",
+      "name": "The World's Hardest Game 3",
+      "description": "Troisieme episode de la collection de jeux deja developpes, en attente d'integration et de publication.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": { "3ds": "unverified", "new_3ds": "unverified" },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": { "id": "worlds-hardest-game", "name": "The World's Hardest Game", "episode": 3 }
+    },
+    {
+      "id": "worlds-hardest-game-4",
+      "name": "The World's Hardest Game 4",
+      "description": "Quatrieme episode de la collection de jeux deja developpes, en attente d'integration et de publication.",
+      "genre": "Arcade / labyrinthe",
+      "developer": null,
+      "cover": null,
+      "screenshots": [],
+      "status": "unavailable",
+      "compatibility": { "3ds": "unverified", "new_3ds": "unverified" },
+      "version": null,
+      "size_bytes": null,
+      "download_url": null,
+      "sha256": null,
+      "series": { "id": "worlds-hardest-game", "name": "The World's Hardest Game", "episode": 4 }
+    }
+  ]
+}
