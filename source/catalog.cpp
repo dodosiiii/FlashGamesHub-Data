@@ -468,6 +468,8 @@ private:
         skipWhitespace();
         if (consume(']')) return true;
         while (mPosition < mLength) {
+            skipWhitespace();  // apres une virgule, il peut rester espaces / retours a la ligne
+            if (mPosition >= mLength) return false;
             if (mInput[mPosition] == '"') {
                 if (game.screenshotCount < 3) {
                     if (!parseString(game.screenshots[game.screenshotCount], sizeof(game.screenshots[0]))) return false;
