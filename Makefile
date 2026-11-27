@@ -20,7 +20,7 @@ INCLUDE := $(foreach dir,$(INCLUDES),-I$(PROJECT_ROOT)/$(dir)) $(foreach dir,$(L
 MAKE := make
 
 APP_TITLE := Flash Games Hub
-APP_DESCRIPTION := Catalogue de jeux homebrew Nintendo 3DS
+APP_DESCRIPTION := Nintendo 3DS homebrew game catalog / catalogue homebrew
 APP_AUTHOR := Flash Games Hub
 APP_ICON := $(PROJECT_ROOT)/assets/hub-icon.png
 APP_BANNER := $(PROJECT_ROOT)/assets/hub-banner.png

@@ -42,7 +42,7 @@ enum Page : int {
     kPageSettings,
 };
 
-constexpr const char* kTabLabels[kPageCount] = {"Store", "Jeux", "Màj", "Stockage", "Réglages"};
+constexpr const char* kTabLabels[kPageCount] = {"Boutique", "Jeux", "Màj", "Stockage", "Réglages"};
 
 // Palette : un fond sombre neutre, une seule couleur d'accent, des couleurs
 // d'etat reservees aux statuts.
@@ -196,6 +196,12 @@ constexpr Translation kTranslations[] = {
     {"Limite de favoris atteinte", "Favorites limit reached"},
     {"Ajouté aux favoris", "Added to favorites"},
     {"Nom, genre ou description", "Name, genre or description"},
+    {"Annuler", "Cancel"},
+    {"Cache catalogue  %s", "Catalog cache  %s"},
+    {"Capture indisponible", "Screenshot unavailable"},
+    {"Téléchargement indisponible", "Download unavailable"},
+    {"Format", "Format"},
+    {"Genre", "Genre"},
     {"Effacer", "Clear"},
     {"Chercher", "Search"},
     {"Manifeste indisponible", "Manifest unavailable"},
@@ -273,6 +279,11 @@ constexpr Translation kTranslations[] = {
     {"Échec de l'installation", "Installation failed"},
     {"Désinstallation indisponible", "Uninstall unavailable"},
     {"Jeu supprimé, bibliothèque à actualiser", "Game removed; refresh library"},
+    {"Boutique", "Store"},
+    {"A classer", "Uncategorized"},
+    {"Arcade / labyrinthe", "Arcade / maze"},
+    {"Total %s", "Total %s"},
+    {"Ép. %u", "Ep. %u"},
     {"Titre CIA introuvable", "CIA title not found"},
     {"Lancement CIA impossible", "Cannot launch CIA"},
     {"Téléchargement terminé", "Download complete"},
@@ -331,6 +342,10 @@ const char* L(const char* fr) {
         if (std::strcmp(entry.fr, fr) == 0) return entry.en;
     }
     return fr;
+}
+
+const char* localizedGenre(const char* genre) {
+    return L(genre);
 }
 
 
@@ -622,14 +637,16 @@ void formatSize(u64 bytes, char* out, std::size_t capacity) {
     constexpr u64 kGi = kMi * 1024;
     if (bytes >= kGi) {
         const u64 tenths = bytes * 10 / kGi;
-        std::snprintf(out, capacity, "%u,%u Go", static_cast<unsigned>(tenths / 10), static_cast<unsigned>(tenths % 10));
+        std::snprintf(out, capacity, gLang == 0 ? "%u,%u Go" : "%u.%u GB",
+                      static_cast<unsigned>(tenths / 10), static_cast<unsigned>(tenths % 10));
     } else if (bytes >= kMi) {
         const u64 tenths = bytes * 10 / kMi;
-        std::snprintf(out, capacity, "%u,%u Mo", static_cast<unsigned>(tenths / 10), static_cast<unsigned>(tenths % 10));
+        std::snprintf(out, capacity, gLang == 0 ? "%u,%u Mo" : "%u.%u MB",
+                      static_cast<unsigned>(tenths / 10), static_cast<unsigned>(tenths % 10));
     } else if (bytes >= kKi) {
-        std::snprintf(out, capacity, "%u Ko", static_cast<unsigned>(bytes / kKi));
+        std::snprintf(out, capacity, gLang == 0 ? "%u Ko" : "%u KB", static_cast<unsigned>(bytes / kKi));
     } else {
-        std::snprintf(out, capacity, "%u o", static_cast<unsigned>(bytes));
+        std::snprintf(out, capacity, gLang == 0 ? "%u o" : "%u B", static_cast<unsigned>(bytes));
     }
 }
 
@@ -963,7 +980,8 @@ bool matchesFilters(const CatalogGame& game) {
     if (gFavoritesOnly && !isFavorite(game.id)) return false;
     if (gGenreFilterIndex > 0 && std::strcmp(game.genre, gGenres[gGenreFilterIndex - 1]) != 0) return false;
     return containsText(game.name, gSearchQuery) || containsText(game.description, gSearchQuery) ||
-           containsText(game.genre, gSearchQuery) || containsText(game.developer, gSearchQuery);
+           containsText(game.genre, gSearchQuery) || containsText(localizedGenre(game.genre), gSearchQuery) ||
+           containsText(game.developer, gSearchQuery);
 }
 
 void clampScroll(std::size_t selection, std::size_t count, std::size_t rows, std::size_t* scroll) {
@@ -1708,9 +1726,10 @@ void drawGameDetail(const CatalogGame& game) {
     drawBold(fitted, columnX, 47, 0.62f, kText);
 
     char meta[160];
-    if (game.developer[0] && game.genre[0]) std::snprintf(meta, sizeof(meta), "%s  ·  %s", game.developer, game.genre);
-    else if (game.developer[0]) std::snprintf(meta, sizeof(meta), "%s", game.developer);
-    else if (game.genre[0]) std::snprintf(meta, sizeof(meta), "%s", game.genre);
+    if (game.developer[0] && game.genre[0]) {
+        std::snprintf(meta, sizeof(meta), "%s  ·  %s", game.developer, localizedGenre(game.genre));
+    } else if (game.developer[0]) std::snprintf(meta, sizeof(meta), "%s", game.developer);
+    else if (game.genre[0]) std::snprintf(meta, sizeof(meta), "%s", localizedGenre(game.genre));
     else std::snprintf(meta, sizeof(meta), "%s", L("Aucune information"));
     fitText(meta, columnWidth, 0.36f, fitted, sizeof(fitted));
     drawText(fitted, columnX, 75, 0.36f, kAccent);
@@ -1764,7 +1783,7 @@ void drawGroupDetail(std::size_t position) {
 
     char meta[160];
     std::snprintf(meta, sizeof(meta), "%s (%u)%s%s", L("Tous"), static_cast<unsigned>(gGroupCount[position]),
-                  first.genre[0] ? "  ·  " : "", first.genre);
+                  first.genre[0] ? "  ·  " : "", localizedGenre(first.genre));
     fitText(meta, 242, 0.36f, fitted, sizeof(fitted));
     drawText(fitted, columnX, 75, 0.36f, kAccent);
 
@@ -1937,7 +1956,7 @@ void drawTopStorage() {
     formatSize(gStorageTotalBytes, totalText, sizeof(totalText));
     std::snprintf(line, sizeof(line), L("%s utilisés (%u %%)"), usedText, percent);
     drawText(line, 36, 144, 0.34f, kMuted);
-    std::snprintf(line, sizeof(line), "Total %s", totalText);
+    std::snprintf(line, sizeof(line), L("Total %s"), totalText);
     drawRight(line, 364, 144, 0.34f, kMuted);
 
     formatSize(gCachedInstalledBytes, value, sizeof(value));
@@ -2128,7 +2147,8 @@ void drawBottomStoreDetail() {
             const float x = 18.0f + static_cast<float>(i) * 48.0f;
             const CatalogGame& episode = gCatalog.games[members[i]];
             char episodeLabel[16];
-            std::snprintf(episodeLabel, sizeof(episodeLabel), "Ép. %u", episode.episode ? episode.episode : static_cast<unsigned>(i + 1));
+            std::snprintf(episodeLabel, sizeof(episodeLabel), L("Ép. %u"),
+                          episode.episode ? episode.episode : static_cast<unsigned>(i + 1));
             drawButton(x, 82, chipWidth, 20, episodeLabel, members[i] == gStoreDetailGameIndex);
         }
         descriptionY = 106.0f;
@@ -2196,7 +2216,8 @@ void drawBottomStore() {
         return;
     }
     char label[96];
-    std::snprintf(label, sizeof(label), L("Genre : %s"), gGenreFilterIndex == 0 ? L("Tous") : gGenres[gGenreFilterIndex - 1]);
+    std::snprintf(label, sizeof(label), L("Genre : %s"),
+                  gGenreFilterIndex == 0 ? L("Tous") : localizedGenre(gGenres[gGenreFilterIndex - 1]));
     drawChip(10, kChipY, 112, label, gGenreFilterIndex > 0, false);
     fitText(gSearchQuery[0] ? gSearchQuery : L("Rechercher"), 118.0f, 0.34f, label, sizeof(label));
     drawChip(128, kChipY, 118, label, gSearchQuery[0] != 0, false);
@@ -2237,8 +2258,12 @@ void drawBottomStore() {
         fitText(title, 172, 0.42f, fitted, sizeof(fitted));
         drawText(fitted, 20, y + 2, 0.42f, selected ? kText : kMuted);
         char sub[128];
-        if (members > 1) std::snprintf(sub, sizeof(sub), "%s (%u)  ·  %s", L("Tous"), static_cast<unsigned>(members), game.genre);
-        else std::snprintf(sub, sizeof(sub), "%s", game.genre);
+        if (members > 1) {
+            std::snprintf(sub, sizeof(sub), "%s (%u)  ·  %s", L("Tous"), static_cast<unsigned>(members),
+                          localizedGenre(game.genre));
+        } else {
+            std::snprintf(sub, sizeof(sub), "%s", localizedGenre(game.genre));
+        }
         fitText(sub, 172, 0.30f, fitted, sizeof(fitted));
         drawText(fitted, 20, y + 13, 0.30f, kFaint);
 
