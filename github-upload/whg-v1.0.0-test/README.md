@@ -11,6 +11,8 @@ Release du dépôt `dodosiiii/FlashGamesHub-Data`.
 4. Dans le Hub, ouvrir le Store puis actualiser le catalogue.
 5. Sélectionner The World's Hardest Game 1 et appuyer sur `A` pour télécharger
    le `.3dsx` de test.
+6. Ouvrir la bibliothèque et appuyer sur `A` pour lancer le jeu avec le
+   chargeur Rosalina, si `hb:ldr` est disponible.
 
 Le catalogue pointe vers cette pièce jointe :
 
@@ -22,6 +24,10 @@ bibliothèque. L'entrée reste marquée `development` et les modèles restent
 
 Le `.cia` est joint pour les essais manuels. Le Hub ne le télécharge ni ne
 l'installe pour le moment; le flux actuel utilise le `.3dsx`.
+
+Le catalogue source à publier séparément est `data/catalog.json` dans le
+projet. Il doit remplacer le fichier `catalog.json` à la racine de `main` dans
+le dépôt de données.
 
 ## Empreintes de référence
 

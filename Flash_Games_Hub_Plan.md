@@ -101,14 +101,15 @@ SUIVI DU PROJET
 [reporté à la passe finale] Affiches et captures vérifiées pour les jeux.
 [reporté à la passe finale] Compléter les genres et descriptions après
        vérification des titres; les fiches de travail ne valent pas validation.
-[en cours] Étape 1.9 : bibliothèque des jeux installés.
+[fait] Étape 1.9 : bibliothèque des jeux installés.
 [fait] Afficher le nom, la version, la taille et l'état de mise à jour.
 [fait] Ajouter les favoris dans la bibliothèque et la mise à jour du jeu
        sélectionné.
 [fait] Désinstaller un jeu avec confirmation et mise à jour de installed.json;
        ses sauvegardes séparées sont conservées.
-[à faire] Ajouter le lancement direct des jeux .3dsx avec le chargeur Homebrew
-       pris en charge par l'environnement de lancement.
+[fait] Lancer un jeu .3dsx depuis la bibliothèque via le service hb:ldr de
+       Rosalina; afficher un message si ce chargeur n'est pas disponible.
+[à faire] Vérifier le lancement sur console ou émulateur avec Rosalina.
 [fait] Repérer à la racine les paquets de test whg-hub-3ds.3dsx (47 192 056
        octets) et whg-hub-3ds.cia (47 756 224 octets); le .3dsx porte la
        signature 3DSX. SHA-256 .3dsx :
@@ -123,6 +124,7 @@ SUIVI DU PROJET
        en développement, avec l'URL prévue, la taille et le SHA-256 du .3dsx.
 [fait] Autoriser depuis le Store le téléchargement initial d'un paquet .3dsx
        de test, puis valider son empreinte et l'ajouter à la bibliothèque.
+[en cours] Étape 1.10 : téléchargement et installation des jeux.
 [à faire] Publier la release et data/catalog.json, puis vérifier le
        téléchargement HTTPS depuis une console ou un émulateur.
 [à faire] Ajouter le téléchargement et l'installation des CIA dans l'étape

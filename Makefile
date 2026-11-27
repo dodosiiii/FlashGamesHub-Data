@@ -51,7 +51,7 @@ export _3DSXFLAGS += --smdh=$(OUTPUT).smdh --romfs=$(CURDIR)/$(ROMFS)
 
 .PHONY: all clean
 all: $(BUILD)
-	@$(MAKE) --no-print-directory -C $(BUILD) -f ../Makefile
+	@$(MAKE) --no-print-directory DEVKITPRO="$(DEVKITPRO)" DEVKITARM="$(DEVKITARM)" -C $(BUILD) -f ../Makefile
 
 $(BUILD):
 	@mkdir -p $@

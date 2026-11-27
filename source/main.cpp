@@ -255,7 +255,8 @@ constexpr Translation kTranslations[] = {
     {"Langue enregistrée", "Language saved"},
     {"Choisissez la langue de l'interface.", "Choose the interface language."},
     {"Appuyez sur A ou touchez un bouton pour changer.", "Press A or tap a button to change."},
-    {"Lancement .3dsx via Homebrew requis", "Launch .3dsx through Homebrew"},
+    {"Chargeur Homebrew indisponible", "Homebrew loader unavailable"},
+    {"Fichier de jeu introuvable", "Game file not found"},
     {"A pour confirmer la désinstallation", "Press A to confirm uninstall"},
     {"Désinstallation annulée", "Uninstall cancelled"},
     {"Jeu désinstallé", "Game uninstalled"},
@@ -1125,6 +1126,49 @@ void uninstallSelectedGame() {
     showToast(L("Jeu désinstallé"));
 }
 
+bool setHomebrewLoaderTarget(const char* path) {
+    // Uses the Rosalina hb:ldr handoff used by devkitPro's Homebrew Menu.
+    const char* targetPath = std::strncmp(path, "sdmc:/", 6) == 0 ? path + 5 : path;
+    Handle loader = 0;
+    if (R_FAILED(svcConnectToPort(&loader, "hb:ldr"))) return false;
+    const u32 pathSize = static_cast<u32>(std::strlen(targetPath) + 1);
+    u32* command = getThreadCommandBuffer();
+    command[0] = IPC_MakeHeader(2, 0, 2);
+    command[1] = IPC_Desc_StaticBuffer(pathSize, 0);
+    command[2] = static_cast<u32>(reinterpret_cast<uintptr_t>(targetPath));
+    Result result = svcSendSyncRequest(loader);
+    if (R_SUCCEEDED(result)) result = command[1];
+    if (R_SUCCEEDED(result)) {
+        alignas(4) u8 argv[0x300]{};
+        command = getThreadCommandBuffer();
+        command[0] = IPC_MakeHeader(3, 0, 2);
+        command[1] = IPC_Desc_StaticBuffer(sizeof(argv), 1);
+        command[2] = static_cast<u32>(reinterpret_cast<uintptr_t>(argv));
+        result = svcSendSyncRequest(loader);
+        if (R_SUCCEEDED(result)) result = command[1];
+    }
+    svcCloseHandle(loader);
+    return R_SUCCEEDED(result);
+}
+
+void launchSelectedGame() {
+    if (!gInstalledGamesLoaded || gLibrarySel >= gInstalledGames.count) return;
+    const InstalledGame& installed = gInstalledGames.games[gLibrarySel];
+    char path[224];
+    std::snprintf(path, sizeof(path), "sdmc:/3ds/FlashGamesHub/games/%s/%s.3dsx", installed.id, installed.id);
+    struct stat info{};
+    if (stat(path, &info) != 0 || info.st_size <= 0) {
+        showToast(L("Fichier de jeu introuvable"));
+        return;
+    }
+    if (getGamePackageState() == GamePackageState::Downloading) return;
+    if (!setHomebrewLoaderTarget(path)) {
+        showToast(L("Chargeur Homebrew indisponible"));
+        return;
+    }
+    gQuit = true;
+}
+
 bool hubUpdateAvailable() {
     return gHubManifestLoaded && gHubManifest.published &&
            compareVersions(gHubManifest.latestVersion, kHubVersion) > 0;
@@ -1470,7 +1514,7 @@ void drawTopUpdates() {
     const CatalogGame* updateGame = nullptr;
     if (firstGameUpdate(&updateIndex, &updateGame) && updateGame) {
         char updateLine[96];
-        std::snprintf(updateLine, sizeof(updateLine), "%s  %s -> %s", updateGame->name,
+        std::snprintf(updateLine, sizeof(updateLine), "%.56s  %.11s -> %.11s", updateGame->name,
                       gInstalledGames.games[updateIndex].version, updateGame->version);
         char fitted[96];
         fitText(updateLine, 238, 0.30f, fitted, sizeof(fitted));
@@ -1536,7 +1580,7 @@ void drawTopScreen() {
 
     static const Hint storeHints[] = {{"A", "Télécharger"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
     static const Hint storeFavoriteHints[] = {{"A", "Favori"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
-    static const Hint libraryHints[] = {{"X", "Màj"}, {"Y", "Favori"}, {"B", "Désinstaller"}};
+    static const Hint libraryHints[] = {{"A", "Lancer"}, {"X", "Màj"}, {"Y", "Favori"}, {"B", "Désinstaller"}};
     static const Hint updatesHints[] = {{"A", "Actualiser"}, {"L R", "Onglets"}, {"START", "Quitter"}};
     static const Hint storageHints[] = {{"L R", "Onglets"}, {"START", "Quitter"}};
     static const Hint settingsHints[] = {{"A", "Langue"}, {"L R", "Onglets"}, {"START", "Quitter"}};
@@ -1769,7 +1813,7 @@ void drawBottomUpdates() {
     const CatalogGame* updateGame = nullptr;
     if (firstGameUpdate(&updateIndex, &updateGame) && updateGame) {
         char updateLine[112];
-        std::snprintf(updateLine, sizeof(updateLine), "%s  %s -> %s", updateGame->name,
+        std::snprintf(updateLine, sizeof(updateLine), "%.72s  %.11s -> %.11s", updateGame->name,
                       gInstalledGames.games[updateIndex].version, updateGame->version);
         char fitted[112];
         fitText(updateLine, 276, 0.30f, fitted, sizeof(fitted));
@@ -1984,7 +2028,7 @@ void handleInput() {
             rebuildFilter();
         }
     } else if (gCurrentPage == kPageLibrary) {
-        if (down & KEY_A) showToast(L("Lancement .3dsx via Homebrew requis"));
+        if (down & KEY_A) launchSelectedGame();
         if (down & KEY_X) requestSelectedGameUpdate();
         if (down & KEY_Y && gInstalledGamesLoaded && gLibrarySel < gInstalledGames.count) {
             toggleFavoriteId(gInstalledGames.games[gLibrarySel].id);
