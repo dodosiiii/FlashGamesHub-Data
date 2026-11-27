@@ -229,6 +229,9 @@ constexpr Translation kTranslations[] = {
     {"Actualisation...", "Refreshing..."},
     {"Actualiser", "Refresh"},
     {"Télécharger la mise à jour", "Download update"},
+    {"Télécharger", "Download"},
+    {"Téléchargement terminé", "Download complete"},
+    {"Jeu déjà installé", "Game already installed"},
     {"Téléchargement...", "Downloading..."},
     {"Aucune mise à jour", "No update available"},
     {"Mise à jour installée", "Update installed"},
@@ -1051,7 +1054,7 @@ void requestFirstGameUpdate() {
         return;
     }
     if (getGamePackageState() == GamePackageState::Downloading) return;
-    if (!startGameUpdateDownload(update)) showToast(L("Téléchargement indisponible"));
+    if (!startGamePackageDownload(update)) showToast(L("Téléchargement indisponible"));
 }
 
 void requestSelectedGameUpdate() {
@@ -1062,7 +1065,26 @@ void requestSelectedGameUpdate() {
         showToast(L("Aucune mise à jour"));
         return;
     }
-    if (!startGameUpdateDownload(update)) showToast(L("Téléchargement indisponible"));
+    if (!startGamePackageDownload(update)) showToast(L("Téléchargement indisponible"));
+}
+
+void requestSelectedStoreDownload() {
+    const CatalogGame* game = selectedStoreGame();
+    if (!game || !game->downloadUrl[0] ||
+        (game->status != GameStatus::Available && game->status != GameStatus::Development) ||
+        std::strcmp(game->downloadFormat, "3dsx") != 0) {
+        if (game) toggleGroupFavorite(gStoreSel);
+        return;
+    }
+    if (getGamePackageState() == GamePackageState::Downloading) return;
+    for (std::size_t i = 0; i < gInstalledGames.count; ++i) {
+        if (std::strcmp(gInstalledGames.games[i].id, game->id) == 0 &&
+            compareVersions(game->version, gInstalledGames.games[i].version) <= 0) {
+            showToast(L("Jeu déjà installé"));
+            return;
+        }
+    }
+    if (!startGamePackageDownload(game)) showToast(L("Téléchargement indisponible"));
 }
 
 void uninstallSelectedGame() {
@@ -1512,7 +1534,8 @@ void drawTopScreen() {
     C2D_SceneBegin(gTop);
     drawTopHeader();
 
-    static const Hint storeHints[] = {{"A", "Favori"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
+    static const Hint storeHints[] = {{"A", "Télécharger"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
+    static const Hint storeFavoriteHints[] = {{"A", "Favori"}, {"X", "Chercher"}, {"Y", "Genre"}, {"SELECT", "Favoris"}};
     static const Hint libraryHints[] = {{"X", "Màj"}, {"Y", "Favori"}, {"B", "Désinstaller"}};
     static const Hint updatesHints[] = {{"A", "Actualiser"}, {"L R", "Onglets"}, {"START", "Quitter"}};
     static const Hint storageHints[] = {{"L R", "Onglets"}, {"START", "Quitter"}};
@@ -1521,7 +1544,7 @@ void drawTopScreen() {
     switch (gCurrentPage) {
         case kPageStore:
             drawTopStore();
-            drawTopFooter(storeHints, 4);
+            drawTopFooter(selectedStoreGame() && selectedStoreGame()->downloadUrl[0] ? storeHints : storeFavoriteHints, 4);
             break;
         case kPageLibrary:
             drawTopLibrary();
@@ -1567,9 +1590,9 @@ void drawBottomFooter(const char* idleText) {
     drawRect(0, kFooterY, kBottomWidth, 1, kBorder);
     if (gToastFrames > 0) {
         drawText(gToast, 12, 219, 0.34f, kAccent);
-    } else if (gDownloading) {
+    } else if (gDownloading || getGamePackageState() == GamePackageState::Downloading) {
         drawSpinner(16, 225);
-        drawText(L("Synchronisation..."), 34, 219, 0.34f, kMuted);
+        drawText(L(gDownloading ? "Synchronisation..." : "Téléchargement..."), 34, 219, 0.34f, kMuted);
     } else if (idleText) {
         drawText(idleText, 12, 219, 0.34f, kMuted);
     }
@@ -1949,7 +1972,8 @@ void handleInput() {
     if (gCurrentPage == kPageStore) {
         if (down & KEY_A) {
             const CatalogGame* game = selectedStoreGame();
-            if (game) toggleGroupFavorite(gStoreSel);
+            if (game && game->downloadUrl[0]) requestSelectedStoreDownload();
+            else if (game) toggleGroupFavorite(gStoreSel);
             else if (!gCatalogLoaded && !gDownloading) refreshCatalog();
         }
         if (down & KEY_X) editStoreSearch();
@@ -1993,7 +2017,7 @@ void updateAnimation() {
         if (packageResult.state == GamePackageState::Installed) {
             gInstalledGamesLoaded = loadInstalledGames();
             if (gInstalledGamesLoaded && gLibrarySel >= gInstalledGames.count) gLibrarySel = 0;
-            showToast(L("Mise à jour installée"));
+            showToast(L("Téléchargement terminé"));
         } else {
             showToast(L("Échec, version précédente conservée"));
         }

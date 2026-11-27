@@ -117,6 +117,16 @@ SUIVI DU PROJET
        a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0.
 [à faire] Tester un téléchargement réseau réel après publication des paquets
        sur une URL HTTPS; ne pas déclarer le jeu disponible avant cette étape.
+[fait] Préparer github-upload/whg-v1.0.0-test avec les deux paquets et les
+       instructions de publication manuelle comme assets d'une GitHub Release.
+[fait] Ajouter au catalogue local la fiche de test du World's Hardest Game 1,
+       en développement, avec l'URL prévue, la taille et le SHA-256 du .3dsx.
+[fait] Autoriser depuis le Store le téléchargement initial d'un paquet .3dsx
+       de test, puis valider son empreinte et l'ajouter à la bibliothèque.
+[à faire] Publier la release et data/catalog.json, puis vérifier le
+       téléchargement HTTPS depuis une console ou un émulateur.
+[à faire] Ajouter le téléchargement et l'installation des CIA dans l'étape
+       d'installation; le CIA de test est préparé comme asset séparé.
 [à faire] Vérifier la détection réseau de catalog.json et hub.json en fin de
        développement, selon la demande de reporter les tests.
 [à faire] Mesurer la taille des jeux et du cache dans la page Stockage.

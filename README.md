@@ -38,10 +38,13 @@ La bibliothèque lit `sdmc:/3ds/FlashGamesHub/installed.json` pour comparer les
 versions des jeux installés au catalogue. Depuis la page Mises à jour, le Hub
 peut télécharger une mise à jour disponible, vérifier sa taille et son SHA-256,
 puis remplacer le fichier du jeu en conservant l'ancienne version en cas d'échec.
-Les données de sauvegarde restent dans un dossier séparé. L'installation
-initiale et le lancement direct des jeux restent à intégrer.
-Dans le Store, `X` ouvre la recherche, `Y` change le genre, `B` modifie le favori
-du jeu sélectionné et `Select` affiche uniquement les favoris.
+Les données de sauvegarde restent dans un dossier séparé. Les paquets `.3dsx`
+du catalogue peuvent être téléchargés, vérifiés par taille et SHA-256, puis
+ajoutés à la bibliothèque. L'installation des `.cia` et le lancement direct
+des jeux restent à intégrer.
+Dans le Store, `A` télécharge un paquet indiqué dans la fiche (ou ajoute un
+favori si aucun paquet n'est indiqué), `X` ouvre la recherche, `Y` change le
+genre, `Select` affiche uniquement les favoris et `B` réinitialise les filtres.
 Dans la bibliothèque, `X` met à jour le jeu sélectionné, `Y` change son favori
 et `B` ouvre la confirmation de désinstallation. `A` signale que le lancement
 direct d'un fichier `.3dsx` doit encore être relié au chargeur Homebrew.
