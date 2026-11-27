@@ -16,6 +16,7 @@ struct CatalogGame {
     char id[64];
     char name[96];
     char description[256];
+    char descriptionEn[256];
     char genre[48];
     char developer[64];
     char cover[128];
@@ -27,6 +28,7 @@ struct CatalogGame {
     char sha256[65];
     char ciaUrl[256];
     char ciaSha256[65];
+    u64 ciaTitleId;
     char compatibility3ds[16];
     char compatibilityNew3ds[16];
     char seriesId[64];

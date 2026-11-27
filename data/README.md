@@ -20,10 +20,16 @@ validation de son fichier et de sa compatibilite.
 - `schema_version` : version du format JSON.
 - `catalog_version` : numero croissant a chaque publication.
 - `updated_at` : date au format `AAAA-MM-JJ`.
-- `games` : liste des fiches avec `id`, `name`, `description`, `genre`,
+- `games` : liste des fiches avec `id`, `name`, `description_fr`,
+  `description_en`, `genre`,
   `developer`, `cover`, `screenshots`, `status`, `compatibility`, `version`,
   `size_bytes`, `download_url`, `sha256` et, si besoin, `series`.
+- `cia_title_id` identifie le titre installé d'un paquet CIA pour le détecter
+  dans la bibliothèque. Il reste optionnel pour les anciennes fiches.
 - Les champs encore inconnus restent `null`.
+- Les descriptions utilisent `description_en` pour l'anglais et
+  `description_fr` pour le français. `description` reste accepte par les
+  anciennes versions du Hub.
 - `screenshots` est une liste de chemins relatifs au depot, par exemple
   `screenshots/mon-jeu/1.t3x`. Chaque fichier doit etre une feuille sprite
   Citro2D `.t3x` de 512 Kio maximum. La fiche permet de parcourir les captures;

@@ -18,6 +18,15 @@ void noteParseError(const char* what, std::size_t a = 0, std::size_t b = 0) {
                   static_cast<unsigned>(gGameIndex), static_cast<unsigned>(a), static_cast<unsigned>(b));
 }
 
+void copyBoundedText(char* output, std::size_t capacity, const char* input) {
+    if (!output || capacity == 0) return;
+    if (!input) input = "";
+    std::size_t length = std::strlen(input);
+    if (length >= capacity) length = capacity - 1;
+    std::memcpy(output, input, length);
+    output[length] = '\0';
+}
+
 class JsonReader {
 public:
     JsonReader(const char* input, std::size_t length) : mInput(input), mLength(length) {
@@ -414,6 +423,16 @@ private:
         return parseUnsigned(output);
     }
 
+    bool parseUnsigned64OrNull(u64& output) {
+        skipWhitespace();
+        if (mPosition + 4 <= mLength && std::memcmp(mInput + mPosition, "null", 4) == 0) {
+            mPosition += 4;
+            output = 0;
+            return isTokenBoundary();
+        }
+        return parseUnsigned64(output);
+    }
+
     bool parseCompatibility(CatalogGame& game) {
         if (!consume('{')) return false;
         bool saw3ds = false;
@@ -507,6 +526,10 @@ private:
                 if (!parseStringOrNull(game.name, sizeof(game.name), true)) return false;
             } else if (std::strcmp(key, "description") == 0) {
                 if (!parseStringOrNull(game.description, sizeof(game.description), true)) return false;
+            } else if (std::strcmp(key, "description_fr") == 0) {
+                if (!parseStringOrNull(game.description, sizeof(game.description), true)) return false;
+            } else if (std::strcmp(key, "description_en") == 0) {
+                if (!parseStringOrNull(game.descriptionEn, sizeof(game.descriptionEn), true)) return false;
             } else if (std::strcmp(key, "genre") == 0) {
                 if (!parseStringOrNull(game.genre, sizeof(game.genre), true)) return false;
             } else if (std::strcmp(key, "developer") == 0) {
@@ -529,6 +552,8 @@ private:
                 if (!parseStringOrNull(game.ciaSha256, sizeof(game.ciaSha256))) return false;
             } else if (std::strcmp(key, "cia_size_bytes") == 0) {
                 if (!parseUnsignedOrNull(game.ciaSizeBytes)) return false;
+            } else if (std::strcmp(key, "cia_title_id") == 0) {
+                if (!parseUnsigned64OrNull(game.ciaTitleId)) return false;
             } else if (std::strcmp(key, "compatibility") == 0) {
                 if (!parseCompatibility(game)) return false;
                 sawCompatibility = true;
@@ -551,6 +576,9 @@ private:
             skipWhitespace();
             if (consume('}')) {
                 if (!game.id[0] || !game.name[0] || !sawStatus || !sawCompatibility) return false;
+                if (!game.description[0]) {
+                    copyBoundedText(game.description, sizeof(game.description), game.descriptionEn);
+                }
                 for (const char* c = game.id; *c; ++c) {
                     if (!((*c >= 'a' && *c <= 'z') || (*c >= '0' && *c <= '9') || *c == '-')) return false;
                 }
@@ -566,7 +594,7 @@ private:
                         if (!((*hash >= '0' && *hash <= '9') || (*hash >= 'a' && *hash <= 'f') || (*hash >= 'A' && *hash <= 'F'))) return false;
                     }
                 }
-                const bool anyCiaField = game.ciaUrl[0] || game.ciaSha256[0] || game.ciaSizeBytes;
+                const bool anyCiaField = game.ciaUrl[0] || game.ciaSha256[0] || game.ciaSizeBytes || game.ciaTitleId;
                 if (anyCiaField) {
                     if (!game.ciaUrl[0] || std::strncmp(game.ciaUrl, "https://", 8) != 0 ||
                         game.ciaSizeBytes == 0 || std::strlen(game.ciaSha256) != 64) return false;

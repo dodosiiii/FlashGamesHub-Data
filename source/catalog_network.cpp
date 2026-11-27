@@ -382,8 +382,13 @@ bool installCiaPackage(const char* path, bool overwrite, u64 expectedTitleId, u6
     } else {
         AM_CancelCIAInstall(installHandle);
     }
+    AM_TitleInfo installedInfo{};
+    u64 verifiedTitleId = ciaInfo.titleID;
+    const bool installed = R_SUCCEEDED(result) && ok &&
+        R_SUCCEEDED(AM_GetTitleInfo(MEDIATYPE_SD, 1, &verifiedTitleId, &installedInfo)) &&
+        installedInfo.titleID == ciaInfo.titleID;
     amExit();
-    if (R_FAILED(result) || !ok) return false;
+    if (!installed) return false;
     *installedTitleId = ciaInfo.titleID;
     return true;
 }

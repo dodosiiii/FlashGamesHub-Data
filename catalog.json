@@ -1,12 +1,11 @@
 {
   "schema_version": 1,
-  "catalog_version": 6,
+  "catalog_version": 8,
   "updated_at": "2026-11-27",
   "games": [
     {
       "id": "worlds-hardest-game-1",
       "name": "The World's Hardest Game (1–4)",
-      "description": "Version de test qui regroupe les quatre jeux The World's Hardest Game. Telechargement SHA-256 valide; compatibilite encore a verifier.",
       "genre": "Arcade / labyrinthe",
       "developer": null,
       "cover": "data/covers/worlds-hardest-game-logo.t3x",
@@ -26,12 +25,14 @@
       "cia_url": "https://raw.githubusercontent.com/dodosiiii/FlashGamesHub-Data/main/github-upload/whg-v1.0.0-test/whg-hub-3ds.cia",
       "cia_size_bytes": 47756224,
       "cia_sha256": "a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0",
-      "file_type": "3dsx"
+      "file_type": "3dsx",
+      "description_fr": "Version de test réunissant les quatre jeux The World's Hardest Game. Téléchargement vérifié par SHA-256 ; compatibilité encore à confirmer.",
+      "description_en": "Test version featuring all four The World's Hardest Game titles. SHA-256-verified download; compatibility still needs confirmation.",
+      "cia_title_id": 1125900160607488
     },
     {
       "id": "fancy-pants-adventures",
       "name": "Fancy Pants Adventures",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -48,12 +49,13 @@
       "series": {
         "id": "fancy-pants-adventures",
         "name": "Fancy Pants Adventures"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "bloxorz",
       "name": "Bloxorz",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -66,12 +68,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "riddle-school",
       "name": "Riddle School",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -88,12 +91,13 @@
       "series": {
         "id": "riddle-school",
         "name": "Riddle School"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "super-mario-starcatcher",
       "name": "Super Mario Starcatcher",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -110,12 +114,13 @@
       "series": {
         "id": "super-mario-starcatcher",
         "name": "Super Mario Starcatcher"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "super-mario-63",
       "name": "Super Mario 63",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -128,12 +133,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "chaos-faction-2",
       "name": "Chaos Faction 2",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -150,12 +156,13 @@
       "series": {
         "id": "chaos-faction",
         "name": "Chaos Faction"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "swords-and-sandals-3",
       "name": "Swords and Sandals 3",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -172,12 +179,13 @@
       "series": {
         "id": "swords-and-sandals",
         "name": "Swords and Sandals"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "swords-and-sandals-4",
       "name": "Swords and Sandals 4",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -194,12 +202,13 @@
       "series": {
         "id": "swords-and-sandals",
         "name": "Swords and Sandals"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "sonny",
       "name": "Sonny",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -216,12 +225,13 @@
       "series": {
         "id": "sonny",
         "name": "Sonny"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "earn-to-die",
       "name": "Earn to Die",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -238,12 +248,13 @@
       "series": {
         "id": "earn-to-die",
         "name": "Earn to Die"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "papas-pizzeria",
       "name": "Papa's Pizzeria",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -260,12 +271,13 @@
       "series": {
         "id": "papas-games",
         "name": "Papa's Games"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "papas-burgeria",
       "name": "Papa's Burgeria",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -282,12 +294,13 @@
       "series": {
         "id": "papas-games",
         "name": "Papa's Games"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "papas-freezeria",
       "name": "Papa's Freezeria",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -304,12 +317,13 @@
       "series": {
         "id": "papas-games",
         "name": "Papa's Games"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "car-eats-car",
       "name": "Car Eats Car",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -326,12 +340,13 @@
       "series": {
         "id": "car-eats-car",
         "name": "Car Eats Car"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "snail-bob",
       "name": "Snail Bob",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -348,12 +363,13 @@
       "series": {
         "id": "snail-bob",
         "name": "Snail Bob"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "wheely",
       "name": "Wheely",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -370,12 +386,13 @@
       "series": {
         "id": "wheely",
         "name": "Wheely"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "fireboy-and-watergirl",
       "name": "Fireboy and Watergirl",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -392,12 +409,13 @@
       "series": {
         "id": "fireboy-and-watergirl",
         "name": "Fireboy and Watergirl"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "truck-loader",
       "name": "Truck Loader",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -414,12 +432,13 @@
       "series": {
         "id": "truck-loader",
         "name": "Truck Loader"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "drag-racer-v3",
       "name": "Drag Racer V3",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -432,12 +451,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "boxhead",
       "name": "Boxhead",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -454,12 +474,13 @@
       "series": {
         "id": "boxhead",
         "name": "Boxhead"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "run-3",
       "name": "Run 3",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -476,12 +497,13 @@
       "series": {
         "id": "the-run",
         "name": "The Run"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "ninja-kitchen",
       "name": "Ninja Kitchen",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -494,12 +516,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "moto-x3m",
       "name": "Moto X3M",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -516,12 +539,13 @@
       "series": {
         "id": "moto-x3m",
         "name": "Moto X3M"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "plazma-burst-1",
       "name": "Plazma Burst 1",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -538,12 +562,13 @@
       "series": {
         "id": "plazma-burst",
         "name": "Plazma Burst"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "plazma-burst-2",
       "name": "Plazma Burst 2",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -560,12 +585,13 @@
       "series": {
         "id": "plazma-burst",
         "name": "Plazma Burst"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "raze-1",
       "name": "Raze 1",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -582,12 +608,13 @@
       "series": {
         "id": "raze",
         "name": "Raze"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "raze-2",
       "name": "Raze 2",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -604,12 +631,13 @@
       "series": {
         "id": "raze",
         "name": "Raze"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "raze-3",
       "name": "Raze 3",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -626,12 +654,13 @@
       "series": {
         "id": "raze",
         "name": "Raze"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "world-of-goo",
       "name": "World of Goo",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -644,12 +673,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "super-smash-flash",
       "name": "Super Smash Flash",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -662,12 +692,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "super-mario-crossover",
       "name": "Super Mario Crossover",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -680,12 +711,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "ultimate-flash-sonic",
       "name": "Ultimate Flash Sonic",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -698,12 +730,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "duck-life",
       "name": "Duck Life",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -720,12 +753,13 @@
       "series": {
         "id": "duck-life",
         "name": "Duck Life"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "red-ball",
       "name": "Red Ball",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -742,12 +776,13 @@
       "series": {
         "id": "red-ball",
         "name": "Red Ball"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "the-impossible-quiz",
       "name": "The Impossible Quiz",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -760,12 +795,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "age-of-war",
       "name": "Age of War",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -778,12 +814,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "dino-run",
       "name": "Dino Run",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -796,12 +833,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "bad-ice-cream",
       "name": "Bad Ice Cream",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -818,12 +856,13 @@
       "series": {
         "id": "bad-ice-cream",
         "name": "Bad Ice Cream"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "bloons-td",
       "name": "Bloons TD",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -840,12 +879,13 @@
       "series": {
         "id": "bloons-td",
         "name": "Bloons TD"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "raft-wars",
       "name": "Raft Wars",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -858,12 +898,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "strike-force-heroes",
       "name": "Strike Force Heroes",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -876,12 +917,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "henry-stickmin",
       "name": "Henry Stickmin",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -898,12 +940,13 @@
       "series": {
         "id": "henry-stickmin",
         "name": "Henry Stickmin"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "sonic-rpg",
       "name": "Sonic RPG",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -916,12 +959,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "mario-combat",
       "name": "Mario Combat",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -934,12 +978,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "pokemon-tower-defense",
       "name": "Pokemon Tower Defense",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -952,12 +997,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "gravitee-wars",
       "name": "Gravitee Wars",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -970,12 +1016,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "submachine",
       "name": "Submachine",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -992,12 +1039,13 @@
       "series": {
         "id": "submachine",
         "name": "Submachine"
-      }
+      },
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "zombotron",
       "name": "Zombotron",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1010,12 +1058,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "armor-mayhem",
       "name": "Armor Mayhem",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1028,12 +1077,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "electricman",
       "name": "Electricman",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1046,12 +1096,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "castle-clasher",
       "name": "Castle Clasher",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1064,12 +1115,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "power-pamplona",
       "name": "Power Pamplona",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1082,12 +1134,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "epic-battle-fantasy-3",
       "name": "Epic Battle Fantasy 3",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1100,12 +1153,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "neopets",
       "name": "Neopets",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1118,12 +1172,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "bfdia-5b",
       "name": "BFDIA 5B",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1136,12 +1191,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "the-pirates-nitrome",
       "name": "The Pirates Nitrome",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1154,12 +1210,13 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     },
     {
       "id": "zelda-and-the-lampshade-of-no-real-significance",
       "name": "Zelda and the Lampshade of No Real Significance",
-      "description": "Titre du catalogue de travail; fiche et portage 3DS a confirmer.",
       "genre": "A classer",
       "developer": null,
       "cover": null,
@@ -1172,7 +1229,9 @@
       "version": null,
       "size_bytes": null,
       "download_url": null,
-      "sha256": null
+      "sha256": null,
+      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
+      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
     }
   ]
 }

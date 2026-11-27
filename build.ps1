@@ -22,7 +22,6 @@ if (-not (Test-Path -LiteralPath $DataPath)) {
 
 New-Item -ItemType Directory -Force -Path $RomfsPath | Out-Null
 Copy-Item -LiteralPath (Join-Path $DataPath 'catalog.json') -Destination (Join-Path $RomfsPath 'catalog.json') -Force
-Copy-Item -LiteralPath (Join-Path $DataPath 'hub.json') -Destination (Join-Path $RomfsPath 'hub.json') -Force
 Copy-Item -LiteralPath (Join-Path $DataPath 'catalog.json') -Destination (Join-Path $ProjectRoot 'catalog.json') -Force
 Copy-Item -LiteralPath (Join-Path $DataPath 'hub.json') -Destination (Join-Path $ProjectRoot 'hub.json') -Force
 

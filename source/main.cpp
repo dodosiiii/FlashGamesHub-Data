@@ -25,7 +25,7 @@ constexpr int kPageCount = 5;
 constexpr std::size_t kMaxFavorites = 64;
 constexpr std::size_t kMaxGenres = 16;
 constexpr float kDepth = 0.5f;
-constexpr const char* kHubVersion = "0.1.1-dev";
+constexpr const char* kHubVersion = "0.1.2-dev";
 constexpr const char* kDataDirectory = "sdmc:/3ds/FlashGamesHub";
 constexpr const char* kFavoritesPath = "sdmc:/3ds/FlashGamesHub/favorites.txt";
 constexpr const char* kFavoritesTempPath = "sdmc:/3ds/FlashGamesHub/favorites.txt.tmp";
@@ -173,7 +173,7 @@ std::size_t gFavoriteCount = 0;
 char gToast[64]{};
 int gToastFrames = 0;
 
-int gLang = 0;  // 0 = francais, 1 = anglais
+int gLang = 1;  // 0 = francais, 1 = anglais
 
 // Les textes de l'interface sont ecrits en francais dans le code ; L() renvoie la
 // version anglaise quand la langue choisie est l'anglais.
@@ -416,7 +416,6 @@ void drawText(const char* value, float x, float y, float scale, u32 color) {
     C2D_DrawText(&text, C2D_WithColor, x, y, kDepth, scale, scale, color);
 }
 
-// Pas de police grasse sur 3DS : on double le trace avec un leger decalage.
 void drawBold(const char* value, float x, float y, float scale, u32 color) {
     if (!value || !value[0]) return;
     scale = crisp(scale);
@@ -426,7 +425,6 @@ void drawBold(const char* value, float x, float y, float scale, u32 color) {
     C2D_TextParse(&text, gTextBuffer, value);
     C2D_TextOptimize(&text);
     C2D_DrawText(&text, C2D_WithColor, x, y, kDepth, scale, scale, color);
-    C2D_DrawText(&text, C2D_WithColor, x + 1.0f, y, kDepth, scale, scale, color);
 }
 
 // Mesurer un texte coute cher (parse + dimensions). fitText et wrapText le font des
@@ -747,6 +745,77 @@ bool loadInstalledGames() {
     return loadInstalledGamesFromSd(&gInstalledGames);
 }
 
+void syncInstalledCiaGames() {
+    if (!gCatalogLoaded || R_FAILED(amInit())) return;
+
+    u32 titleCount = 0;
+    if (R_FAILED(AM_GetTitleCount(MEDIATYPE_SD, &titleCount)) ||
+        static_cast<std::size_t>(titleCount) > static_cast<std::size_t>(-1) / sizeof(u64)) {
+        amExit();
+        return;
+    }
+    u64* titleIds = titleCount ? static_cast<u64*>(std::malloc(sizeof(u64) * titleCount)) : nullptr;
+    if (titleCount && !titleIds) {
+        amExit();
+        return;
+    }
+    u32 titlesRead = 0;
+    if (titleCount && (R_FAILED(AM_GetTitleList(&titlesRead, MEDIATYPE_SD, titleCount, titleIds)) ||
+                       titlesRead != titleCount)) {
+        std::free(titleIds);
+        amExit();
+        return;
+    }
+    auto titleIsInstalled = [titleIds, titlesRead](u64 titleId) {
+        for (u32 i = 0; i < titlesRead; ++i) {
+            if (titleIds[i] == titleId) return true;
+        }
+        return false;
+    };
+
+    InstalledGameList installed{};
+    const bool registryLoaded = loadInstalledGamesFromSd(&installed);
+    struct stat registryInfo{};
+    const bool registryExists = stat("sdmc:/3ds/FlashGamesHub/installed.json", &registryInfo) == 0;
+    if (registryExists && !registryLoaded) {
+        std::free(titleIds);
+        amExit();
+        return;
+    }
+
+    bool registryChanged = false;
+    for (std::size_t i = installed.count; i > 0; --i) {
+        const InstalledGame& entry = installed.games[i - 1];
+        if (std::strcmp(entry.format, "cia") != 0 || !entry.titleId) continue;
+        if (!titleIsInstalled(entry.titleId)) {
+            if (unregisterInstalledGame(&installed, entry.id)) registryChanged = true;
+        }
+    }
+
+    for (std::size_t i = 0; i < gCatalog.count; ++i) {
+        const CatalogGame& game = gCatalog.games[i];
+        if (!game.ciaTitleId || !game.version[0]) continue;
+        if (!titleIsInstalled(game.ciaTitleId)) continue;
+
+        bool alreadyRegistered = false;
+        for (std::size_t j = 0; j < installed.count; ++j) {
+            if (std::strcmp(installed.games[j].id, game.id) == 0) {
+                alreadyRegistered = true;
+                break;
+            }
+        }
+        if (!alreadyRegistered &&
+            registerInstalledGame(&installed, game.id, game.version, game.ciaSizeBytes, "cia", game.ciaTitleId)) {
+            registryChanged = true;
+        }
+    }
+
+    std::free(titleIds);
+    amExit();
+    gInstalledGames = installed;
+    gInstalledGamesLoaded = registryLoaded || registryChanged;
+}
+
 bool isValidGameId(const char* id) {
     if (!id || !*id || std::strlen(id) >= sizeof(gFavoriteIds[0])) return false;
     for (const char* c = id; *c; ++c) {
@@ -825,7 +894,10 @@ void loadSettings() {
     FILE* file = std::fopen(kSettingsPath, "rb");
     if (!file) return;
     char line[16]{};
-    if (std::fgets(line, sizeof(line), file) && line[0] == 'e' && line[1] == 'n') gLang = 1;
+    if (std::fgets(line, sizeof(line), file)) {
+        if (line[0] == 'e' && line[1] == 'n') gLang = 1;
+        else if (line[0] == 'f' && line[1] == 'r') gLang = 0;
+    }
     std::fclose(file);
 }
 
@@ -1502,12 +1574,15 @@ void connectionStatus(const char** text, u32* color) {
 
 void applyDownloadedCatalog() {
     if (takeDownloadedCatalog(&gDownloadedCatalog)) {
-        gCatalog = gDownloadedCatalog;
-        gCatalogLoaded = true;
-        rebuildGenres();
-        rebuildFilter();
-        gDescriptionWrap.valid = false;
-        if (gInstalledGamesLoaded && gLibrarySel >= gInstalledGames.count) gLibrarySel = 0;
+        if (!gCatalogLoaded || gDownloadedCatalog.catalogVersion > gCatalog.catalogVersion) {
+            gCatalog = gDownloadedCatalog;
+            gCatalogLoaded = true;
+            rebuildGenres();
+            rebuildFilter();
+            gDescriptionWrap.valid = false;
+            if (gInstalledGamesLoaded && gLibrarySel >= gInstalledGames.count) gLibrarySel = 0;
+            syncInstalledCiaGames();
+        }
     }
     if (takeDownloadedHubManifest(&gDownloadedHubManifest)) {
         gHubManifest = gDownloadedHubManifest;
@@ -1640,8 +1715,9 @@ void drawGameDetail(const CatalogGame& game) {
     fitText(meta, columnWidth, 0.36f, fitted, sizeof(fitted));
     drawText(fitted, columnX, 75, 0.36f, kAccent);
 
-    if (game.description[0]) {
-        drawWrapped(cachedWrap(gDescriptionWrap, game.description, columnWidth, 0.37f, 4), columnX, 97, 15.0f, 0.37f, kMuted);
+    const char* localizedDescription = gLang == 1 ? game.descriptionEn : game.description;
+    if (localizedDescription[0]) {
+        drawWrapped(cachedWrap(gDescriptionWrap, localizedDescription, columnWidth, 0.37f, 4), columnX, 97, 15.0f, 0.37f, kMuted);
     } else {
         drawText(L("Aucune description."), columnX, 97, 0.37f, kFaint);
     }
@@ -2058,7 +2134,8 @@ void drawBottomStoreDetail() {
         descriptionY = 106.0f;
     }
 
-    const char* description = game->description[0] ? game->description : L("Aucune description.");
+    const char* localizedDescription = gLang == 1 ? game->descriptionEn : game->description;
+    const char* description = localizedDescription[0] ? localizedDescription : L("Aucune description.");
     drawWrapped(cachedWrap(gDescriptionWrap, description, 272, 0.33f, count > 1 ? 2 : 3), 20,
                 descriptionY, 11.5f, 0.33f, kMuted);
 
@@ -2638,6 +2715,7 @@ void updateAnimation() {
             }
         } else if (packageResult.state == GamePackageState::Installed) {
             gInstalledGamesLoaded = loadInstalledGames();
+            syncInstalledCiaGames();
             if (gInstalledGamesLoaded && gLibrarySel >= gInstalledGames.count) gLibrarySel = 0;
             showToast(L("Jeu installé"));
         } else {
@@ -2757,6 +2835,7 @@ int main() {
     } else {
         gCatalogLoaded = hasEmbeddedCatalog;
     }
+    syncInstalledCiaGames();
     rebuildGenres();
     rebuildFilter();
     readStorageStats();
