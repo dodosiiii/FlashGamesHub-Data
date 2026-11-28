@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": 11,
+  "catalog_version": 12,
   "updated_at": "2026-11-28",
   "games": [
     {
@@ -13,10 +13,10 @@
         "data/screenshots/worlds-hardest-game/gameplay-1.t3x",
         "data/screenshots/worlds-hardest-game/gameplay-2.t3x"
       ],
-      "status": "finished",
+      "status": "available",
       "compatibility": {
-        "3ds": "unverified",
-        "new_3ds": "unverified"
+        "3ds": "supported",
+        "new_3ds": "supported"
       },
       "version": "1.0.0",
       "size_bytes": 47192056,
@@ -26,8 +26,8 @@
       "cia_size_bytes": 47756224,
       "cia_sha256": "a390785c6b493a0dfc79f45e0b685e660640d58ebd371b0302bf855dabb267a0",
       "file_type": "3dsx",
-      "description_fr": "Version de test terminée réunissant les quatre jeux The World's Hardest Game. Téléchargement vérifié par SHA-256 ; compatibilité encore à confirmer.",
-      "description_en": "Completed test build featuring all four The World's Hardest Game titles. SHA-256-verified download; compatibility still needs confirmation.",
+      "description_fr": "Version validée réunissant les quatre jeux The World's Hardest Game. Les paquets CIA et 3DSX sont vérifiés et installables sur 3DS et New 3DS.",
+      "description_en": "Verified build featuring all four The World's Hardest Game titles. The CIA and 3DSX packages are checksum-verified and installable on 3DS and New 3DS.",
       "cia_title_id": 1125900160607488
     },
     {
@@ -340,8 +340,8 @@
       "size_bytes": null,
       "download_url": null,
       "sha256": null,
-      "description_fr": "Jeu en cours de développement. Le téléchargement sera disponible lorsqu'une version compatible sera prête.",
-      "description_en": "Game in development. A download will be available when a compatible build is ready."
+      "description_fr": "Portage Nintendo 3DS de Papa's Cheeseria encore en développement. Le jeu n'est pas terminé et des fonctionnalités restent à créer.",
+      "description_en": "Nintendo 3DS port of Papa's Cheeseria, still in development. The game is not finished yet and some features still need to be implemented."
     },
     {
       "id": "car-eats-car",

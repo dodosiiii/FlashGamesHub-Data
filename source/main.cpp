@@ -265,6 +265,7 @@ constexpr Translation kTranslations[] = {
     {"%s utilisés (%u %%)", "%s used (%u %%)"},
     {"Jeux installés  %s", "Installed games  %s"},
     {"Genre : %s", "Genre: %s"},
+    {"Crédit", "Credit"},
     {"Tous", "All"},
     {"Rechercher", "Search"},
     {"Favoris", "Favorites"},
@@ -1899,6 +1900,11 @@ void drawGameDetail(const CatalogGame& game) {
     constexpr float columnX = 138.0f;
     constexpr float columnWidth = 242.0f;
     char fitted[128];
+    if (std::strcmp(game.id, "age-of-war") == 0 && game.developer[0]) {
+        drawCentered(L("Crédit"), 72, 184, 0.30f, kFaint);
+        fitText(game.developer, tile + 8.0f, 0.43f, fitted, sizeof(fitted));
+        drawCentered(fitted, 72, 194, 0.43f, kAccent);
+    }
     fitText(game.name[0] ? game.name : game.id, columnWidth, 0.62f, fitted, sizeof(fitted));
     drawBold(fitted, columnX, 47, 0.62f, kText);
 
@@ -2344,8 +2350,16 @@ void drawBottomStoreDetail() {
 
     const char* localizedDescription = gLang == 1 ? game->descriptionEn : game->description;
     const char* description = localizedDescription[0] ? localizedDescription : L("Aucune description.");
-    drawWrapped(cachedWrap(gDescriptionWrap, description, 272, 0.33f, count > 1 ? 2 : 3), 20,
-                descriptionY, 11.5f, 0.33f, kMuted);
+    const WrappedText& wrappedDescription =
+        cachedWrap(gDescriptionWrap, description, 272, 0.33f, count > 1 ? 2 : 3);
+    drawWrapped(wrappedDescription, 20, descriptionY, 11.5f, 0.33f, kMuted);
+    if (std::strcmp(game->id, "age-of-war") == 0 && game->developer[0]) {
+        char credit[96];
+        std::snprintf(credit, sizeof(credit), "%s: %s", L("Crédit"), game->developer);
+        const int descriptionLines = wrappedDescription.count > 0 ? wrappedDescription.count : 1;
+        const float creditY = descriptionY + static_cast<float>(descriptionLines) * 11.5f + 2.0f;
+        drawText(credit, 20, creditY, 0.36f, kAccent);
+    }
 
     drawText(L("Captures d’écran"), 20, 130, 0.28f, kFaint);
     drawCard(18, 141, 284, 24, kSurface2);
