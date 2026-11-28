@@ -1,0 +1,12 @@
+# layout/screens.tsv — placement des VRAIS sprites du jeu (copié vers romfs/layout/ par prepare_assets.py)
+# ecran	cible	sprite	x	y	sx	sy
+# Écrans : menu order cook build fry service result_ok result_bad progress pause
+# Cibles : top (400x240) | bottom (320x240).  sx/sy facultatifs (sy = sx si seul sx est donné).
+# Noms de sprites : voir la galerie (touche Y du menu) ou romfs/gfx/manifest.tsv
+#   - bitmaps bruts d'origine : img_<id>      (ex. img_10030 = fond 640x480, réduit à 50 % => 320x240)
+#   - symboles composés FFDec : spr_<Classe>_<frame>   (ex. spr_buildScreenMC_1)
+#
+# Exemples (à décommenter une fois les noms vérifiés dans la galerie) :
+# menu	bottom	img_10030	0	0	1
+# build	bottom	spr_buildScreenMC_1	0	0	1
+# build	top	spr_buildScreenMC_1	40	0	1

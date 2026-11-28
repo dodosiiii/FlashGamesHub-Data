@@ -15,6 +15,13 @@ Les dossiers `covers/`, `screenshots/` et `releases/` accueillent les medias
 et fichiers publies. Une fiche de jeu n'est marquee `available` qu'apres
 validation de son fichier et de sa compatibilite.
 
+La fiche Age of War reste au statut `development`. Le workflow
+`.github/workflows/sync-age-of-war.yml` vérifie toutes les six heures la dernière
+release stable de `spidychoipro/Age-of-War-3DS` et synchronise ses paquets CIA
+et 3DSX, leurs tailles et leurs empreintes SHA-256 dans les deux catalogues.
+Les trois captures fournies pour Age of War sont incluses; le catalogue et le
+Hub prennent désormais en charge jusqu'à cinq captures par jeu.
+
 ## Format du catalogue
 
 - `schema_version` : version du format JSON.
@@ -30,7 +37,7 @@ validation de son fichier et de sa compatibilite.
 - Les descriptions utilisent `description_en` pour l'anglais et
   `description_fr` pour le français. `description` reste accepte par les
   anciennes versions du Hub.
-- `screenshots` est une liste de chemins relatifs au depot, par exemple
+- `screenshots` est une liste de cinq chemins au maximum, relatifs au depot, par exemple
   `screenshots/mon-jeu/1.t3x`. Chaque fichier doit etre une feuille sprite
   Citro2D `.t3x` de 512 Kio maximum. La fiche permet de parcourir les captures;
   une liste vide affiche « Aucune capture publiée ».

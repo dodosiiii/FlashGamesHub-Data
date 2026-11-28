@@ -1,414 +1,625 @@
-#include <3ds.h>
-#include <citro2d.h>
+// main_3ds.cpp — Papa's Cheeseria 3DS
+// Rendu Citro2D + gestion stylet/boutons
+// Toutes les stations : TakeOrder, Cook, Build, Fry, Service
+// Écrans : Menu, Station (5 sous-écrans), Pause, Result, Progress
 
 #include "game.hpp"
+#include "audio_3ds.hpp"
+#include "progress_save.hpp"
+#include "sprites.hpp"
+#include "gallery.hpp"
+#include "scene.hpp"
 
+#include <3ds.h>
+#include <citro2d.h>
+#include <sys/stat.h>
+
+#include <array>
 #include <cstdio>
+#include <cstring>
 
-namespace {
+// ─── Constantes d'écran ──────────────────────────────────────────────────────
+static constexpr int W_TOP  = 400;
+static constexpr int H_SCR  = 240;
+static constexpr int W_BOT  = 320;
 
-constexpr int kTopWidth = 400;
-constexpr int kBottomWidth = 320;
-constexpr int kScreenHeight = 240;
-constexpr float kDepth = 0.5f;
+// ─── Palettes couleurs ───────────────────────────────────────────────────────
+static const u32 COL_BG_TOP    = C2D_Color32(0x1A, 0x1A, 0x2E, 0xFF);
+static const u32 COL_BG_BOT    = C2D_Color32(0x16, 0x21, 0x3E, 0xFF);
+static const u32 COL_WHITE     = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
+static const u32 COL_YELLOW    = C2D_Color32(0xFF, 0xD7, 0x00, 0xFF);
+static const u32 COL_GREEN     = C2D_Color32(0x00, 0xC8, 0x50, 0xFF);
+static const u32 COL_RED       = C2D_Color32(0xFF, 0x38, 0x38, 0xFF);
+static const u32 COL_ORANGE    = C2D_Color32(0xFF, 0x87, 0x00, 0xFF);
+static const u32 COL_GREY      = C2D_Color32(0x88, 0x88, 0x88, 0xFF);
+static const u32 COL_DARKBLUE  = C2D_Color32(0x0F, 0x3D, 0x66, 0xFF);
+static const u32 COL_LTBLUE    = C2D_Color32(0x44, 0xAA, 0xFF, 0xFF);
 
-constexpr u32 kBackground = C2D_Color32(25, 34, 43, 255);
-constexpr u32 kPanel = C2D_Color32(44, 58, 68, 255);
-constexpr u32 kButton = C2D_Color32(75, 96, 105, 255);
-constexpr u32 kSelected = C2D_Color32(51, 135, 105, 255);
-constexpr u32 kAccent = C2D_Color32(238, 193, 91, 255);
-constexpr u32 kText = C2D_Color32(246, 245, 235, 255);
-constexpr u32 kMuted = C2D_Color32(183, 197, 197, 255);
-constexpr u32 kError = C2D_Color32(240, 126, 112, 255);
+// ─── Textures ────────────────────────────────────────────────────────────────
+static C2D_SpriteSheet g_sheetIngr;
+static C2D_SpriteSheet g_sheetUI;
+static bool g_ingrLoaded = false;
+static bool g_uiLoaded   = false;
+static bool g_romfsOk    = false;
+static bool g_openGallery = false;
+static C2D_TextBuf g_textBuf = nullptr; // un seul buffer, vidé à chaque frame
 
-enum IngredientSprite : size_t {
-    BreadWhiteSprite,
-    BreadWheatSprite,
-    CheddarSprite,
-    MozzarellaSprite
+// Sprites d'ingrédients (index dans l'atlas ingredients.t3x)
+// Ordre défini par le .t3s : bread_white=0, bread_wheat=1, cheddar=2, mozzarella=3,
+//   bread_sourdough=4, bread_rye=5, cheese_american=6, cheese_swiss=7, cheese_pepperjack=8,
+//   top_bacon=9, top_ham=10, top_tomato=11, top_lettuce=12, top_chicken=13,
+//   sauce_ranch=14, sauce_bbq=15, fries_regular=16, fries_curly=17, fries_sweet=18
+enum IngrIdx : int {
+    IDX_BREAD_WHITE=0, IDX_BREAD_WHEAT, IDX_CHEDDAR, IDX_MOZZARELLA,
+    IDX_BREAD_SOURDOUGH, IDX_BREAD_RYE, IDX_CHEESE_AMERICAN, IDX_CHEESE_SWISS,
+    IDX_CHEESE_PEPPERJACK, IDX_TOP_BACON, IDX_TOP_HAM, IDX_TOP_TOMATO,
+    IDX_TOP_LETTUCE, IDX_TOP_CHICKEN, IDX_SAUCE_RANCH, IDX_SAUCE_BBQ,
+    IDX_FRIES_REGULAR, IDX_FRIES_CURLY, IDX_FRIES_SWEET
 };
 
-cheeseria::Game gGame;
-C2D_TextBuf gTextBuffer = nullptr;
-C2D_SpriteSheet gIngredientSheet = nullptr;
-C2D_Sprite gIngredientSprites[4]{};
-C3D_RenderTarget* gTop = nullptr;
-C3D_RenderTarget* gBottom = nullptr;
-bool gIngredientLoadAttempted = false;
-bool gIngredientLoadFailed = false;
+// ─── Sauvegarde ─────────────────────────────────────────────────────────────
+static const char* kSavePath = "sdmc:/3ds/CheeseShop3DS/progress.dat";
 
-void drawText(const char* value, float x, float y, float scale, u32 color) {
-    C2D_Text text;
-    C2D_TextParse(&text, gTextBuffer, value);
-    C2D_TextOptimize(&text);
-    C2D_DrawText(&text, C2D_WithColor, x, y, kDepth, scale, scale, color);
+static void ensureSaveDir() {
+    // mkdir() POSIX de newlib — ignore si les dossiers existent déjà
+    mkdir("/3ds", 0777);
+    mkdir("/3ds/CheeseShop3DS", 0777);
 }
 
-void drawButton(const char* label, float x, float y, float width, float height,
-                bool selected = false) {
-    C2D_DrawRectSolid(x, y, 0.4f, width, height, selected ? kSelected : kButton);
-    drawText(label, x + 8.0f, y + 7.0f, 0.45f, kText);
+static void saveProgress(const cheeseria::Game& game) {
+    std::array<std::uint8_t, cheeseria::kProgressSaveSize> buf{};
+    cheeseria::SavedProgress sp{game.ordersCompleted(), game.totalScore()};
+    if (!cheeseria::encodeProgress(sp, buf)) return;
+    ensureSaveDir();
+    FILE* f = fopen(kSavePath, "wb");
+    if (!f) return;
+    fwrite(buf.data(), 1, buf.size(), f);
+    fclose(f);
 }
 
-void drawIngredientButton(const char* label, IngredientSprite ingredient,
-                          float x, float y, bool selected) {
-    C2D_DrawRectSolid(x, y, 0.4f, 140.0f, 34.0f, selected ? kSelected : kButton);
-    if (gIngredientSheet) {
-        C2D_Sprite sprite = gIngredientSprites[ingredient];
-        C2D_SpriteSetScale(&sprite, 0.29f, 0.29f);
-        C2D_SpriteSetPos(&sprite, x + 4.0f, y + 5.0f);
-        C2D_DrawSprite(&sprite);
-    }
-    drawText(label, x + 45.0f, y + 8.0f, 0.42f, kText);
+static bool loadProgress(cheeseria::Game& game) {
+    FILE* f = fopen(kSavePath, "rb");
+    if (!f) return false;
+    std::array<std::uint8_t, cheeseria::kProgressSaveSize> buf{};
+    bool ok = (fread(buf.data(), 1, buf.size(), f) == buf.size());
+    fclose(f);
+    if (!ok) return false;
+    cheeseria::SavedProgress sp{};
+    if (!cheeseria::decodeProgress(buf.data(), buf.size(), sp)) return false;
+    return game.restoreProgress(sp.ordersCompleted, sp.totalScore);
 }
 
-const char* breadName(cheeseria::Bread bread) {
-    return bread == cheeseria::Bread::Wholegrain ? "WHOLEGRAIN" : "WHITE";
+// ─── Utilitaires dessin ──────────────────────────────────────────────────────
+
+static void drawText(float x, float y, float sz, u32 col, const char* txt) {
+    if (!g_textBuf) return;
+    C2D_Text t;
+    C2D_TextParse(&t, g_textBuf, txt);
+    C2D_TextOptimize(&t);
+    C2D_DrawText(&t, C2D_WithColor, x, y, 0.5f, sz, sz, col);
 }
 
-const char* cheeseName(cheeseria::Cheese cheese) {
-    return cheese == cheeseria::Cheese::Cheddar ? "CHEDDAR" : "MOZZARELLA";
+static void drawRect(float x, float y, float w, float h, u32 col) {
+    C2D_DrawRectSolid(x, y, 0.0f, w, h, col);
 }
 
-void drawTicket() {
-    drawText("ORDER #1", 38.0f, 70.0f, 0.55f, kAccent);
-    drawText(breadName(gGame.ticket().bread), 38.0f, 103.0f, 0.48f, kText);
-    drawText(cheeseName(gGame.ticket().cheese), 38.0f, 132.0f, 0.48f, kText);
-    drawText("COOK: MEDIUM", 220.0f, 103.0f, 0.43f, kText);
-    drawText("SIDE: REGULAR FRIES", 220.0f, 132.0f, 0.43f, kText);
+// Fond d'écran : couleur de secours + sprites réels de l'écran courant (layout/screens.tsv)
+static const char* g_screenKey = "menu";
+static int         g_layoutOps = 0;
+static void drawBg(bool top, u32 col) {
+    C2D_DrawRectSolid(0, 0, 0.0f, top ? W_TOP : W_BOT, H_SCR, col);
+    cheeseria::scene::drawLayer(g_screenKey, top);
 }
 
-void drawTop() {
-    C2D_TargetClear(gTop, kBackground);
-    C2D_SceneBegin(gTop);
-    drawText("CHEESE SHOP 3DS", 24.0f, 18.0f, 0.75f, kAccent);
-    C2D_DrawRectSolid(20.0f, 55.0f, 0.4f, 360.0f, 150.0f, kPanel);
-
-    switch (gGame.screen()) {
-        case cheeseria::Screen::Menu:
-            drawText("FIRST PLAYABLE ROUTE", 38.0f, 79.0f, 0.58f, kText);
-            drawText("Take, cook, build, fry and serve one order.",
-                     38.0f, 119.0f, 0.4f, kMuted);
-            drawText("Press A or touch the lower screen.", 38.0f, 151.0f, 0.4f, kMuted);
-            break;
-        case cheeseria::Screen::Station:
-            drawTicket();
-            switch (gGame.station()) {
-                case cheeseria::Station::TakeOrder:
-                    drawText("TAKE ORDER", 38.0f, 166.0f, 0.45f, kMuted);
-                    break;
-                case cheeseria::Station::Cook:
-                    drawText("COOKING STATION", 38.0f, 166.0f, 0.45f, kMuted);
-                    break;
-                case cheeseria::Station::Build:
-                    drawText("ASSEMBLY STATION", 38.0f, 166.0f, 0.45f, kMuted);
-                    break;
-                case cheeseria::Station::Fry:
-                    drawText("FRY STATION", 38.0f, 166.0f, 0.45f, kMuted);
-                    break;
-                case cheeseria::Station::Service:
-                    drawText("READY TO SERVE", 38.0f, 166.0f, 0.45f, kMuted);
-                    break;
+static const char* screenKey(const cheeseria::Game& g) {
+    using cheeseria::Screen; using cheeseria::Station;
+    switch (g.screen()) {
+        case Screen::Menu:     return "menu";
+        case Screen::Pause:    return "pause";
+        case Screen::Progress: return "progress";
+        case Screen::Result:   return g.result() == cheeseria::Validation::Correct ? "result_ok" : "result_bad";
+        case Screen::Station:
+            switch (g.station()) {
+                case Station::TakeOrder: return "order";
+                case Station::Cook:      return "cook";
+                case Station::Build:     return "build";
+                case Station::Fry:       return "fry";
+                case Station::Service:   return "service";
             }
-            break;
-        case cheeseria::Screen::Pause:
-            drawText("PAUSED", 38.0f, 95.0f, 0.8f, kAccent);
-            drawText("Press START or A to resume.", 38.0f, 143.0f, 0.45f, kMuted);
-            break;
-        case cheeseria::Screen::Result:
-            drawText(gGame.result() == cheeseria::Validation::Correct
-                         ? "PERFECT ORDER"
-                         : "ORDER NEEDS WORK",
-                     38.0f, 84.0f, 0.65f,
-                     gGame.result() == cheeseria::Validation::Correct ? kSelected : kAccent);
-            drawText(gGame.score() == 100 ? "SCORE: 100 / 100" : "SCORE: PARTIAL",
-                     38.0f, 132.0f, 0.58f, kText);
-            break;
-        case cheeseria::Screen::Progress:
-        {
-            char progressText[64];
-            drawText("SESSION PROGRESS", 38.0f, 81.0f, 0.58f, kAccent);
-            std::snprintf(progressText, sizeof(progressText), "ORDERS: %u",
-                          gGame.ordersCompleted());
-            drawText(progressText, 38.0f, 119.0f, 0.5f, kText);
-            std::snprintf(progressText, sizeof(progressText), "TOTAL SCORE: %u",
-                          gGame.totalScore());
-            drawText(progressText, 38.0f, 153.0f, 0.45f, kMuted);
-            break;
-        }
+    }
+    return "menu";
+}
+
+static void drawButton(float x, float y, float w, float h, u32 bgCol, u32 txtCol, float txtSz, const char* label) {
+    drawRect(x, y, w, h, bgCol);
+    // Centre le texte dans le bouton (approximation)
+    float tx = x + 4.0f;
+    float ty = y + (h - txtSz * 16.0f) * 0.5f;
+    drawText(tx, ty, txtSz, txtCol, label);
+}
+
+// Dessine un sprite depuis l'atlas
+static void drawSprite(C2D_SpriteSheet sheet, int idx, float x, float y, float scaleX, float scaleY) {
+    if (!sheet || idx < 0 || static_cast<std::size_t>(idx) >= C2D_SpriteSheetCount(sheet)) return;
+    C2D_Sprite spr;
+    C2D_SpriteFromSheet(&spr, sheet, static_cast<std::size_t>(idx));
+    C2D_SpriteSetCenter(&spr, 0.0f, 0.0f);
+    C2D_SpriteSetPos(&spr, x, y);
+    C2D_SpriteSetScale(&spr, scaleX, scaleY);
+    C2D_DrawSprite(&spr);
+}
+
+// ─── Vérification du toucher ─────────────────────────────────────────────────
+
+static bool touchInRect(touchPosition tp, float x, float y, float w, float h) {
+    return tp.px >= x && tp.px <= x + w && tp.py >= y && tp.py <= y + h;
+}
+
+// ─── Rendu Menu ──────────────────────────────────────────────────────────────
+
+static void renderMenuTop(const cheeseria::Game& game) {
+    drawBg(true, COL_BG_TOP);
+    // Logo / titre
+    drawText(60, 20, 1.0f, COL_YELLOW, "Papa's Cheeseria 3DS");
+    drawText(80, 55, 0.6f, COL_WHITE,  "Port homebrew non officiel");
+    // Stats
+    char buf[64];
+    snprintf(buf, sizeof(buf), "Commandes terminees : %u", game.ordersCompleted());
+    drawText(60, 100, 0.55f, COL_LTBLUE, buf);
+    snprintf(buf, sizeof(buf), "Score total         : %u", game.totalScore());
+    drawText(60, 120, 0.55f, COL_LTBLUE, buf);
+    drawText(80, 180, 0.5f, COL_GREY,
+             "Ecran du bas : Jouer | Dpad : nav.");
+    snprintf(buf, sizeof(buf), "romfs:%s planches:%d layout:%d ingr:%s ui:%s",
+             g_romfsOk ? "OK" : "KO", cheeseria::sprites::sheetCount(), g_layoutOps,
+             g_ingrLoaded ? "OK" : "KO", g_uiLoaded ? "OK" : "KO");
+    drawText(10, 215, 0.4f, COL_GREY, buf);
+}
+
+static void renderMenuBot(const cheeseria::Game&) {
+    drawBg(false, COL_BG_BOT);
+    drawButton(60, 80, 200, 50, COL_ORANGE, COL_WHITE, 0.7f, "  Nouvelle commande");
+    drawButton(60, 145, 200, 40, COL_DARKBLUE, COL_WHITE, 0.6f, "  Galerie sprites");
+    drawText(60, 200, 0.5f, COL_GREY, "A : jouer  |  Y : galerie");
+}
+
+// ─── Rendu Prise de commande ─────────────────────────────────────────────────
+
+static void renderOrderTop(const cheeseria::Game& game) {
+    drawBg(true, C2D_Color32(0x1C, 0x35, 0x5E, 0xFF));
+    drawText(10, 5, 0.65f, COL_YELLOW, "--- TICKET CLIENT ---");
+
+    const cheeseria::Ticket& t = game.ticket();
+    // Pain
+    const char* breadName = (t.bread == cheeseria::Bread::White) ? "Pain Blanc" : "Pain Complet";
+    char line[80];
+    snprintf(line, sizeof(line), "Pain   : %s", breadName);
+    drawText(20, 40, 0.6f, COL_WHITE, line);
+    // Fromage
+    const char* cheeseName = (t.cheese == cheeseria::Cheese::Cheddar) ? "Cheddar" : "Mozzarella";
+    snprintf(line, sizeof(line), "Fromage: %s", cheeseName);
+    drawText(20, 65, 0.6f, COL_WHITE, line);
+    // Cuisson
+    const char* cookName = "Medium";
+    if (t.cook == cheeseria::CookLevel::Light) cookName = "Leger";
+    if (t.cook == cheeseria::CookLevel::Well)  cookName = "Bien cuit";
+    snprintf(line, sizeof(line), "Cuisson: %s", cookName);
+    drawText(20, 90, 0.6f, COL_WHITE, line);
+    // Frites
+    const char* friesName = (t.fries == cheeseria::Fries::Regular) ? "Normales" : "Patate douce";
+    snprintf(line, sizeof(line), "Frites : %s", friesName);
+    drawText(20, 115, 0.6f, COL_WHITE, line);
+
+    drawText(20, 170, 0.5f, COL_GREY, "Bas : Accepter la commande");
+}
+
+static void renderOrderBot(const cheeseria::Game&) {
+    drawBg(false, COL_BG_BOT);
+    drawText(10, 10, 0.6f, COL_YELLOW, "Prise de commande");
+    drawButton(40, 70, 240, 50, COL_GREEN, COL_WHITE, 0.65f, "   Accepter la commande");
+    drawButton(40, 140, 240, 40, COL_RED, COL_WHITE, 0.6f, "    Annuler");
+}
+
+// ─── Rendu Cuisson ───────────────────────────────────────────────────────────
+
+static void renderCookTop(const cheeseria::Game& game) {
+    drawBg(true, C2D_Color32(0x3B, 0x1A, 0x05, 0xFF));
+    drawText(10, 5, 0.7f, COL_ORANGE, "STATION : GRILL");
+    drawText(10, 35, 0.55f, COL_WHITE, "Choisir le niveau de cuisson :");
+
+    const char* cookName = "?";
+    if (game.selectedCook() == cheeseria::CookLevel::Light)  cookName = "Leger";
+    if (game.selectedCook() == cheeseria::CookLevel::Medium) cookName = "Medium";
+    if (game.selectedCook() == cheeseria::CookLevel::Well)   cookName = "Bien cuit";
+
+    char buf[64];
+    snprintf(buf, sizeof(buf), "Selection : %s", cookName);
+    drawText(10, 160, 0.6f, COL_YELLOW, buf);
+}
+
+static void renderCookBot(const cheeseria::Game& game) {
+    drawBg(false, COL_BG_BOT);
+    drawText(10, 5, 0.6f, COL_ORANGE, "Cuisson");
+
+    u32 cLight  = (game.selectedCook() == cheeseria::CookLevel::Light)  ? COL_YELLOW : COL_DARKBLUE;
+    u32 cMedium = (game.selectedCook() == cheeseria::CookLevel::Medium) ? COL_YELLOW : COL_DARKBLUE;
+    u32 cWell   = (game.selectedCook() == cheeseria::CookLevel::Well)   ? COL_YELLOW : COL_DARKBLUE;
+
+    drawButton(10, 40, 90, 50, cLight,  COL_WHITE, 0.52f, " Leger");
+    drawButton(115, 40, 90, 50, cMedium, COL_WHITE, 0.52f, "Medium");
+    drawButton(220, 40, 90, 50, cWell,  COL_WHITE, 0.52f, "B.Cuit");
+
+    bool canFinish = game.selectedCook() != cheeseria::CookLevel::NotSelected;
+    drawButton(60, 120, 200, 50, canFinish ? COL_GREEN : COL_GREY, COL_WHITE, 0.6f, "   Terminer cuisson");
+}
+
+// ─── Rendu Assemblage ────────────────────────────────────────────────────────
+
+static void renderBuildTop(const cheeseria::Game& game) {
+    drawBg(true, C2D_Color32(0x1A, 0x3B, 0x1A, 0xFF));
+    drawText(10, 5, 0.7f, COL_GREEN, "STATION : ASSEMBLAGE");
+
+    if (g_ingrLoaded) {
+        // Pain gauche, fromage droite
+        int breadIdx = (game.selectedBread() == cheeseria::Bread::White) ? IDX_BREAD_WHITE : IDX_BREAD_WHEAT;
+        if (game.selectedBread() != cheeseria::Bread::NotSelected)
+            drawSprite(g_sheetIngr, breadIdx, 20, 60, 0.9f, 0.9f);
+
+        int cheeseIdx = (game.selectedCheese() == cheeseria::Cheese::Cheddar) ? IDX_CHEDDAR : IDX_MOZZARELLA;
+        if (game.selectedCheese() != cheeseria::Cheese::NotSelected)
+            drawSprite(g_sheetIngr, cheeseIdx, 220, 60, 0.9f, 0.9f);
+    }
+
+    char buf[80];
+    const char* bname = (game.selectedBread() == cheeseria::Bread::White) ? "Blanc" :
+                        (game.selectedBread() == cheeseria::Bread::Wholegrain) ? "Complet" : "?";
+    const char* cname = (game.selectedCheese() == cheeseria::Cheese::Cheddar) ? "Cheddar" :
+                        (game.selectedCheese() == cheeseria::Cheese::Mozzarella) ? "Mozza" : "?";
+    snprintf(buf, sizeof(buf), "Pain: %s  |  Fromage: %s", bname, cname);
+    drawText(10, 190, 0.5f, COL_WHITE, buf);
+}
+
+static void renderBuildBot(const cheeseria::Game& game) {
+    drawBg(false, COL_BG_BOT);
+    drawText(10, 5, 0.6f, COL_GREEN, "Assemblage");
+
+    u32 cW = (game.selectedBread() == cheeseria::Bread::White)      ? COL_YELLOW : COL_DARKBLUE;
+    u32 cG = (game.selectedBread() == cheeseria::Bread::Wholegrain) ? COL_YELLOW : COL_DARKBLUE;
+    drawButton(10, 30, 140, 40, cW, COL_WHITE, 0.52f, " Pain Blanc");
+    drawButton(165, 30, 145, 40, cG, COL_WHITE, 0.52f, " Pain Complet");
+
+    u32 cC = (game.selectedCheese() == cheeseria::Cheese::Cheddar)     ? COL_YELLOW : COL_DARKBLUE;
+    u32 cM = (game.selectedCheese() == cheeseria::Cheese::Mozzarella)  ? COL_YELLOW : COL_DARKBLUE;
+    drawButton(10, 85, 140, 40, cC, COL_WHITE, 0.52f, " Cheddar");
+    drawButton(165, 85, 145, 40, cM, COL_WHITE, 0.52f, " Mozzarella");
+
+    bool canFinish = game.selectedBread() != cheeseria::Bread::NotSelected &&
+                     game.selectedCheese() != cheeseria::Cheese::NotSelected;
+    drawButton(60, 150, 200, 50, canFinish ? COL_GREEN : COL_GREY, COL_WHITE, 0.6f, "   Terminer sandwich");
+}
+
+// ─── Rendu Frites ────────────────────────────────────────────────────────────
+
+static void renderFryTop(const cheeseria::Game& game) {
+    drawBg(true, C2D_Color32(0x3B, 0x30, 0x05, 0xFF));
+    drawText(10, 5, 0.7f, COL_YELLOW, "STATION : FRITES");
+
+    if (g_ingrLoaded && game.selectedFries() != cheeseria::Fries::NotSelected) {
+        int friesIdx = (game.selectedFries() == cheeseria::Fries::Regular) ? IDX_FRIES_REGULAR : IDX_FRIES_SWEET;
+        drawSprite(g_sheetIngr, friesIdx, 160, 60, 1.0f, 1.0f);
+    }
+
+    const char* friesName = "?";
+    if (game.selectedFries() == cheeseria::Fries::Regular)      friesName = "Normales";
+    if (game.selectedFries() == cheeseria::Fries::SweetPotato)  friesName = "Patate douce";
+    char buf[64];
+    snprintf(buf, sizeof(buf), "Selection : %s", friesName);
+    drawText(10, 190, 0.55f, COL_WHITE, buf);
+}
+
+static void renderFryBot(const cheeseria::Game& game) {
+    drawBg(false, COL_BG_BOT);
+    drawText(10, 5, 0.6f, COL_YELLOW, "Frites");
+
+    u32 cR = (game.selectedFries() == cheeseria::Fries::Regular)     ? COL_YELLOW : COL_DARKBLUE;
+    u32 cS = (game.selectedFries() == cheeseria::Fries::SweetPotato) ? COL_YELLOW : COL_DARKBLUE;
+    drawButton(10, 60, 140, 50, cR, COL_WHITE, 0.55f, " Normales");
+    drawButton(165, 60, 145, 50, cS, COL_WHITE, 0.55f, " Patate douce");
+
+    bool canFinish = game.selectedFries() != cheeseria::Fries::NotSelected;
+    drawButton(60, 150, 200, 50, canFinish ? COL_GREEN : COL_GREY, COL_WHITE, 0.6f, "   Envoyer les frites");
+}
+
+// ─── Rendu Service ───────────────────────────────────────────────────────────
+
+static void renderServiceTop(const cheeseria::Game&) {
+    drawBg(true, C2D_Color32(0x1A, 0x26, 0x3B, 0xFF));
+    drawText(30, 50, 0.75f, COL_WHITE, "Le plateau est pret !");
+    drawText(50, 100, 0.6f, COL_LTBLUE, "Servez le client maintenant.");
+}
+
+static void renderServiceBot(const cheeseria::Game&) {
+    drawBg(false, COL_BG_BOT);
+    drawText(10, 10, 0.6f, COL_WHITE, "Service");
+    drawButton(60, 80, 200, 60, COL_ORANGE, COL_WHITE, 0.65f, "   Servir le client");
+}
+
+// ─── Rendu Résultat ──────────────────────────────────────────────────────────
+
+static void renderResultTop(const cheeseria::Game& game) {
+    u32 bgCol = (game.result() == cheeseria::Validation::Correct) ?
+        C2D_Color32(0x05, 0x3B, 0x0A, 0xFF) : C2D_Color32(0x3B, 0x05, 0x05, 0xFF);
+    drawBg(true, bgCol);
+
+    if (game.result() == cheeseria::Validation::Correct) {
+        drawText(70, 40, 0.9f, COL_GREEN, "PARFAIT !");
+        drawText(80, 90, 0.6f, COL_WHITE, "Le client est ravi !");
+    } else {
+        drawText(70, 40, 0.9f, COL_RED, "RATÉ !");
+        drawText(60, 90, 0.6f, COL_WHITE, "Verifiez votre commande...");
+    }
+    char buf[64];
+    snprintf(buf, sizeof(buf), "Score : +%u pts", game.score());
+    drawText(100, 140, 0.7f, COL_YELLOW, buf);
+}
+
+static void renderResultBot(const cheeseria::Game&) {
+    drawBg(false, COL_BG_BOT);
+    drawButton(60, 90, 200, 60, COL_LTBLUE, COL_WHITE, 0.65f, "   Voir la progression");
+}
+
+// ─── Rendu Progression ───────────────────────────────────────────────────────
+
+static void renderProgressTop(const cheeseria::Game& game) {
+    drawBg(true, COL_BG_TOP);
+    drawText(60, 20, 0.75f, COL_YELLOW, "Progression de la journee");
+    char buf[64];
+    snprintf(buf, sizeof(buf), "Commandes servies : %u", game.ordersCompleted());
+    drawText(60, 80, 0.6f, COL_WHITE, buf);
+    snprintf(buf, sizeof(buf), "Score cumulatif   : %u pts", game.totalScore());
+    drawText(60, 110, 0.6f, COL_WHITE, buf);
+}
+
+static void renderProgressBot(const cheeseria::Game&) {
+    drawBg(false, COL_BG_BOT);
+    drawButton(60, 90, 200, 60, COL_GREEN, COL_WHITE, 0.65f, "   Continuer");
+}
+
+// ─── Rendu Pause ─────────────────────────────────────────────────────────────
+
+static void renderPauseTop(const cheeseria::Game&) {
+    drawBg(true, C2D_Color32(0x10, 0x10, 0x10, 0xCC));
+    drawText(130, 80, 0.8f, COL_WHITE, "PAUSE");
+    drawText(100, 130, 0.5f, COL_GREY, "START pour reprendre");
+}
+
+static void renderPauseBot(const cheeseria::Game&) {
+    drawBg(false, C2D_Color32(0x10, 0x10, 0x10, 0xCC));
+    drawButton(60, 60, 200, 50, COL_GREEN, COL_WHITE, 0.65f, "   Reprendre");
+    drawButton(60, 130, 200, 50, COL_RED,  COL_WHITE, 0.65f, "   Quitter la commande");
+}
+
+// ─── Gestion du toucher par écran/station ────────────────────────────────────
+
+static void handleMenuTouch(cheeseria::Game& game, touchPosition tp) {
+    // Bouton "Nouvelle commande" [60,80,200,50]
+    if (touchInRect(tp, 60, 80, 200, 50)) {
+        game.startOrder();
+    }
+    // Bouton "Galerie sprites" [60,145,200,40]
+    if (touchInRect(tp, 60, 145, 200, 40)) g_openGallery = true;
+}
+
+static void handleOrderTouch(cheeseria::Game& game, touchPosition tp) {
+    // Accepter [40,70,240,50]
+    if (touchInRect(tp, 40, 70, 240, 50)) game.acceptOrder();
+    // Annuler [40,140,240,40]
+    if (touchInRect(tp, 40, 140, 240, 40)) game.cancelOrder();
+}
+
+static void handleCookTouch(cheeseria::Game& game, touchPosition tp) {
+    if (touchInRect(tp, 10,  40, 90, 50)) game.chooseCook(cheeseria::CookLevel::Light);
+    if (touchInRect(tp, 115, 40, 90, 50)) game.chooseCook(cheeseria::CookLevel::Medium);
+    if (touchInRect(tp, 220, 40, 90, 50)) game.chooseCook(cheeseria::CookLevel::Well);
+    if (touchInRect(tp, 60, 120, 200, 50)) game.finishCook();
+}
+
+static void handleBuildTouch(cheeseria::Game& game, touchPosition tp) {
+    if (touchInRect(tp, 10,  30, 140, 40)) game.chooseBread(cheeseria::Bread::White);
+    if (touchInRect(tp, 165, 30, 145, 40)) game.chooseBread(cheeseria::Bread::Wholegrain);
+    if (touchInRect(tp, 10,  85, 140, 40)) game.chooseCheese(cheeseria::Cheese::Cheddar);
+    if (touchInRect(tp, 165, 85, 145, 40)) game.chooseCheese(cheeseria::Cheese::Mozzarella);
+    if (touchInRect(tp, 60, 150, 200, 50)) game.finishBuild();
+}
+
+static void handleFryTouch(cheeseria::Game& game, touchPosition tp) {
+    if (touchInRect(tp, 10,  60, 140, 50)) game.chooseFries(cheeseria::Fries::Regular);
+    if (touchInRect(tp, 165, 60, 145, 50)) game.chooseFries(cheeseria::Fries::SweetPotato);
+    if (touchInRect(tp, 60, 150, 200, 50)) game.finishFry();
+}
+
+static void handleServiceTouch(cheeseria::Game& game, touchPosition tp, bool& needSave) {
+    if (touchInRect(tp, 60, 80, 200, 60)) {
+        game.serveOrder();
+        cheeseria::playServeSound();
+        needSave = true;
     }
 }
 
-void drawStationControls() {
-    switch (gGame.station()) {
-        case cheeseria::Station::TakeOrder:
-            drawText("CUSTOMER TICKET", 18.0f, 35.0f, 0.52f, kText);
-            drawButton("ACCEPT ORDER", 18.0f, 156.0f, 284.0f, 48.0f);
-            break;
-        case cheeseria::Station::Cook:
-            drawText("CHOOSE COOK LEVEL", 18.0f, 15.0f, 0.42f, kMuted);
-            drawButton("LIGHT", 16.0f, 50.0f, 88.0f, 38.0f,
-                       gGame.selectedCook() == cheeseria::CookLevel::Light);
-            drawButton("MEDIUM", 116.0f, 50.0f, 88.0f, 38.0f,
-                       gGame.selectedCook() == cheeseria::CookLevel::Medium);
-            drawButton("WELL", 216.0f, 50.0f, 88.0f, 38.0f,
-                       gGame.selectedCook() == cheeseria::CookLevel::Well);
-            drawButton("COOK & CONTINUE", 16.0f, 174.0f, 288.0f, 42.0f);
-            break;
-        case cheeseria::Station::Build:
-            drawText("CHOOSE BREAD", 18.0f, 15.0f, 0.42f, kMuted);
-            drawIngredientButton("WHITE", BreadWhiteSprite, 16.0f, 40.0f,
-                                 gGame.selectedBread() == cheeseria::Bread::White);
-            drawIngredientButton("WHOLEGRAIN", BreadWheatSprite, 164.0f, 40.0f,
-                                 gGame.selectedBread() == cheeseria::Bread::Wholegrain);
-            drawText("CHOOSE CHEESE", 18.0f, 84.0f, 0.42f, kMuted);
-            drawIngredientButton("CHEDDAR", CheddarSprite, 16.0f, 109.0f,
-                                 gGame.selectedCheese() == cheeseria::Cheese::Cheddar);
-            drawIngredientButton("MOZZARELLA", MozzarellaSprite, 164.0f, 109.0f,
-                                 gGame.selectedCheese() == cheeseria::Cheese::Mozzarella);
-            drawButton("BUILD & CONTINUE", 16.0f, 174.0f, 288.0f, 42.0f);
-            if (gIngredientLoadFailed) {
-                drawText("ERROR: INGREDIENT ATLAS FAILED", 18.0f, 222.0f, 0.33f, kError);
-            }
-            break;
-        case cheeseria::Station::Fry:
-            drawText("CHOOSE SIDE", 18.0f, 35.0f, 0.48f, kMuted);
-            drawButton("REGULAR FRIES", 16.0f, 82.0f, 140.0f, 42.0f,
-                       gGame.selectedFries() == cheeseria::Fries::Regular);
-            drawButton("SWEET POTATO", 164.0f, 82.0f, 140.0f, 42.0f,
-                       gGame.selectedFries() == cheeseria::Fries::SweetPotato);
-            drawButton("FRY & CONTINUE", 16.0f, 174.0f, 288.0f, 42.0f);
-            break;
-        case cheeseria::Station::Service:
-            drawText("CHECK THE TICKET", 18.0f, 35.0f, 0.52f, kText);
-            drawButton("SERVE ORDER", 18.0f, 156.0f, 284.0f, 48.0f);
-            break;
-    }
-    drawText("START: pause  B: cancel", 18.0f, 222.0f, 0.34f, kMuted);
+static void handleResultTouch(cheeseria::Game& game, touchPosition tp) {
+    if (touchInRect(tp, 60, 90, 200, 60)) game.acknowledgeResult();
 }
 
-void drawBottom() {
-    C2D_TargetClear(gBottom, kBackground);
-    C2D_SceneBegin(gBottom);
-
-    switch (gGame.screen()) {
-        case cheeseria::Screen::Menu:
-            drawText("READY FOR A CUSTOMER?", 18.0f, 35.0f, 0.52f, kText);
-            drawButton("START ORDER", 18.0f, 156.0f, 284.0f, 48.0f);
-            break;
-        case cheeseria::Screen::Station:
-            drawStationControls();
-            break;
-        case cheeseria::Screen::Pause:
-            drawText("GAME PAUSED", 18.0f, 35.0f, 0.55f, kText);
-            drawButton("RESUME", 18.0f, 156.0f, 284.0f, 48.0f);
-            break;
-        case cheeseria::Screen::Result:
-            drawText("ORDER RESULT", 18.0f, 35.0f, 0.55f, kText);
-            drawButton("SESSION SUMMARY", 18.0f, 156.0f, 284.0f, 48.0f);
-            break;
-        case cheeseria::Screen::Progress:
-            drawText("SESSION COMPLETE", 18.0f, 35.0f, 0.55f, kText);
-            drawButton("NEXT ORDER", 18.0f, 156.0f, 284.0f, 48.0f);
-            break;
-    }
+static void handleProgressTouch(cheeseria::Game& game, touchPosition tp) {
+    if (touchInRect(tp, 60, 90, 200, 60)) game.continueFromProgress();
 }
 
-void handleTouch(int x, int y) {
-    switch (gGame.screen()) {
-        case cheeseria::Screen::Menu:
-            if (y >= 150 && y <= 210) gGame.startOrder();
-            break;
-        case cheeseria::Screen::Station:
-            switch (gGame.station()) {
-                case cheeseria::Station::TakeOrder:
-                    if (y >= 150 && y <= 210) gGame.acceptOrder();
-                    break;
-                case cheeseria::Station::Cook:
-                    if (y >= 50 && y <= 88) {
-                        if (x < 106) gGame.chooseCook(cheeseria::CookLevel::Light);
-                        else if (x < 214) gGame.chooseCook(cheeseria::CookLevel::Medium);
-                        else gGame.chooseCook(cheeseria::CookLevel::Well);
-                    } else if (y >= 174 && y <= 216) {
-                        gGame.finishCook();
-                    }
-                    break;
-                case cheeseria::Station::Build:
-                    if (y >= 40 && y <= 74) {
-                        gGame.chooseBread(x < 160 ? cheeseria::Bread::White
-                                                  : cheeseria::Bread::Wholegrain);
-                    } else if (y >= 109 && y <= 143) {
-                        gGame.chooseCheese(x < 160 ? cheeseria::Cheese::Cheddar
-                                                   : cheeseria::Cheese::Mozzarella);
-                    } else if (y >= 174 && y <= 216) {
-                        gGame.finishBuild();
-                    }
-                    break;
-                case cheeseria::Station::Fry:
-                    if (y >= 82 && y <= 124) {
-                        gGame.chooseFries(x < 160 ? cheeseria::Fries::Regular
-                                                  : cheeseria::Fries::SweetPotato);
-                    } else if (y >= 174 && y <= 216) {
-                        gGame.finishFry();
-                    }
-                    break;
-                case cheeseria::Station::Service:
-                    if (y >= 150 && y <= 210) gGame.serveOrder();
-                    break;
-            }
-            break;
-        case cheeseria::Screen::Pause:
-            if (y >= 150 && y <= 210) gGame.resume();
-            break;
-        case cheeseria::Screen::Result:
-            if (y >= 150 && y <= 210) gGame.acknowledgeResult();
-            break;
-        case cheeseria::Screen::Progress:
-            if (y >= 150 && y <= 210) gGame.continueFromProgress();
-            break;
-    }
+static void handlePauseTouch(cheeseria::Game& game, touchPosition tp) {
+    if (touchInRect(tp, 60,  60, 200, 50)) game.resume();
+    if (touchInRect(tp, 60, 130, 200, 50)) game.cancelOrder();
 }
 
-void handleA() {
-    switch (gGame.screen()) {
-        case cheeseria::Screen::Menu:
-            gGame.startOrder();
-            break;
-        case cheeseria::Screen::Station:
-            switch (gGame.station()) {
-                case cheeseria::Station::TakeOrder: gGame.acceptOrder(); break;
-                case cheeseria::Station::Cook: gGame.finishCook(); break;
-                case cheeseria::Station::Build: gGame.finishBuild(); break;
-                case cheeseria::Station::Fry: gGame.finishFry(); break;
-                case cheeseria::Station::Service: gGame.serveOrder(); break;
-            }
-            break;
-        case cheeseria::Screen::Pause:
-            gGame.resume();
-            break;
-        case cheeseria::Screen::Result:
-            gGame.acknowledgeResult();
-            break;
-        case cheeseria::Screen::Progress:
-            gGame.continueFromProgress();
-            break;
-    }
-}
-
-void syncIngredientResources() {
-    const bool needed = gGame.screen() == cheeseria::Screen::Station &&
-                        gGame.station() == cheeseria::Station::Build;
-    if (needed && !gIngredientLoadAttempted) {
-        gIngredientLoadAttempted = true;
-        gIngredientSheet = C2D_SpriteSheetLoad("romfs:/gfx/ingredients.t3x");
-        if (!gIngredientSheet || C2D_SpriteSheetCount(gIngredientSheet) < 4) {
-            if (gIngredientSheet) C2D_SpriteSheetFree(gIngredientSheet);
-            gIngredientSheet = nullptr;
-            gIngredientLoadFailed = true;
-            return;
-        }
-        for (size_t i = 0; i < 4; ++i) {
-            C2D_SpriteFromSheet(&gIngredientSprites[i], gIngredientSheet, i);
-        }
-        gIngredientLoadFailed = false;
-    } else if (!needed) {
-        if (gIngredientSheet) {
-            C2D_SpriteSheetFree(gIngredientSheet);
-            gIngredientSheet = nullptr;
-        }
-        gIngredientLoadAttempted = false;
-        gIngredientLoadFailed = false;
-    }
-}
-
-bool initializeGraphics() {
-    gfxInitDefault();
-    if (!C3D_Init(C3D_DEFAULT_CMDBUF_SIZE)) {
-        gfxExit();
-        return false;
-    }
-    if (!C2D_Init(C2D_DEFAULT_MAX_OBJECTS)) {
-        C3D_Fini();
-        gfxExit();
-        return false;
-    }
-    C2D_Prepare();
-
-    gTextBuffer = C2D_TextBufNew(512);
-    gTop = C3D_RenderTargetCreate(kScreenHeight, kTopWidth, GPU_RB_RGBA8,
-                                  GPU_RB_DEPTH24_STENCIL8);
-    gBottom = C3D_RenderTargetCreate(kScreenHeight, kBottomWidth, GPU_RB_RGBA8,
-                                     GPU_RB_DEPTH24_STENCIL8);
-    if (!gTextBuffer || !gTop || !gBottom) {
-        if (gBottom) C3D_RenderTargetDelete(gBottom);
-        if (gTop) C3D_RenderTargetDelete(gTop);
-        if (gTextBuffer) C2D_TextBufDelete(gTextBuffer);
-        C2D_Fini();
-        C3D_Fini();
-        gfxExit();
-        return false;
-    }
-
-    constexpr u32 transferFlags = GX_TRANSFER_FLIP_VERT(0) |
-                                  GX_TRANSFER_OUT_TILED(0) |
-                                  GX_TRANSFER_RAW_COPY(0) |
-                                  GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) |
-                                  GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8);
-    C3D_RenderTargetSetOutput(gTop, GFX_TOP, GFX_LEFT, transferFlags);
-    C3D_RenderTargetSetOutput(gBottom, GFX_BOTTOM, GFX_LEFT, transferFlags);
-    return true;
-}
-
-void shutdownGraphics() {
-    if (gIngredientSheet) C2D_SpriteSheetFree(gIngredientSheet);
-    C3D_RenderTargetDelete(gBottom);
-    C3D_RenderTargetDelete(gTop);
-    C2D_TextBufDelete(gTextBuffer);
-    C2D_Fini();
-    C3D_Fini();
-    gfxExit();
-}
-
-} // namespace
+// ─── Boucle principale ───────────────────────────────────────────────────────
 
 int main() {
-    if (R_FAILED(romfsInit())) {
-        return 1;
-    }
-    if (!initializeGraphics()) {
-        romfsExit();
-        return 1;
-    }
+    // Init 3DS
+    gfxInitDefault();
+    g_romfsOk = R_SUCCEEDED(romfsInit()); // indispensable pour lire "romfs:/..."
+    C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
+    C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
+    C2D_Prepare();
+    g_textBuf = C2D_TextBufNew(4096);
+    // PAS de consoleInit(GFX_BOTTOM) : il entre en conflit avec la cible citro2d du bas
+
+    // Cibles de rendu
+    C3D_RenderTarget* topLeft  = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
+    C3D_RenderTarget* bottom   = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+
+    // Audio
+    bool audioOk = cheeseria::initializeAudio();
+    (void)audioOk;
+
+    // Chargement des textures
+    g_sheetIngr = C2D_SpriteSheetLoad("romfs:/gfx/ingredients.t3x");
+    g_ingrLoaded = (g_sheetIngr != nullptr);
+    g_sheetUI   = C2D_SpriteSheetLoad("romfs:/gfx/ui.t3x");
+    g_uiLoaded  = (g_sheetUI != nullptr);
+    cheeseria::sprites::scan(); // liste toutes les planches romfs:/gfx/*.t3x (+ manifest.tsv)
+    g_layoutOps = cheeseria::scene::init(); // romfs:/layout/screens.tsv (vrais sprites)
+
+    // État du jeu
+    cheeseria::Game game;
+    bool saveDirty = false;
+
+    // Chargement de la sauvegarde
+    loadProgress(game);
 
     while (aptMainLoop()) {
         hidScanInput();
-        const u32 keys = hidKeysDown();
+        u32 kDown = hidKeysDown();
+        touchPosition tp;
+        hidTouchRead(&tp);
 
-        if (keys & KEY_A) handleA();
-        if ((keys & KEY_B) &&
-            (gGame.screen() == cheeseria::Screen::Station ||
-             gGame.screen() == cheeseria::Screen::Pause)) {
-            gGame.cancelOrder();
-        }
-        if (keys & KEY_START) {
-            if (gGame.screen() == cheeseria::Screen::Station) gGame.pause();
-            else if (gGame.screen() == cheeseria::Screen::Pause) gGame.resume();
-        }
-        if (keys & KEY_TOUCH) {
-            touchPosition touch{};
-            hidTouchRead(&touch);
-            handleTouch(touch.px, touch.py);
+        bool touched = (kDown & KEY_TOUCH) != 0;
+        bool btnA    = (kDown & KEY_A) != 0;
+        bool btnB    = (kDown & KEY_B) != 0;
+        bool btnStart= (kDown & KEY_START) != 0;
+
+        // Quitter avec SELECT
+        if (kDown & KEY_SELECT) break;
+
+        // Galerie des sprites : prend le contrôle de l'entrée et du rendu
+        if (cheeseria::galleryActive()) {
+            cheeseria::galleryFrame(kDown, tp, touched, topLeft, bottom, g_textBuf);
+            continue;
         }
 
-        syncIngredientResources();
+        cheeseria::Screen sc = game.screen();
+        cheeseria::Station st = game.station();
+
+        // ── Gestion Pause ──
+        if (sc == cheeseria::Screen::Station && btnStart) {
+            game.pause();
+        } else if (sc == cheeseria::Screen::Pause) {
+            if (btnStart || btnB) game.resume();
+            if (touched) handlePauseTouch(game, tp);
+        }
+        // ── Menu ──
+        else if (sc == cheeseria::Screen::Menu) {
+            if (kDown & KEY_Y) g_openGallery = true;
+            if (btnA || touched) {
+                if (touched) handleMenuTouch(game, tp);
+                else game.startOrder();
+            }
+        }
+        // ── Station ──
+        else if (sc == cheeseria::Screen::Station) {
+            if (st == cheeseria::Station::TakeOrder) {
+                if (btnA) game.acceptOrder();
+                if (btnB) game.cancelOrder();
+                if (touched) handleOrderTouch(game, tp);
+            } else if (st == cheeseria::Station::Cook) {
+                if (touched) handleCookTouch(game, tp);
+            } else if (st == cheeseria::Station::Build) {
+                if (touched) handleBuildTouch(game, tp);
+            } else if (st == cheeseria::Station::Fry) {
+                if (touched) handleFryTouch(game, tp);
+            } else if (st == cheeseria::Station::Service) {
+                if (btnA || touched) {
+                    if (touched) handleServiceTouch(game, tp, saveDirty);
+                    else { game.serveOrder(); cheeseria::playServeSound(); saveDirty = true; }
+                }
+            }
+        }
+        // ── Résultat ──
+        else if (sc == cheeseria::Screen::Result) {
+            if (saveDirty) { saveProgress(game); saveDirty = false; }
+            if (btnA || touched) {
+                if (touched) handleResultTouch(game, tp);
+                else game.acknowledgeResult();
+            }
+        }
+        // ── Progression ──
+        else if (sc == cheeseria::Screen::Progress) {
+            if (btnA || touched) {
+                if (touched) handleProgressTouch(game, tp);
+                else game.continueFromProgress();
+            }
+        }
+
+        if (g_openGallery) { g_openGallery = false; cheeseria::galleryOpen(); }
+
+        // ── Rendu ──
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-        C2D_TextBufClear(gTextBuffer);
-        drawTop();
-        drawBottom();
+        C2D_TextBufClear(g_textBuf);
+
+        g_screenKey = screenKey(game);
+        cheeseria::scene::setScreen(g_screenKey);
+
+        // Écran du haut
+        C2D_TargetClear(topLeft, C2D_Color32(0, 0, 0, 255));
+        C2D_SceneBegin(topLeft);
+        sc = game.screen();
+        st = game.station();
+        if (sc == cheeseria::Screen::Menu)      renderMenuTop(game);
+        else if (sc == cheeseria::Screen::Pause) renderPauseTop(game);
+        else if (sc == cheeseria::Screen::Result) renderResultTop(game);
+        else if (sc == cheeseria::Screen::Progress) renderProgressTop(game);
+        else if (sc == cheeseria::Screen::Station) {
+            if (st == cheeseria::Station::TakeOrder) renderOrderTop(game);
+            else if (st == cheeseria::Station::Cook)  renderCookTop(game);
+            else if (st == cheeseria::Station::Build) renderBuildTop(game);
+            else if (st == cheeseria::Station::Fry)   renderFryTop(game);
+            else if (st == cheeseria::Station::Service) renderServiceTop(game);
+        }
+
+        // Écran du bas
+        C2D_TargetClear(bottom, C2D_Color32(0, 0, 0, 255));
+        C2D_SceneBegin(bottom);
+        if (sc == cheeseria::Screen::Menu)       renderMenuBot(game);
+        else if (sc == cheeseria::Screen::Pause)  renderPauseBot(game);
+        else if (sc == cheeseria::Screen::Result)  renderResultBot(game);
+        else if (sc == cheeseria::Screen::Progress) renderProgressBot(game);
+        else if (sc == cheeseria::Screen::Station) {
+            if (st == cheeseria::Station::TakeOrder) renderOrderBot(game);
+            else if (st == cheeseria::Station::Cook)  renderCookBot(game);
+            else if (st == cheeseria::Station::Build) renderBuildBot(game);
+            else if (st == cheeseria::Station::Fry)   renderFryBot(game);
+            else if (st == cheeseria::Station::Service) renderServiceBot(game);
+        }
+
         C3D_FrameEnd(0);
     }
 
-    shutdownGraphics();
-    romfsExit();
+    // Nettoyage
+    cheeseria::shutdownAudio();
+    if (g_ingrLoaded) C2D_SpriteSheetFree(g_sheetIngr);
+    if (g_uiLoaded)   C2D_SpriteSheetFree(g_sheetUI);
+    cheeseria::sprites::unloadAll();
+    if (g_textBuf) C2D_TextBufDelete(g_textBuf);
+    C2D_Fini();
+    C3D_Fini();
+    if (g_romfsOk) romfsExit();
+    gfxExit();
     return 0;
 }

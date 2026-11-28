@@ -1,0 +1,2943 @@
+=== INVENTAIRE ===
+Racine : C:\Users\dodo\Desktop\projet\game final\Papa's Cheeseria
+Fichiers : 11884   Taille totale : 113.6 Mo
+
+=== DOSSIERS DE PREMIER NIVEAU ===
+(racine)                   7 fichiers      0.12 Mo
+analysis                3535 fichiers      5.09 Mo
+assets                  8287 fichiers     89.30 Mo
+build                     14 fichiers      2.76 Mo
+docs                       2 fichiers      0.00 Mo
+include                    5 fichiers      0.01 Mo
+input                      1 fichiers     12.25 Mo
+meta                       3 fichiers      0.17 Mo
+romfs                     18 fichiers      3.81 Mo
+source                     7 fichiers      0.06 Mo
+tests                      1 fichiers      0.00 Mo
+tools                      4 fichiers      0.01 Mo
+
+=== EXTENSIONS (global) ===
+.svg          7710
+.as           3535
+.png           479
+.wav           115
+.cpp             8
+.d               5
+.o               5
+.hpp             5
+.py              4
+(aucune)         2
+.t3s             2
+.ps1             2
+.t3x             2
+.3dsx            1
+.elf             1
+.map             1
+.smdh            1
+.rsf             1
+.csv             1
+.md              1
+.swf             1
+.zip             1
+.tsv             1
+
+=== DOSSIERS (images / sons) : nombre, tailles PNG min-max, exemples ===
+[assets/source/shapes] 7710 fichiers
+    100.svg
+    1000.svg
+    10003.svg
+    10004.svg
+    10005.svg
+    10010.svg
+    10012.svg
+    10015.svg
+    10022.svg
+    10023.svg
+    10024.svg
+    10025.svg
+[assets/source/images] 453 fichiers  PNG w:5-1665 h:6-480
+    10030.png (640x480)
+    10033.png (640x78)
+    10072.png (16x8)
+    10087.png (96x32)
+    10092.png (16x27)
+    10094.png (16x27)
+    10097.png (23x46)
+    10099.png (23x46)
+    1011.png (19x19)
+    1013.png (19x19)
+    1024.png (23x22)
+    1026.png (23x22)
+[assets/source/sounds] 95 fichiers
+    -1.wav [ch=1 rate=5512 bits=8]
+    10_press_button.wav.wav [ch=1 rate=22050 bits=16]
+    11_minigame_kart_idling.wav.wav [ch=1 rate=11025 bits=16]
+    12_music_newtopping.wav [ch=1 rate=22050 bits=16]
+    13_minigame_music.wav [ch=1 rate=11025 bits=16]
+    14_giveorder_drumroll.wav.wav [ch=1 rate=11025 bits=16]
+    15_minigame_ballhitwall.wav.wav [ch=1 rate=22050 bits=16]
+    16_chiliworks_pipe3.wav.wav [ch=1 rate=11025 bits=16]
+    17_pour_solid.wav.wav [ch=1 rate=22050 bits=16]
+    18_minigame_powermeter.wav.wav [ch=1 rate=11025 bits=16]
+    19_grillburger.wav.wav [ch=1 rate=44100 bits=16]
+    20_minigame_balllaunch.wav.wav [ch=1 rate=22050 bits=16]
+[assets/ingredients] 19 fichiers  PNG w:64-128 h:40-80
+    bread_rye.png (64x40)
+    bread_sourdough.png (64x40)
+    bread_wheat.png (128x80)
+    bread_white.png (128x80)
+    cheddar.png (128x80)
+    cheese_american.png (64x40)
+    cheese_pepperjack.png (64x40)
+    cheese_swiss.png (64x40)
+    fries_curly.png (64x40)
+    fries_regular.png (64x40)
+    fries_sweet.png (64x40)
+    mozzarella.png (128x80)
+[romfs/audio] 16 fichiers
+    buildscreen_music.wav [ch=1 rate=22050 bits=16]
+    buttonclick.wav [ch=1 rate=11025 bits=16]
+    customer_happy.wav [ch=1 rate=11025 bits=16]
+    customer_upset.wav [ch=1 rate=11025 bits=16]
+    doorchime.wav [ch=1 rate=11025 bits=16]
+    droptopping.wav [ch=1 rate=11025 bits=16]
+    endofday.wav [ch=1 rate=11025 bits=16]
+    fryer_drop.wav [ch=1 rate=11025 bits=16]
+    getstar.wav [ch=1 rate=11025 bits=16]
+    grillscreen_music.wav [ch=1 rate=22050 bits=16]
+    orderscreen_music.wav [ch=1 rate=22050 bits=16]
+    other_music.wav [ch=1 rate=22050 bits=16]
+[assets] 3 fichiers  PNG w:48-256 h:48-128
+    banner.png (256x128)
+    banner.wav [ch=1 rate=22050 bits=16]
+    icon.png (48x48)
+[assets/ui] 3 fichiers  PNG w:256-400 h:128-240
+    bg_menu.png (400x240)
+    bg_town.png (400x240)
+    logo_cheeseria.png (256x128)
+[meta] 3 fichiers  PNG w:48-256 h:48-128
+    banner.png (256x128)
+    banner.wav [ch=2 rate=44100 bits=16]
+    icon.png (48x48)
+[assets/audio] 2 fichiers
+    buttonclick.wav [ch=1 rate=11025 bits=16]
+    orderscreen_music.wav [ch=1 rate=22050 bits=16]
+[romfs/gfx] 2 fichiers
+    ingredients.t3x
+    ui.t3x
+
+=== AUTRES FICHIERS (code, config, docs, outils, scripts AS3...) ===
+.gitignore  (124 o)
+Makefile  (6735 o)
+analysis/.ffdec-targeted/scripts/ArialBlack.as  (1460 o)
+analysis/.ffdec-targeted/scripts/CopyrightFont.as  (2040 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/api_promopanel_gamepanel1_8.as  (458 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/api_promopanel_gamepanel2_10.as  (460 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/api_promopanel_gamepanel3_11.as  (460 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/api_promopanel_gamepanel4_12.as  (460 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/api_promopanel_gamepanel5_13.as  (460 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/arcadeintro_animation_93.as  (458 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/arcadeintro_papamodel_98.as  (502 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/flipline_logo_animation_74.as  (462 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/preroll_large_button_anim_81.as  (459 o)
+analysis/.ffdec-targeted/scripts/FliplineAPI_and_Branding_fla_fla/progress_fade_87.as  (522 o)
+analysis/.ffdec-targeted/scripts/Main.as  (719 o)
+analysis/.ffdec-targeted/scripts/Preloader.as  (1442 o)
+analysis/.ffdec-targeted/scripts/TextInput_disabledSkin.as  (292 o)
+analysis/.ffdec-targeted/scripts/TextInput_editor_upSkin.as  (294 o)
+analysis/.ffdec-targeted/scripts/TextInput_upSkin.as  (280 o)
+analysis/.ffdec-targeted/scripts/adsystem_assets_fla_fla/failsafe_fliplinead_clickawayMC_13.as  (3764 o)
+analysis/.ffdec-targeted/scripts/adsystem_assets_fla_fla/fliplinead_fliplinelogo_rollover_6.as  (467 o)
+analysis/.ffdec-targeted/scripts/adsystem_assets_fla_fla/fliplinead_promobutton_button_glow_27.as  (473 o)
+analysis/.ffdec-targeted/scripts/api_button_flasher.as  (329 o)
+analysis/.ffdec-targeted/scripts/api_getthisgame_bigbutton.as  (422 o)
+analysis/.ffdec-targeted/scripts/api_getthisgame_button.as  (293 o)
+analysis/.ffdec-targeted/scripts/api_largebutton_left.as  (288 o)
+analysis/.ffdec-targeted/scripts/api_largebutton_left_overlay.as  (305 o)
+analysis/.ffdec-targeted/scripts/api_largebutton_middle.as  (293 o)
+analysis/.ffdec-targeted/scripts/api_largebutton_middle_overlay.as  (308 o)
+analysis/.ffdec-targeted/scripts/api_largebutton_right.as  (291 o)
+analysis/.ffdec-targeted/scripts/api_largebutton_right_overlay.as  (307 o)
+analysis/.ffdec-targeted/scripts/api_menu_bottom_panel.as  (289 o)
+analysis/.ffdec-targeted/scripts/api_menu_top_panel.as  (283 o)
+analysis/.ffdec-targeted/scripts/api_mute_btn.as  (215 o)
+analysis/.ffdec-targeted/scripts/api_mute_music_btn.as  (227 o)
+analysis/.ffdec-targeted/scripts/api_promopanel_license.as  (480 o)
+analysis/.ffdec-targeted/scripts/api_promopanel_sponsor.as  (480 o)
+analysis/.ffdec-targeted/scripts/api_redbutton_left.as  (284 o)
+analysis/.ffdec-targeted/scripts/api_redbutton_middle.as  (289 o)
+analysis/.ffdec-targeted/scripts/api_redbutton_right.as  (287 o)
+analysis/.ffdec-targeted/scripts/api_smallbutton_left.as  (289 o)
+analysis/.ffdec-targeted/scripts/api_smallbutton_left_overlay.as  (304 o)
+analysis/.ffdec-targeted/scripts/api_smallbutton_middle.as  (293 o)
+analysis/.ffdec-targeted/scripts/api_smallbutton_middle_overlay.as  (309 o)
+analysis/.ffdec-targeted/scripts/api_smallbutton_right.as  (290 o)
+analysis/.ffdec-targeted/scripts/api_smallbutton_right_overlay.as  (306 o)
+analysis/.ffdec-targeted/scripts/api_unmute_btn.as  (219 o)
+analysis/.ffdec-targeted/scripts/api_unmute_music_btn.as  (231 o)
+analysis/.ffdec-targeted/scripts/applause/wav.as  (240 o)
+analysis/.ffdec-targeted/scripts/badgeDropdownMC.as  (366 o)
+analysis/.ffdec-targeted/scripts/blenderball_blend/wav.as  (259 o)
+analysis/.ffdec-targeted/scripts/boing/wav.as  (235 o)
+analysis/.ffdec-targeted/scripts/boombox_music.as  (252 o)
+analysis/.ffdec-targeted/scripts/boosting/wav.as  (241 o)
+analysis/.ffdec-targeted/scripts/border_overlay.as  (277 o)
+analysis/.ffdec-targeted/scripts/bottle_cursor.as  (398 o)
+analysis/.ffdec-targeted/scripts/buildScreenMC.as  (535 o)
+analysis/.ffdec-targeted/scripts/build_bread_waxpaper.as  (289 o)
+analysis/.ffdec-targeted/scripts/build_breadstack_lines.as  (292 o)
+analysis/.ffdec-targeted/scripts/build_cheesestack_lines.as  (294 o)
+analysis/.ffdec-targeted/scripts/buildscreen_music.as  (265 o)
+analysis/.ffdec-targeted/scripts/buttonclick/wav.as  (247 o)
+analysis/.ffdec-targeted/scripts/characterEditorMC.as  (875 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/Challenge.as  (19267 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/ClothingData.as  (1017909 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/ClothingItem.as  (11077 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/CustomerData.as  (51527 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/CustomerDataFile.as  (8103 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/CustomerOrder.as  (4234 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/FoodData.as  (22413 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/FurniData.as  (2852 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/GameData.as  (84290 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/SpecialItem.as  (2047 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/ToppingData.as  (8781 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/ToppingItem.as  (2450 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/UnlockData.as  (750 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/Upgrade.as  (1077 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/UserData.as  (119049 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/WorkerData.as  (21707 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerAkari.as  (1735 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerAlberto.as  (1622 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerAllan.as  (1611 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerAustin.as  (1655 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerBertha.as  (1728 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerBigPauly.as  (1765 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerBoomer.as  (1777 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerBrody.as  (1658 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerBrunaRomano.as  (1746 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerCaptainCori.as  (1742 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerCarloRomano.as  (1646 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerCecilia.as  (1640 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerChester.as  (8354 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerChuck.as  (1680 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerClair.as  (1609 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerCletus.as  (1881 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerClover.as  (1671 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerConnor.as  (1755 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerCooper.as  (1690 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerCrystal.as  (1768 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerDeano.as  (1683 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerDoan.as  (1598 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerEdna.as  (1685 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerEmber.as  (1652 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerFoodini.as  (1801 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerFranco.as  (1620 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerGeorgito.as  (1820 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerGinoRomano.as  (1729 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerGreg.as  (1722 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerGremmie.as  (1664 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerHackyZak.as  (1651 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerHank.as  (8476 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerHope.as  (1615 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerHugo.as  (1716 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerIggy.as  (1715 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerIvy.as  (1722 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerJames.as  (1710 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerJohnny.as  (1838 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerJojo.as  (638 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerJulep.as  (1731 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerKahuna.as  (1800 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerKayla.as  (1603 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerKenji.as  (1734 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerKingsley.as  (1735 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerLisa.as  (1675 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerLittleEdoardo.as  (1724 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMaggie.as  (1801 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMandi.as  (1755 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMarty.as  (1767 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMary.as  (1649 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMatt.as  (1763 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMayorMallow.as  (1823 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMindy.as  (1745 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerMitch.as  (1749 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerNevada.as  (1671 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerNick.as  (1795 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerNinjoy.as  (1709 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerOlga.as  (1669 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerOlivia.as  (1644 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerPapaLouie.as  (1714 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerPeggy.as  (1642 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerPenny.as  (1619 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerPerri.as  (1715 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerPinchHitwell.as  (1765 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerProfessorFitz.as  (1689 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerPrudence.as  (1764 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerQuinn.as  (8335 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerRadlynn.as  (8351 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerRhonda.as  (8175 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerRico.as  (1791 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerRita.as  (1737 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerRobby.as  (1740 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerRoy.as  (1733 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerSanta.as  (1676 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerSargeFan.as  (1671 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerSasha.as  (1591 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerScooter.as  (1781 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerShannon.as  (1715 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerSienna.as  (1664 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerSkyler.as  (1715 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerSue.as  (1665 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerTaylor.as  (1733 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerTimm.as  (1739 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerTohru.as  (1553 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerTony.as  (1691 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerTrishna.as  (1620 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerUtah.as  (1766 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerVicky.as  (1780 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerWally.as  (1672 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerWendy.as  (1704 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerWillow.as  (1888 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerXandra.as  (1830 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerXolo.as  (8246 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerYippy.as  (1598 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerYui.as  (1591 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/data/customers/CustomerZoe.as  (1688 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/events/GameControls.as  (3723 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/managers/ChallengeManager.as  (91019 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/managers/CustomerManager.as  (45240 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/managers/SoundManager.as  (19446 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/managers/TicketManager.as  (2526 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/ChiliWorksPipe.as  (19335 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/CookbookPage.as  (12834 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/Customer.as  (28301 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/FoodOrder.as  (14239 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/FryOrder.as  (3419 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/FryTopping.as  (45154 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/FryerBasket.as  (31237 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/FurnitureItem.as  (17801 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/GoKart.as  (52966 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/HotshotEnemy.as  (15068 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/KartObject.as  (8180 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/Ramp.as  (2167 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/Sandwich.as  (108493 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/SauceBottle.as  (9748 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/Ticket.as  (22058 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/Topping.as  (43716 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/ToppingShaker.as  (23671 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/ToppingSpoon.as  (14581 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/models/Worker.as  (75745 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/BuildScreen.as  (45319 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/CharacterEditorScreen.as  (133800 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/CookbookScreen.as  (28426 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/DiningGiveOrderScreen.as  (17505 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/DiningTakeOrderScreen.as  (13722 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/EndOfDayScreen.as  (18854 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/FinishDayScreen.as  (12206 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/FryScreen.as  (38018 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/GameHUD.as  (25125 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/GiveOrderScreen.as  (81911 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/GrillScreen.as  (39435 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/HireWaiterScreen.as  (15208 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/IntroScreen.as  (11117 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/LobbyEditorScreen.as  (73742 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MainMenuScreen.as  (68745 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGame.as  (9805 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameChiliWorks.as  (38954 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameHallway.as  (34050 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameHotshot.as  (42837 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameKart.as  (77251 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameMess.as  (14307 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGamePachinko.as  (40984 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameScreen.as  (24853 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/MiniGameSkeeball.as  (18011 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/OrderScreen.as  (24369 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/OutroScreen.as  (8727 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/ParadeScreen.as  (42796 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/PrizePopup.as  (8610 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/ShopScreen.as  (62934 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/SlotSelectScreen.as  (25721 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/SpecialPopup.as  (2840 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/SplashScreen.as  (4278 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/StartDayPanel.as  (18898 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/StartDayScreen.as  (29732 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/TakeOrderScreen.as  (21144 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/UnlockScreen.as  (20131 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/class_10.as  (1210 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/class_11.as  (1519 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/class_2.as  (4836 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/class_6.as  (2073 o)
+analysis/.ffdec-targeted/scripts/cheeseGame/screens/class_8.as  (2040 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/customer_star_hiliteanim_304.as  (458 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/customer_star_removeanim_306.as  (458 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/customer_starclip_303.as  (442 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/customerfile_sealMC_310.as  (446 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/diningroom_cup_267.as  (436 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/fry_basket_200.as  (972 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/fry_hopper_235.as  (428 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/fry_oil_205.as  (695 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/frymeter_bg_213.as  (430 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/frymeter_greenbar_214.as  (442 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_bubble_anim_671.as  (454 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_closerbubble_anim_669.as  (466 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_countertop_holder_316.as  (461 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_customerSeal_309.as  (689 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_dining_scorebubbles_289.as  (889 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_perfectMC_291.as  (544 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_receiveribbon_311.as  (691 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_scorebubbles_317.as  (875 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_smallenvelope_animation_314.as  (572 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_ticketmeter_ball_300.as  (559 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_animation_1_279.as  (460 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_animation_2_281.as  (460 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_animation_3_282.as  (460 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_animation_4_283.as  (460 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_animation_5_284.as  (460 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_coins_animation_278.as  (465 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tip_starburstMC_286.as  (599 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tipjar_animation_275.as  (501 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/giveorder_tipjar_contents_277.as  (457 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grill_alarm_ontimer_bg_345.as  (452 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grill_alarm_ring_346.as  (544 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grill_timer_bg_347.as  (436 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grillgrease_flip_shadow_341.as  (454 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grillgrease_greaseMC_337.as  (448 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grillgrease_grease_fadein_338.as  (461 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/grillgrease_grease_fadeout_340.as  (463 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/large_envelope_318.as  (577 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/opensign_master_402.as  (584 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/order_pickup_bg_262.as  (437 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/orderscreen_closedsignMC_401.as  (688 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/orderscreen_takeorder_bubble_398.as  (619 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/spoon_icon_171.as  (472 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/stars_upgradeMC_302.as  (537 o)
+analysis/.ffdec-targeted/scripts/cheeseria_gameassets_fla_fla/takeorder_dialogbubble_668.as  (576 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/animated_fader_336.as  (534 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/animated_fader_93.as  (532 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/chareditor_noname_bubble_11.as  (561 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/chooseCharacterAnimMC_533.as  (794 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customer_bleacheraccessory_169.as  (459 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customer_closercritic_label_389.as  (462 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customer_comics_175.as  (476 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customer_menu_starclip_424.as  (451 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customer_prop_cellphone_178.as  (453 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customer_prop_handheld_180.as  (451 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customerfile_sealMC_383.as  (446 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customermodel_foot_161.as  (443 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customermodel_hand2_160.as  (445 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customermodel_hand_168.as  (443 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/customermodel_handextras_173.as  (455 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/decorate_matchstar_329.as  (637 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/doorchime_alert_287.as  (498 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/endofday_curtaincloser_250.as  (550 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/endofday_scoreclip_240.as  (826 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/eod_scoreclip_233.as  (724 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/fireworks_stars_upgradeMC_244.as  (556 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/furni_prize_panel_443.as  (750 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/furniinv_panelholder_341.as  (1077 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/furnishop_panelholder_630.as  (812 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/gondola_258.as  (1626 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/hud_fps_warning_267.as  (438 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/ingredients_holiday_141.as  (446 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/ingredients_icon_holiday_151.as  (455 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/intro_frame01_307.as  (482 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/lobbyeditor_trainingoverlay_371.as  (648 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/medals_panel_406.as  (1172 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_body_hair_dot_43.as  (441 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_body_hair_holder_41.as  (490 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_body_haircolor_46.as  (443 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_body_skincolor_48.as  (443 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_chefserver_slide_75.as  (537 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_cookbook_link_bg_147.as  (449 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_cookbook_linkbullet_150.as  (455 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_cookbook_pageturn_139.as  (452 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_cookbook_pageturn_mask_138.as  (462 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_cookradial_129.as  (438 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_cookradial_long_131.as  (448 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_customer_headshotholder_387.as  (464 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_customer_starclip_382.as  (452 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_customer_topfader_390.as  (452 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_editor_tabs_78.as  (672 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_gender_female_50.as  (441 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_gender_male_51.as  (437 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_recipes_button_135.as  (446 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menu_stats_cal_box_65.as  (612 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menuhelp_mainpanel_392.as  (444 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/menuhelp_tab_bg_398.as  (438 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/minigame_hud_450.as  (597 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/minigame_logoholder_447.as  (445 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/minigame_prize_star_453.as  (445 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/minigame_prize_starbig_454.as  (451 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/mouse_icon_63.as  (425 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/newcustomer_circleMC_463.as  (535 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/newtopping_anim_474.as  (484 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/newtopping_circleMC_473.as  (578 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/outside_gondola_584.as  (2218 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/parade_lock_tooltip_595.as  (544 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/payday_circleMC_477.as  (442 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/payday_starburstMC_466.as  (588 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/poloroid_fader_87.as  (436 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/poloroid_flasher_92.as  (437 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/saveSlotAnimMC_540.as  (865 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/shop_dropdown_panel_hiliter_524.as  (462 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/shop_dropdown_popup_bottom_528.as  (459 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/shop_noitems_628.as  (434 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/splashTransitionMC_559.as  (543 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/splash_enternameMC_550.as  (691 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/splash_faderMC_557.as  (439 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/splash_fries_554.as  (444 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/splash_grilledcheeses_555.as  (462 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/startofday_dayslider_585.as  (540 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/theme_icon_16.as  (425 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/tipjar_contents_647.as  (437 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/training_bg_bubbleMC_huge_372.as  (457 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/training_bg_bubbleMC_red_599.as  (456 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/training_bg_bubbleMC_round_62.as  (457 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/training_bg_bubbleMC_wide_456.as  (457 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/training_warningMC_598.as  (849 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/workermodel_foot_109.as  (481 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/workermodel_hand2_105.as  (580 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/workermodel_hand2_skin_106.as  (451 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/workermodel_hand_116.as  (578 o)
+analysis/.ffdec-targeted/scripts/cheeseria_interface_fla_fla/workermodel_hand_skin_117.as  (449 o)
+analysis/.ffdec-targeted/scripts/chiliPipeMC.as  (439 o)
+analysis/.ffdec-targeted/scripts/chiliworks_chilibit.as  (287 o)
+analysis/.ffdec-targeted/scripts/chiliworks_finishpouring/wav.as  (273 o)
+analysis/.ffdec-targeted/scripts/chiliworks_lockedpipe/wav.as  (267 o)
+analysis/.ffdec-targeted/scripts/chiliworks_pipe1/wav.as  (257 o)
+analysis/.ffdec-targeted/scripts/chiliworks_pipe2/wav.as  (257 o)
+analysis/.ffdec-targeted/scripts/chiliworks_pipe3/wav.as  (257 o)
+analysis/.ffdec-targeted/scripts/chiliworks_pipe4/wav.as  (257 o)
+analysis/.ffdec-targeted/scripts/chiliworks_pourloop/wav.as  (263 o)
+analysis/.ffdec-targeted/scripts/chiliworks_startpouring/wav.as  (271 o)
+analysis/.ffdec-targeted/scripts/choose_americancheese.as  (414 o)
+analysis/.ffdec-targeted/scripts/choose_asiagocheese.as  (410 o)
+analysis/.ffdec-targeted/scripts/choose_bread_barmbrack.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_bread_beetbread.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_bread_cheddarswirl.as  (422 o)
+analysis/.ffdec-targeted/scripts/choose_bread_ciabatta.as  (414 o)
+analysis/.ffdec-targeted/scripts/choose_bread_cinnamontoast.as  (423 o)
+analysis/.ffdec-targeted/scripts/choose_bread_ectobread.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_bread_flatbread.as  (415 o)
+analysis/.ffdec-targeted/scripts/choose_bread_focaccia.as  (414 o)
+analysis/.ffdec-targeted/scripts/choose_bread_fruitcake.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_bread_hawaiian.as  (413 o)
+analysis/.ffdec-targeted/scripts/choose_bread_marblerye.as  (415 o)
+analysis/.ffdec-targeted/scripts/choose_bread_multigrain.as  (418 o)
+analysis/.ffdec-targeted/scripts/choose_bread_paska.as  (408 o)
+analysis/.ffdec-targeted/scripts/choose_bread_pepperonibread.as  (426 o)
+analysis/.ffdec-targeted/scripts/choose_bread_pretzel.as  (411 o)
+analysis/.ffdec-targeted/scripts/choose_bread_pumpernickel.as  (422 o)
+analysis/.ffdec-targeted/scripts/choose_bread_pumpkin.as  (412 o)
+analysis/.ffdec-targeted/scripts/choose_bread_sourdough.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_bread_texastoast.as  (417 o)
+analysis/.ffdec-targeted/scripts/choose_bread_threecheese.as  (420 o)
+analysis/.ffdec-targeted/scripts/choose_bread_tortilla.as  (414 o)
+analysis/.ffdec-targeted/scripts/choose_bread_wheat.as  (407 o)
+analysis/.ffdec-targeted/scripts/choose_bread_white.as  (408 o)
+analysis/.ffdec-targeted/scripts/choose_cheeseballspread.as  (417 o)
+analysis/.ffdec-targeted/scripts/choose_colbycheese.as  (408 o)
+analysis/.ffdec-targeted/scripts/choose_gingerspicecheese.as  (419 o)
+analysis/.ffdec-targeted/scripts/choose_gorgonzolacheese.as  (417 o)
+analysis/.ffdec-targeted/scripts/choose_goudacheese.as  (407 o)
+analysis/.ffdec-targeted/scripts/choose_gruyerecheese.as  (412 o)
+analysis/.ffdec-targeted/scripts/choose_havarticheese.as  (411 o)
+analysis/.ffdec-targeted/scripts/choose_mangocreamcheese.as  (418 o)
+analysis/.ffdec-targeted/scripts/choose_maplejackcheese.as  (415 o)
+analysis/.ffdec-targeted/scripts/choose_mozzarellacheese.as  (418 o)
+analysis/.ffdec-targeted/scripts/choose_muenstercheese.as  (413 o)
+analysis/.ffdec-targeted/scripts/choose_oaxacacheese.as  (409 o)
+analysis/.ffdec-targeted/scripts/choose_pepperjackcheese.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_provolonecheese.as  (416 o)
+analysis/.ffdec-targeted/scripts/choose_redwindsorcheese.as  (418 o)
+analysis/.ffdec-targeted/scripts/choose_ricottacheese.as  (411 o)
+analysis/.ffdec-targeted/scripts/choose_sagederbycheese.as  (415 o)
+analysis/.ffdec-targeted/scripts/choose_shreddedcheddarcheese.as  (428 o)
+analysis/.ffdec-targeted/scripts/choose_sireczcheese.as  (410 o)
+analysis/.ffdec-targeted/scripts/choose_smokedcheddarcheese.as  (423 o)
+analysis/.ffdec-targeted/scripts/choose_swisscheese.as  (407 o)
+analysis/.ffdec-targeted/scripts/clip_americancheese_bottom.as  (301 o)
+analysis/.ffdec-targeted/scripts/clip_americancheese_top.as  (294 o)
+analysis/.ffdec-targeted/scripts/clip_asiagocheese_bottom.as  (296 o)
+analysis/.ffdec-targeted/scripts/clip_asiagocheese_top.as  (291 o)
+analysis/.ffdec-targeted/scripts/clip_bread_barmbrack.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_bread_beetbread.as  (289 o)
+analysis/.ffdec-targeted/scripts/clip_bread_cheddarswirl.as  (294 o)
+analysis/.ffdec-targeted/scripts/clip_bread_ciabatta.as  (287 o)
+analysis/.ffdec-targeted/scripts/clip_bread_cinnamontoast.as  (296 o)
+analysis/.ffdec-targeted/scripts/clip_bread_ectobread.as  (289 o)
+analysis/.ffdec-targeted/scripts/clip_bread_flatbread.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_bread_focaccia.as  (287 o)
+analysis/.ffdec-targeted/scripts/clip_bread_fruitcake.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_bread_hawaiian.as  (286 o)
+analysis/.ffdec-targeted/scripts/clip_bread_marblerye.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_bread_multigrain.as  (290 o)
+analysis/.ffdec-targeted/scripts/clip_bread_paska.as  (281 o)
+analysis/.ffdec-targeted/scripts/clip_bread_pepperonibread.as  (298 o)
+analysis/.ffdec-targeted/scripts/clip_bread_pretzel.as  (284 o)
+analysis/.ffdec-targeted/scripts/clip_bread_pumpernickel.as  (294 o)
+analysis/.ffdec-targeted/scripts/clip_bread_pumpkin.as  (285 o)
+analysis/.ffdec-targeted/scripts/clip_bread_sourdough.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_bread_texastoast.as  (291 o)
+analysis/.ffdec-targeted/scripts/clip_bread_threecheese.as  (292 o)
+analysis/.ffdec-targeted/scripts/clip_bread_tortilla.as  (286 o)
+analysis/.ffdec-targeted/scripts/clip_bread_wheat.as  (281 o)
+analysis/.ffdec-targeted/scripts/clip_bread_white.as  (281 o)
+analysis/.ffdec-targeted/scripts/clip_cheeseballspread_bottom.as  (304 o)
+analysis/.ffdec-targeted/scripts/clip_cheeseballspread_top.as  (298 o)
+analysis/.ffdec-targeted/scripts/clip_colbycheese_bottom.as  (295 o)
+analysis/.ffdec-targeted/scripts/clip_colbycheese_top.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_gingerspicecheese_bottom.as  (307 o)
+analysis/.ffdec-targeted/scripts/clip_gingerspicecheese_top.as  (301 o)
+analysis/.ffdec-targeted/scripts/clip_gorgonzolacheese_bottom.as  (303 o)
+analysis/.ffdec-targeted/scripts/clip_gorgonzolacheese_top.as  (298 o)
+analysis/.ffdec-targeted/scripts/clip_goudacheese_bottom.as  (295 o)
+analysis/.ffdec-targeted/scripts/clip_goudacheese_top.as  (288 o)
+analysis/.ffdec-targeted/scripts/clip_gruyerecheese_bottom.as  (299 o)
+analysis/.ffdec-targeted/scripts/clip_gruyerecheese_top.as  (292 o)
+analysis/.ffdec-targeted/scripts/clip_havarticheese_bottom.as  (298 o)
+analysis/.ffdec-targeted/scripts/clip_havarticheese_top.as  (293 o)
+analysis/.ffdec-targeted/scripts/clip_mangocreamcheese_bottom.as  (304 o)
+analysis/.ffdec-targeted/scripts/clip_mangocreamcheese_top.as  (299 o)
+analysis/.ffdec-targeted/scripts/clip_maplejackcheese_bottom.as  (303 o)
+analysis/.ffdec-targeted/scripts/clip_maplejackcheese_top.as  (296 o)
+analysis/.ffdec-targeted/scripts/clip_mozzarellacheese_bottom.as  (305 o)
+analysis/.ffdec-targeted/scripts/clip_mozzarellacheese_top.as  (298 o)
+analysis/.ffdec-targeted/scripts/clip_muenstercheese_bottom.as  (300 o)
+analysis/.ffdec-targeted/scripts/clip_muenstercheese_top.as  (294 o)
+analysis/.ffdec-targeted/scripts/clip_oaxacacheese_bottom.as  (297 o)
+analysis/.ffdec-targeted/scripts/clip_oaxacacheese_top.as  (291 o)
+analysis/.ffdec-targeted/scripts/clip_pepperjackcheese_bottom.as  (304 o)
+analysis/.ffdec-targeted/scripts/clip_pepperjackcheese_top.as  (298 o)
+analysis/.ffdec-targeted/scripts/clip_provolonecheese_bottom.as  (303 o)
+analysis/.ffdec-targeted/scripts/clip_provolonecheese_top.as  (295 o)
+analysis/.ffdec-targeted/scripts/clip_redwindsorcheese_bottom.as  (305 o)
+analysis/.ffdec-targeted/scripts/clip_redwindsorcheese_top.as  (299 o)
+analysis/.ffdec-targeted/scripts/clip_ricottacheese_bottom.as  (299 o)
+analysis/.ffdec-targeted/scripts/clip_ricottacheese_top.as  (292 o)
+analysis/.ffdec-targeted/scripts/clip_sagederbycheese_bottom.as  (302 o)
+analysis/.ffdec-targeted/scripts/clip_sagederbycheese_top.as  (297 o)
+analysis/.ffdec-targeted/scripts/clip_shreddedcheddarcheese_bottom.as  (314 o)
+analysis/.ffdec-targeted/scripts/clip_shreddedcheddarcheese_top.as  (309 o)
+analysis/.ffdec-targeted/scripts/clip_sireczcheese_bottom.as  (297 o)
+analysis/.ffdec-targeted/scripts/clip_sireczcheese_top.as  (290 o)
+analysis/.ffdec-targeted/scripts/clip_smokedcheddarcheese_bottom.as  (310 o)
+analysis/.ffdec-targeted/scripts/clip_smokedcheddarcheese_top.as  (305 o)
+analysis/.ffdec-targeted/scripts/clip_swisscheese_bottom.as  (295 o)
+analysis/.ffdec-targeted/scripts/clip_swisscheese_top.as  (289 o)
+analysis/.ffdec-targeted/scripts/closedoor/wav.as  (242 o)
+analysis/.ffdec-targeted/scripts/clothesthumb_none.as  (282 o)
+analysis/.ffdec-targeted/scripts/colorswatches.as  (314 o)
+analysis/.ffdec-targeted/scripts/cookbookScreenMC.as  (1205 o)
+analysis/.ffdec-targeted/scripts/customerBleachersMC.as  (20278 o)
+analysis/.ffdec-targeted/scripts/customerDiningMC.as  (23634 o)
+analysis/.ffdec-targeted/scripts/customerDrivingMC.as  (10104 o)
+analysis/.ffdec-targeted/scripts/customerMC.as  (137057 o)
+analysis/.ffdec-targeted/scripts/customerParadeMC.as  (21780 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_foot.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Akari_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_eyes.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_foot.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_forearm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_hair.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_hand.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_hand2.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_mouth.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_neck.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Alberto_upperarm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_foot.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Allan_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_body.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_mouth.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Austin_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_back_hair.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_body.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_mouth.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Bertha_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_body.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_eyes.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_foot.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_forearm.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_hair.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_hand.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_hand2.as  (418 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_head.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_mouth.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_neck.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_BigPauly_upperarm.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_back_hair.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_foot.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_hair.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_hand.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_hand2.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_mouth.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Boomer_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Brody_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_back_hair.as  (308 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_body.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_eyes.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_foot.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_forearm.as  (304 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_hair.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_hand.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_hand2.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_head.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_mouth.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_neck.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_BrunaRomano_upperarm.as  (307 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_back_hair.as  (308 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_body.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_eyes.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_foot.as  (422 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_forearm.as  (304 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_hair.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_hand.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_hand2.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_head.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_mouth.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_neck.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_CaptainCori_upperarm.as  (429 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_body.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_eyes.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_foot.as  (422 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_forearm.as  (304 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_hand.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_hand2.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_head.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_mouth.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_neck.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_CarloRomano_upperarm.as  (306 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_back_hair.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_eyes.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_foot.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_forearm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_hair.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_hand.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_hand2.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_mouth.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_neck.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Cecilia_upperarm.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_back_hair.as  (423 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_body.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_eyes.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_foot.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_forearm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_hair.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_hand.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_hand2.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_head.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_mouth.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_neck.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Chester_upperarm.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_hand2.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Chuck_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_foot.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_hair.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_hand.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_hand2.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Clair_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_body.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_forearm.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_hair.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_hand.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_hand2_holiday.as  (429 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_hand_holiday.as  (428 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_mouth.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Cletus_upperarm.as  (420 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_back_hair.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_foot.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_mouth.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Clover_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_foot.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_hand2.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Connor_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_hair.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_hand.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_hand2.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Cooper_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_back_hair.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_eyes.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_foot.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_forearm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_hair.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_hand.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_hand2.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_head.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_mouth.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_neck.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Crystal_upperarm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_back_hair.as  (420 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_body.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_foot.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_forearm.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_hair.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_hand.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_neck.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Deano_upperarm.as  (418 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_hand2.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_neck.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Doan_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_back_hair.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_foot.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_hand.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_hand2.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Edna_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Ember_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_body.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_eyes.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_foot.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_forearm.as  (419 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_hair.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_hand.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_hand2.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_mouth.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_neck.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Foodini_upperarm.as  (422 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_foot.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_hand2.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Franco_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_body.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_eyes.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_foot.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_forearm.as  (420 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_hair.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_hand.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_hand2.as  (418 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_head.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_mouth.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_neck.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_Georgito_upperarm.as  (423 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_body.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_eyes.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_foot.as  (420 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_forearm.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_hand.as  (419 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_hand2.as  (422 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_head.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_mouth.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_neck.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_GinoRomano_upperarm.as  (304 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_hair.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_hand.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_hand2.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_head.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_neck.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Greg_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_back_hair.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_eyes.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_foot.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_forearm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_hair.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_hand.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_hand2.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_mouth.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_neck.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Gremmie_upperarm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_back_hair.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_body.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_eyes.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_foot.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_forearm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_hair.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_hand.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_hand2.as  (417 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_head.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_mouth.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_neck.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_HackyZak_upperarm.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_back_hair.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_body.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_forearm.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_hair.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_neck.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Hank_upperarm.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_back_hair.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_foot.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_hair.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_hand.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_hand2.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_head.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Hope_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_foot.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_neck.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Hugo_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_back_hair.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_hand2.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_neck.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Iggy_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_back_hair.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_body.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_eyes.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_foot.as  (405 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_forearm.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_hair.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_hand.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_hand2.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_head.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_mouth.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_neck.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Ivy_upperarm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_James_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_James_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_James_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_James_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_James_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_James_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_James_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_James_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_James_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_James_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_James_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_hand2.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Johnny_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_body.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_head.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_neck.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Jojo_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_foot.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_hand2.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_neck.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Julep_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_back_hair.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_body.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_hair.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Kahuna_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_foot.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_hand2.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Kayla_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_back_hair.as  (420 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_foot.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_hair.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_hand2.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Kenji_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_body.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_eye.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_eyes.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_foot.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_forearm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_hair.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_hand.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_hand2.as  (418 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_head.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_mouth.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_neck.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Kingsley_upperarm.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_back_hair.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_foot.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_hair.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_hand.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_head.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_neck.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Lisa_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_body.as  (302 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_eyes.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_foot.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_forearm.as  (307 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_hair.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_hand.as  (426 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_hand2.as  (427 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_head.as  (302 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_mouth.as  (305 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_neck.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_LittleEdoardo_upperarm.as  (311 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_back_hair.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_foot.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_hair.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_hand.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_hand2.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Maggie_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_foot.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mandi_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Marty_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_back_hair.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_foot.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_hair.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_hand.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_hand2.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_head.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Mary_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Matt_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_back_hair.as  (309 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_body.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_eyes.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_foot.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_forearm.as  (305 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_hair.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_hand.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_hand2.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_head.as  (422 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_mouth.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_neck.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_MayorMallow_upperarm.as  (307 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_foot.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_hand2.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mindy_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_foot.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_hand2.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_head.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Mitch_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_back_hair.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_body.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_foot.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_hand.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_hand2.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Nevada_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_hair.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_hand.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_head.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Nick_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_back_hair.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_body.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_foot.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_hair.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_hand.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_hand2.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Ninjoy_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_hand2.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Olga_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_foot.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_hair.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_hand.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_hand2.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Olivia_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_back_hair.as  (305 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_body.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_eyes.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_foot.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_forearm.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_hair.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_hand.as  (417 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_hand2.as  (420 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_head.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_mouth.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_neck.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_PapaLouie_upperarm.as  (302 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Peggy_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_foot.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_hand2.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Penny_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_foot.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_hand2.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Perri_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_body.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_eyes.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_foot.as  (423 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_forearm.as  (305 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_hair.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_hand.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_hand2.as  (425 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_head.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_mouth.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_neck.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_PinchHitwell_upperarm.as  (432 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_back_hair.as  (313 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_body.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_eyes.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_foot.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_forearm.as  (309 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_hair.as  (302 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_hand.as  (425 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_hand2.as  (427 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_head.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_mouth.as  (304 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_neck.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_ProfessorFitz_upperarm.as  (310 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_back_hair.as  (302 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_body.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_eyes.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_foot.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_forearm.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_hair.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_hand.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_hand2.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_head.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_mouth.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_neck.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Prudence_upperarm.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_body.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_eyes.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_foot.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_hair.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_hand2.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Quinn_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_back_hair.as  (424 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_eyes.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_foot.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_forearm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_hair.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_hand.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_hand2.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_mouth.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_neck.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Radlynn_upperarm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_back_hair.as  (421 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_body.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_foot.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_hair.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_hand.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_head.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_neck.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Rhonda_upperarm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_hand2.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rico_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_back_hair.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_body.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_foot.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_hair.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_hand.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_hand2.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rita_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_foot.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_forearm.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_hair.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_hand.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_hand2.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Robby_upperarm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_body.as  (281 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_eyes.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_foot.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_forearm.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_hair.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_hand.as  (405 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_hand2.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_head.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_mouth.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_neck.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Roy_upperarm.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_body.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_eyes.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_foot.as  (408 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_hair.as  (406 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_hand.as  (406 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_head.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_mouth.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Rudy_upperarm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_back_hair.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_foot.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_forearm.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_hair.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_hand.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_hand2.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_mouth.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_neck.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Santa_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_back_hair.as  (302 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_body.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_eyes.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_foot.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_forearm.as  (422 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_hair.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_hand.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_hand2.as  (418 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_head.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_mouth.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_neck.as  (415 o)
+analysis/.ffdec-targeted/scripts/customer_SargeFan_upperarm.as  (423 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_back_hair.as  (418 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_body.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_eyes.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_foot.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_forearm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_hair.as  (409 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_hand.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_hand2.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_head.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_mouth.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_neck.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Sasha_upperarm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_back_hair.as  (303 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_body.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_eyes.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_foot.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_forearm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_hair.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_hand.as  (416 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_hand2.as  (417 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_head.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_mouth.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_neck.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Scarlett_upperarm.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_back_hair.as  (301 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_foot.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_forearm.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_hair.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_hand.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_hand2.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_mouth.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_neck.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Scooter_upperarm.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_back_hair.as  (300 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_body.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_eyes.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_foot.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_hair.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_hand.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_hand2.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_head.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_mouth.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_neck.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Shannon_upperarm.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_back_hair.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_forearm.as  (295 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_hand.as  (412 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_hand2.as  (414 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Sienna_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_back_hair.as  (298 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_body.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_eyes.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_foot.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_hand.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_hand2.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_mouth.as  (291 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Skyler_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_back_hair.as  (292 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_body.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_eyes.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_foot.as  (405 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_forearm.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_hair.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_hand.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_hand2.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_head.as  (282 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_mouth.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_neck.as  (283 o)
+analysis/.ffdec-targeted/scripts/customer_Sue_upperarm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_back_hair.as  (299 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_body.as  (287 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_eyes.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_foot.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_forearm.as  (294 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_hair.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_hand.as  (411 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_hand2.as  (413 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_head.as  (289 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_mouth.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_neck.as  (288 o)
+analysis/.ffdec-targeted/scripts/customer_Taylor_upperarm.as  (297 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_body.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_eyes.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_foot.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_forearm.as  (290 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_hair.as  (285 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_hand.as  (407 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_hand2.as  (410 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_head.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_mouth.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_neck.as  (284 o)
+analysis/.ffdec-targeted/scripts/customer_Timm_upperarm.as  (293 o)
+analysis/.ffdec-targeted/scripts/customer_Tohru_back_hair.as  (296 o)
+analysis/.ffdec-targeted/scripts/customer_Tohru_body.as  (286 o)
+analysis/.ffdec-targeted/scripts/customer_Tohru_eyes.as  (287 o)
+
+=== CONTENU DES FICHIERS CLES ===
+----- .gitignore (124 o) -----
+/input/*.swf
+/extracted/
+/assets/source/
+/assets/converted/
+/build/
+/romfs/
+/*.3dsx
+/*.cia
+/*.elf
+/*.smdh
+/*.t3x
+
+----- Makefile (6735 o) -----
+#---------------------------------------------------------------------------------
+# Makefile — Papa's Cheeseria 3DS
+# Structure standard devkitPro (un seul Makefile, pas de sous-make)
+#---------------------------------------------------------------------------------
+.SUFFIXES:
+
+ifeq ($(strip $(DEVKITPRO)),)
+  $(error "DEVKITPRO n'est pas défini. Lancez via build.ps1 ou source /etc/profile")
+endif
+
+include $(DEVKITPRO)/devkitARM/base_rules
+
+#---------------------------------------------------------------------------------
+# Répertoires
+#---------------------------------------------------------------------------------
+BUILD       := build
+SOURCES     := source
+INCLUDES    := include
+ROMFS       := romfs
+META        := meta
+
+#---------------------------------------------------------------------------------
+# Infos du projet
+#---------------------------------------------------------------------------------
+TARGET      := cheeseria
+TITLE       := Papa's Cheeseria
+DESCRIPTION := Port 3DS homebrew
+AUTHOR      := FlashGamesHub
+
+ICON        := $(META)/icon.png
+BANNER_IMG  := $(META)/banner.png
+BANNER_WAV  := $(META)/banner.wav
+RSF         := cheeseria.rsf
+
+#---------------------------------------------------------------------------------
+# Options du compilateur
+#---------------------------------------------------------------------------------
+ARCH     := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
+CFLAGS   := -g -Wall -Wextra -O2 -mword-relocations -fomit-frame-pointer \
+             -ffunction-sections $(ARCH) -D__3DS__
+CXXFLAGS := $(CFLAGS) -std=c++17 -fno-rtti -fno-exceptions
+ASFLAGS  := -g $(ARCH)
+LDFLAGS  := -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(BUILD)/$(TARGET).map
+
+LIBS     := -lcitro2d -lcitro3d -lctru -lm
+
+#---------------------------------------------------------------------------------
+# Résolution des chemins (sans export — VPATH doit être une variable make simple)
+#---------------------------------------------------------------------------------
+LIBDIRS  := $(DEVKITPRO)/libctru \
+            $(DEVKITPRO)/portlibs/3ds
+
+# VPATH : make cherche les sources dans ces dossiers pour les règles %.o: %.cpp etc.
+# Utiliser des chemins relatifs pour éviter les problèmes d'espaces dans le chemin absolu
+VPATH    := $(SOURCES)
+
+INCLUDE  := $(foreach dir,$(INCLUDES),-I$(dir)) \
+            $(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+            -I$(BUILD)
+LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+
+# Mise à jour des flags avec les includes maintenant définis
+CFLAGS   += $(INCLUDE)
+CXXFLAGS += $(INCLUDE)
+
+# Liste des fichiers sources (chemins relatifs — pas de problème d'espaces)
+CFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CPPFILES := $(filter-out main_host.cpp,$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp))))
+SFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+
+OFILES   := $(addprefix $(BUILD)/,$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o))
+
+# Flags 3DSX
+_3DSXFLAGS :=
+ifeq ($(strip $(NO_SMDH)),)
+  _3DSXFLAGS += --smdh=$(BUILD)/$(TARGET).smdh
+endif
+ifneq ($(ROMFS),)
+  _3DSXFLAGS += --romfs="$(CURDIR)/$(ROMFS)"
+endif
+
+#---------------------------------------------------------------------------------
+# Cibles principales
+#---------------------------------------------------------------------------------
+.PHONY: all clean cia assets
+
+all: assets $(BUILD)/$(TARGET).3dsx
+
+#── 3DSX ────────────────────────────────────────────────────────────────────────
+$(BUILD)/$(TARGET).3dsx: $(BUILD)/$(TARGET).elf $(BUILD)/$(TARGET).smdh
+	@3dsxtool $< $@ $(_3DSXFLAGS)
+	@echo "3DSX : $@"
+
+$(BUILD)/$(TARGET).elf: $(OFILES) | $(BUILD)
+	@echo "Linkage → $@"
+	@$(CXX) $(LDFLAGS) $(LIBPATHS) -o $@ $^ $(LIBS)
+
+$(BUILD)/$(TARGET).smdh: $(ICON) | $(BUILD)
+	@bannertool makesmdh \
+	    -s "$(TITLE)" \
+	    -l "$(DESCRIPTION)" \
+	    -p "$(AUTHOR)" \
+	    -i $< \
+	    -o $@
+
+#── Règles de compilation ────────────────────────────────────────────────────────
+# VPATH permet à make de trouver source/audio_3ds.cpp quand il cherche audio_3ds.cpp
+$(BUILD)/%.o: %.cpp | $(BUILD)
+	@echo "  CXX $<"
+	@$(CXX) -MMD -MP -MF $(BUILD)/$*.d $(CXXFLAGS) -c -o $@ $<
+
+$(BUILD)/%.o: %.c | $(BUILD)
+	@echo "  CC  $<"
+	@$(CC) -MMD -MP -MF $(BUILD)/$*.d $(CFLAGS) -c -o $@ $<
+
+$(BUILD)/%.o: %.s | $(BUILD)
+	@echo "  AS  $<"
+	@$(AS) $(ASFLAGS) -o $@ $<
+
+$(BUILD):
+	@mkdir -p $@
+
+#── CIA ──────────────────────────────────────────────────────────────────────────
+cia: assets $(BUILD)/$(TARGET).cia
+
+$(BUILD)/$(TARGET).cia: $(BUILD)/$(TARGET).elf $(BUILD)/$(TARGET).smdh \
+                         $(BUILD)/$(TARGET).bnr $(RSF)
+	@makerom -f cia \
+	    -o $@ \
+	    -elf $(BUILD)/$(TARGET).elf \
+	    -rsf $(RSF) \
+	    -icon $(BUILD)/$(TARGET).smdh \
+	    -banner $(BUILD)/$(TARGET).bnr \
+	    -exefslogo \
+	    -target t \
+	    -DAPP_ROMFS=$(ROMFS)
+	@echo "CIA généré : $@"
+
+$(BUILD)/$(TARGET).bnr: $(BANNER_IMG) $(BANNER_WAV) | $(BUILD)
+	@bannertool makebanner \
+	    -i $(BANNER_IMG) \
+	    -a $(BANNER_WAV) \
+	    -o $@
+
+#── Assets (atlas tex3ds) ────────────────────────────────────────────────────────
+# Tous les assets/*/*.t3s sont convertis en romfs/gfx/<nom>.t3x (ingredients, ui, atlas_01...).
+# Les atlas générés par tools/prepare_assets.py sont dans assets/atlases/.
+define T3S_RULE
+$(ROMFS)/gfx/$(basename $(notdir $(1))).t3x: $(1) $(wildcard $(dir $(1))*.png $(dir $(1))*/*.png)
+	@mkdir -p $(ROMFS)/gfx
+	@tex3ds -i $(1) -o $$@
+	@echo "Atlas $(1) -> $$@"
+endef
+
+T3S_FILES := $(wildcard assets/*/*.t3s)
+T3X_FILES := $(foreach f,$(T3S_FILES),$(ROMFS)/gfx/$(basename $(notdir $(f))).t3x)
+$(foreach f,$(T3S_FILES),$(eval $(call T3S_RULE,$(f))))
+
+assets: $(T3X_FILES)
+
+#── Nettoyage ────────────────────────────────────────────────────────────────────
+clean:
+	@rm -rf $(BUILD)
+	@echo "Nettoyage terminé."
+
+#── Dépendances auto-générées ─────────────────────────────────────────────────────
+-include $(wildcard $(BUILD)/*.d)
+
+----- assets/ingredients/ingredients.t3s (350 o) -----
+--atlas -f rgba4 -z auto
+bread_white.png
+bread_wheat.png
+cheddar.png
+mozzarella.png
+bread_sourdough.png
+bread_rye.png
+cheese_american.png
+cheese_swiss.png
+cheese_pepperjack.png
+top_bacon.png
+top_ham.png
+top_tomato.png
+top_lettuce.png
+top_chicken.png
+sauce_ranch.png
+sauce_bbq.png
+fries_regular.png
+fries_curly.png
+fries_sweet.png
+
+----- assets/ui/ui.t3s (72 o) -----
+--atlas -f rgba4 -z auto
+bg_menu.png
+bg_town.png
+logo_cheeseria.png
+
+----- build.ps1 (3805 o) -----
+﻿param(
+    [ValidateSet('3ds', 'cia', 'host', 'test', 'assets', 'clean')]
+    [string] $Target = '3ds'
+)
+
+$ProjectRoot   = Split-Path -Parent $MyInvocation.MyCommand.Path
+$DevkitProPath = 'C:\devkitPro'
+$DevkitArmPath = Join-Path $DevkitProPath 'devkitARM'
+$BashPath      = Join-Path $DevkitProPath 'msys2\usr\bin\bash.exe'
+$CygpathPath   = Join-Path $DevkitProPath 'msys2\usr\bin\cygpath.exe'
+
+# ── Cibles hôte (pas besoin de devkitPro) ───────────────────────────────────
+if ($Target -eq 'host' -or $Target -eq 'test') {
+    $HostCompiler = Get-Command 'g++', 'clang++', 'c++' -ErrorAction SilentlyContinue |
+        Select-Object -First 1
+    if (-not $HostCompiler) {
+        throw 'Un compilateur C++ hote (g++, clang++ ou c++) est requis pour host/test.'
+    }
+
+    Push-Location $ProjectRoot
+    try {
+        New-Item -ItemType Directory -Force -Path 'build' | Out-Null
+        $CompilerArguments = @('-std=c++17', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Iinclude')
+        if ($Target -eq 'host') {
+            $CompilerArguments += @(
+                'source/game.cpp', 'source/progress_save.cpp', 'source/main_host.cpp',
+                '-o', 'build/cheeseria-host.exe'
+            )
+        } else {
+            $CompilerArguments += @(
+                'source/game.cpp', 'source/progress_save.cpp', 'tests/game_test.cpp',
+                '-o', 'build/game-tests.exe'
+            )
+        }
+
+        & $HostCompiler.Source @CompilerArguments
+        if ($LASTEXITCODE -ne 0) { throw "Compilation hote echouee (code $LASTEXITCODE)." }
+
+        if ($Target -eq 'host') {
+            & (Join-Path $ProjectRoot 'build\cheeseria-host.exe')
+        } else {
+            $exe = Join-Path $ProjectRoot 'build\game-tests.exe'
+            & $exe
+            if ($LASTEXITCODE -eq 0) { Write-Host 'Tous les tests sont passes.' -ForegroundColor Green }
+        }
+        if ($LASTEXITCODE -ne 0) { throw "Execution echouee (code $LASTEXITCODE)." }
+    } finally {
+        Pop-Location
+    }
+    exit 0
+}
+
+# ── Validation devkitPro ─────────────────────────────────────────────────────
+if (-not (Test-Path -LiteralPath $DevkitArmPath)) {
+    throw "devkitARM introuvable : $DevkitArmPath"
+}
+if (-not (Test-Path -LiteralPath $BashPath) -or -not (Test-Path -LiteralPath $CygpathPath)) {
+    throw 'Bash et cygpath de devkitPro sont requis.'
+}
+
+$env:DEVKITPRO = $DevkitProPath
+$env:DEVKITARM = $DevkitArmPath
+$UnixProjectRoot    = (& $CygpathPath -u $ProjectRoot).Trim()
+$UnixDevkitProPath  = (& $CygpathPath -u $DevkitProPath).Trim()
+$UnixDevkitArmPath  = (& $CygpathPath -u $DevkitArmPath).Trim()
+
+# Mappage des cibles PowerShell → Makefile
+$MakeTarget = switch ($Target) {
+    '3ds'    { 'all' }
+    'cia'    { 'cia' }
+    'assets' { 'assets' }
+    'clean'  { 'clean' }
+    default  { 'all' }
+}
+
+$BuildCommand = 'cd "$1" && export DEVKITPRO="$2" DEVKITARM="$3" && make "$4"'
+& $BashPath -lc $BuildCommand build $UnixProjectRoot $UnixDevkitProPath $UnixDevkitArmPath $MakeTarget
+
+if ($LASTEXITCODE -ne 0) {
+    throw "La cible '$Target' (make $MakeTarget) a echoue (code $LASTEXITCODE)."
+}
+
+Write-Host ""
+Write-Host "=== Build termine : $Target ===" -ForegroundColor Green
+if ($Target -eq '3ds') {
+    $size = (Get-Item (Join-Path $ProjectRoot 'build\cheeseria.3dsx') -ErrorAction SilentlyContinue)?.Length
+    if ($size) { Write-Host "cheeseria.3dsx : $([math]::Round($size/1KB, 1)) KB" }
+}
+if ($Target -eq 'cia') {
+    $size = (Get-Item (Join-Path $ProjectRoot 'build\cheeseria.cia') -ErrorAction SilentlyContinue)?.Length
+    if ($size) { Write-Host "cheeseria.cia  : $([math]::Round($size/1MB, 2)) MB" }
+}
+
+----- cheeseria.rsf (4788 o) -----
+; cheeseria.rsf — Papa's Cheeseria 3DS (makerom, CIA homebrew)
+; Basé sur le template makerom/devkitPro standard. Points clés par rapport à l'ancien fichier :
+;   - section RomFs (sinon le CIA n'embarque PAS romfs/ => aucun asset lisible)
+;   - FileSystemAccess DirectSdmc (sauvegarde sur la carte SD)
+;   - ServiceAccessControl avec dsp::DSP (audio), gsp::Gpu, hid:USER, fs:USER, APT:U
+; Build : makerom ... -rsf cheeseria.rsf -DAPP_ROMFS=romfs
+
+BasicInfo:
+  Title                   : Papa's Cheeseria
+  ProductCode             : CTR-P-CHZR
+  Logo                    : Nintendo
+
+RomFs:
+  RootPath                : $(APP_ROMFS)
+
+TitleInfo:
+  Category                : Application
+  UniqueId                : 0xFFC001
+
+Option:
+  UseOnSD                 : true
+  FreeProductCode         : true
+  MediaFootPadding        : false
+  EnableCrypt             : false
+  EnableCompress          : true
+
+AccessControlInfo:
+  CoreVersion             : 2
+  DescVersion             : 2
+  ReleaseKernelMajor      : "02"
+  ReleaseKernelMinor      : "33"
+  UseExtSaveData          : false
+
+  FileSystemAccess:
+    - DirectSdmc
+    - DirectSdmcWrite
+
+  MemoryType              : Application
+  SystemMode              : 64MB
+  IdealProcessor          : 0
+  AffinityMask            : 1
+  Priority                : 16
+  MaxCpu                  : 0x9E
+  HandleTableSize         : 0x200
+  DisableDebug            : false
+  EnableForceDebug        : false
+  CanWriteSharedPage      : true
+  CanUsePrivilegedPriority: false
+  CanUseNonAlphabetAndNumber: true
+  PermitMainFunctionArgument: true
+  CanShareDeviceMemory    : true
+  RunnableOnSleep         : false
+  SpecialMemoryArrange    : true
+
+  SystemModeExt           : Legacy
+  CpuSpeed                : 804MHz
+  EnableL2Cache           : true
+  CanAccessCore2          : true
+
+  IORegisterMapping:
+    - 1ff00000-1ff7ffff
+  MemoryMapping:
+    - 1f000000-1f5fffff:r
+
+  SystemCallAccess:
+    ControlMemory: 1
+    QueryMemory: 2
+    ExitProcess: 3
+    GetProcessAffinityMask: 4
+    SetProcessAffinityMask: 5
+    GetProcessIdealProcessor: 6
+    SetProcessIdealProcessor: 7
+    CreateThread: 8
+    ExitThread: 9
+    SleepThread: 10
+    GetThreadPriority: 11
+    SetThreadPriority: 12
+    GetThreadAffinityMask: 13
+    SetThreadAffinityMask: 14
+    GetThreadIdealProcessor: 15
+    SetThreadIdealProcessor: 16
+    GetCurrentProcessorNumber: 17
+    Run: 18
+    CreateMutex: 19
+    ReleaseMutex: 20
+    CreateSemaphore: 21
+    ReleaseSemaphore: 22
+    CreateEvent: 23
+    SignalEvent: 24
+    ClearEvent: 25
+    CreateTimer: 26
+    SetTimer: 27
+    CancelTimer: 28
+    ClearTimer: 29
+    CreateMemoryBlock: 30
+    MapMemoryBlock: 31
+    UnmapMemoryBlock: 32
+    CreateAddressArbiter: 33
+    ArbitrateAddress: 34
+    CloseHandle: 35
+    WaitSynchronization1: 36
+    WaitSynchronizationN: 37
+    SignalAndWait: 38
+    DuplicateHandle: 39
+    GetSystemTick: 40
+    GetHandleInfo: 41
+    GetSystemInfo: 42
+    GetProcessInfo: 43
+    GetThreadInfo: 44
+    ConnectToPort: 45
+    SendSyncRequest1: 46
+    SendSyncRequest2: 47
+    SendSyncRequest3: 48
+    SendSyncRequest4: 49
+    SendSyncRequest: 50
+    OpenProcess: 51
+    OpenThread: 52
+    GetProcessId: 53
+    GetProcessIdOfThread: 54
+    GetThreadId: 55
+    GetResourceLimit: 56
+    GetResourceLimitLimitValues: 57
+    GetResourceLimitCurrentValues: 58
+    GetThreadContext: 59
+    Break: 60
+    OutputDebugString: 61
+    ControlPerformanceCounter: 62
+
+  ServiceAccessControl:
+    - APT:U
+    - ac:u
+    - am:net
+    - boss:U
+    - cam:u
+    - cecd:u
+    - cfg:nor
+    - cfg:u
+    - csnd:SND
+    - dsp::DSP
+    - frd:u
+    - fs:USER
+    - gsp::Gpu
+    - hid:USER
+    - http:C
+    - ir:rst
+    - ir:u
+    - ir:USER
+    - mic:u
+    - ndm:u
+    - news:s
+    - nwm::UDS
+    - ptm:u
+    - pxi:dev
+    - soc:U
+    - ssl:C
+    - y2r:u
+
+SystemControlInfo:
+  SaveDataSize            : 64KB
+  RemasterVersion         : 0
+  StackSize               : 0x40000
+  Dependency:
+    ac: 0x0004013000002402
+    am: 0x0004013000001502
+    boss: 0x0004013000003402
+    camera: 0x0004013000001602
+    cecd: 0x0004013000002602
+    cfg: 0x0004013000001702
+    codec: 0x0004013000001802
+    csnd: 0x0004013000002702
+    dlp: 0x0004013000002802
+    dsp: 0x0004013000001a02
+    friends: 0x0004013000003202
+    gpio: 0x0004013000001b02
+    gsp: 0x0004013000001c02
+    hid: 0x0004013000001d02
+    http: 0x0004013000002902
+    i2c: 0x0004013000001e02
+    ir: 0x0004013000003302
+    mcu: 0x0004013000001f02
+    mic: 0x0004013000002002
+    ndm: 0x0004013000002b02
+    news: 0x0004013000003502
+    nim: 0x0004013000002c02
+    nwm: 0x0004013000002d02
+    pdn: 0x0004013000002102
+    ps: 0x0004013000003102
+    ptm: 0x0004013000002202
+    ro: 0x0004013000003702
+    socket: 0x0004013000002e02
+    spi: 0x0004013000002302
+    ssl: 0x0004013000002f02
+
+----- docs/phase-2.md (4114 o) -----
+# Phases 2–9 — Prototype status
+
+This is an independent, simplified remake prototype. It is not the original
+game and is not affiliated with its publisher. The game rules and rendering
+code are separate; selected SWF media was locally extracted for this remake
+with the user's authorization.
+
+## Phase 2 — Architecture and first milestone
+
+- C++17 game logic is kept in `source/game.cpp` and `include/game.hpp`, without
+  libctru or Citro2D dependencies.
+- `source/main_3ds.cpp` renders the main scene on the top screen and touch
+  controls on the bottom screen. `source/main_host.cpp` provides a terminal
+  prototype using the same game model.
+- The first milestone is now a simplified order route through take order,
+  cooking, sandwich assembly, fries, service, result, and session progress.
+- The fixed prototype ticket requests wholegrain bread, cheddar, medium cook,
+  and regular fries.
+
+## Phase 3 — Assets
+
+- Four selected 128x80 ingredient sprites are packed into a Citro2D texture
+  atlas. Only the needed still frames are included.
+- Two audio files are signed 16-bit mono PCM WAV: the button sound
+  (11,025 Hz) and order-screen music (22,050 Hz).
+- The atlas is loaded only while the assembly station is active. The WAV files
+  are copied into RomFS; the button sound plays when an order is served. The
+  background music is packaged but not yet played.
+- See [`asset-inventory.csv`](asset-inventory.csv) for paths, formats, and
+  measured sizes. The local source extraction contains 8,258 files totaling
+  92,512,472 bytes; that full extraction is not needed to build the project.
+
+## Phase 4 — Shared game engine
+
+- Implemented menu, station, pause, result, and session-progress states.
+- Touch input and A/B/START buttons operate the route; the game model owns
+  station selection, validation, transitions, and scoring.
+- The current prototype uses static ingredient art; no animation playback is
+  implemented. The serve sound uses NDSP and reports unavailable audio in the
+  menu if the DSP or WAV asset cannot be initialized.
+
+## Phase 5 — Stations
+
+- A complete simplified route is playable, with validation at the cooking,
+  assembly, and fries stations and a result screen after service.
+- The mechanics are intentionally limited to the four ticket choices above;
+  they do not claim feature parity with the original game.
+- `tests/game_test.cpp` covers the route, station choices, incomplete input,
+  cancellation, pause/resume, and scoring.
+
+## Phase 6 — Progression and save
+
+- Completed order count and cumulative score are saved to
+  `sdmc:/3ds/CheeseShop3DS/progress.dat` after each served order.
+- The save uses a versioned fixed-size format with a checksum; missing data
+  starts a fresh session, while unreadable/corrupt data is reported on the menu
+  and the game starts with fresh progress.
+- In-progress station state is not saved; this prototype has no days or
+  unlocks to persist yet.
+
+## Remaining work
+
+- **Phase 7:** test in an emulator and on Old/New 3DS hardware; measure memory,
+  performance, and package size. No emulator or console test is recorded yet.
+- **Phase 8:** create and validate a CIA, banner assets, RSF, and a unique
+  homebrew Title ID. Only the `.3dsx` and SMDH are currently built.
+- **Phase 9:** add a Hub catalogue entry only after a validated package,
+  download URL, and SHA-256 are available.
+
+The current devkitPro build measures 807,380 bytes for the `.3dsx`; the ELF
+reports 167,908 bytes text, 7,560 bytes data, and 28,640 bytes BSS. These are
+static build figures, not runtime memory or frame-rate measurements.
+
+## Build and verification
+
+- `.\build.ps1 3ds` builds `build/cheeseria.3dsx`, its SMDH, texture atlas, and
+  RomFS WAV files with devkitPro.
+- `.\build.ps1 host` and `.\build.ps1 test` require a native C++17 compiler.
+- The 3DS build and test-source syntax check pass. Runtime host tests and
+  emulator/device tests remain unverified because no native compiler or
+  compatible emulator/device is available in the current environment.
+
+----- inventory.py (4658 o) -----
+#!/usr/bin/env python3
+"""Inventaire complet du projet (équivalent de inventory.ps1, sans PowerShell).
+Usage (depuis la racine du projet) :  python inventory.py
+Produit : inventory/report.txt, inventory/files.csv et inventory.zip
+"""
+import csv, os, re, struct, sys, zipfile
+from collections import Counter, defaultdict
+
+root = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else ".")
+out = os.path.join(root, "inventory")
+os.makedirs(out, exist_ok=True)
+SKIP = {".git", "node_modules", "inventory"}
+MEDIA = {".png", ".wav", ".mp3", ".ogg", ".t3x", ".svg", ".jpg", ".gif"}
+HIDE = MEDIA | {".o", ".d"}
+TEXT_RX = re.compile(r"(^|/)(Makefile|\.gitignore|build\.ps1)$|\.(rsf|t3s|tsv|md|json|py|ps1|txt|cfg|yml|yaml|toml)$")
+
+
+def png_size(p):
+    try:
+        with open(p, "rb") as f:
+            b = f.read(24)
+        if b[1:4] == b"PNG":
+            return struct.unpack(">II", b[16:24])
+    except OSError:
+        pass
+    return None
+
+
+def wav_info(p):
+    try:
+        with open(p, "rb") as f:
+            b = f.read(44)
+        if b[:4] == b"RIFF" and b[8:12] == b"WAVE":
+            ch, rate = struct.unpack("<HI", b[22:28])
+            bits = struct.unpack("<H", b[34:36])[0]
+            return f"ch={ch} rate={rate} bits={bits}"
+    except OSError:
+        pass
+    return ""
+
+
+rows = []
+for dp, dn, fn in os.walk(root):
+    dn[:] = [d for d in dn if d not in SKIP]
+    for f in fn:
+        full = os.path.join(dp, f)
+        rel = os.path.relpath(full, root).replace("\\", "/")
+        ext = os.path.splitext(f)[1].lower()
+        w = h = ""
+        extra = ""
+        if ext == ".png":
+            s = png_size(full)
+            if s:
+                w, h = s
+        elif ext == ".wav":
+            extra = wav_info(full)
+        rows.append(dict(path=rel, size=os.path.getsize(full), ext=ext, width=w, height=h, extra=extra))
+rows.sort(key=lambda r: r["path"])
+
+with open(os.path.join(out, "files.csv"), "w", newline="", encoding="utf-8") as fh:
+    wr = csv.DictWriter(fh, fieldnames=["path", "size", "ext", "width", "height", "extra"])
+    wr.writeheader()
+    wr.writerows(rows)
+
+R = []
+W = R.append
+total = sum(r["size"] for r in rows)
+W("=== INVENTAIRE ===")
+W(f"Racine : {root}")
+W(f"Fichiers : {len(rows)}   Taille totale : {total/1048576:.1f} Mo\n")
+
+W("=== DOSSIERS DE PREMIER NIVEAU ===")
+top = defaultdict(lambda: [0, 0])
+for r in rows:
+    k = r["path"].split("/")[0] if "/" in r["path"] else "(racine)"
+    top[k][0] += 1
+    top[k][1] += r["size"]
+for k, (n, sz) in sorted(top.items()):
+    W(f"{k:<20} {n:7d} fichiers {sz/1048576:9.2f} Mo")
+W("\n=== EXTENSIONS (global) ===")
+for e, n in Counter(r["ext"] or "(aucune)" for r in rows).most_common():
+    W(f"{e:<10} {n:7d}")
+
+W("\n=== DOSSIERS (images / sons) : nombre, tailles PNG min-max, exemples ===")
+bydir = defaultdict(list)
+for r in rows:
+    if r["ext"] in MEDIA:
+        bydir[os.path.dirname(r["path"])].append(r)
+for d, g in sorted(bydir.items(), key=lambda kv: -len(kv[1]))[:200]:
+    pngs = [r for r in g if r["width"] != ""]
+    dim = ""
+    if pngs:
+        ws = [r["width"] for r in pngs]; hs = [r["height"] for r in pngs]
+        dim = f"  PNG w:{min(ws)}-{max(ws)} h:{min(hs)}-{max(hs)}"
+    W(f"[{d}] {len(g)} fichiers{dim}")
+    for r in g[:12]:
+        s = "    " + os.path.basename(r["path"])
+        if r["width"] != "":
+            s += f" ({r['width']}x{r['height']})"
+        if r["extra"]:
+            s += f" [{r['extra']}]"
+        W(s)
+
+W("\n=== AUTRES FICHIERS (code, config, docs, outils, scripts AS3...) ===")
+for r in [r for r in rows if r["ext"] not in HIDE][:1500]:
+    W(f"{r['path']}  ({r['size']} o)")
+
+W("\n=== CONTENU DES FICHIERS CLES ===")
+for r in rows:
+    if TEXT_RX.search(r["path"]) and r["size"] < 400000 and not re.match(r"(build|extracted)/", r["path"]):
+        W(f"----- {r['path']} ({r['size']} o) -----")
+        with open(os.path.join(root, r["path"]), encoding="utf-8", errors="replace") as fh:
+            t = fh.read()
+        W(t[:30000] + ("\n[... tronqué ...]" if len(t) > 30000 else ""))
+
+W("\n=== SOURCES (lignes) ===")
+for r in rows:
+    if r["ext"] in (".cpp", ".hpp", ".h", ".c") and not re.match(r"(build|extracted)/", r["path"]):
+        with open(os.path.join(root, r["path"]), encoding="utf-8", errors="replace") as fh:
+            W(f"{sum(1 for _ in fh):6d}  {r['path']}")
+
+with open(os.path.join(out, "report.txt"), "w", encoding="utf-8") as fh:
+    fh.write("\n".join(R) + "\n")
+zp = os.path.join(root, "inventory.zip")
+with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
+    for n in ("report.txt", "files.csv"):
+        z.write(os.path.join(out, n), n)
+print("OK ->", zp, "(envoie ce fichier)")
+
+----- prepare_assets.py (9402 o) -----
+#!/usr/bin/env python3
+"""prepare_assets.py — prépare TOUS les assets exportés du SWF pour la 3DS.
+
+  1. Images  : assets/source/images/*.png  -> réduites (--scale) -> atlas tex3ds
+               (assets/atlases/atlas_NN.t3s + assets/atlases/img/img_<id>.png), max 1024x1024 par atlas
+  2. Sons    : assets/source/sounds/*.wav  -> PCM 16 bits mono <= 22050 Hz -> romfs/audio/<nom>.wav
+  3. Manifest: romfs/gfx/manifest.tsv (planche<TAB>index<TAB>nom) pour TOUS les .t3s de assets/
+
+Usage (depuis la racine du projet) :
+    pip install pillow
+    python tools/prepare_assets.py                 # images à 50 % (écran 320x240), sons convertis
+    python tools/prepare_assets.py --scale 0.625   # fonds 640x480 -> 400x300
+    python tools/prepare_assets.py --skip-sounds
+Puis :  .\\build.ps1 assets   (ou  .\\build.ps1 cia)
+"""
+import argparse
+import array
+import os
+import re
+import shutil
+import sys
+import wave
+
+try:
+    from PIL import Image
+except ImportError:
+    sys.exit("Pillow est requis :  pip install pillow")
+
+ATLAS_SIZE = 1024
+FILL_RATIO = 0.62      # part de la surface d'un atlas réellement remplie (marge pour le packing de tex3ds)
+MAX_RATE = 22050
+
+
+def leading_int(name):
+    m = re.match(r"(\d+)", name)
+    return int(m.group(1)) if m else 10 ** 9
+
+
+# ── images ────────────────────────────────────────────────────────────────────
+def prepare_images(src, out, scale, fmt):
+    pngs = sorted((f for f in os.listdir(src) if f.lower().endswith(".png")),
+                  key=lambda f: (leading_int(f), f))
+    imgdir = os.path.join(out, "img")
+    if os.path.isdir(out):
+        for f in os.listdir(out):                      # régénération propre
+            p = os.path.join(out, f)
+            if f.startswith("atlas_") and f.endswith(".t3s"):
+                os.remove(p)
+    if os.path.isdir(imgdir):
+        shutil.rmtree(imgdir)
+    os.makedirs(imgdir, exist_ok=True)
+
+    groups, cur, cur_area = [], [], 0
+    cap = ATLAS_SIZE * ATLAS_SIZE * FILL_RATIO
+    skipped = 0
+    for f in pngs:
+        try:
+            im = Image.open(os.path.join(src, f)).convert("RGBA")
+        except Exception as e:                          # fichier illisible
+            print(f"  ! {f}: {e}")
+            skipped += 1
+            continue
+        w = max(1, round(im.width * scale))
+        h = max(1, round(im.height * scale))
+        k = min(1.0, (ATLAS_SIZE - 2) / w, (ATLAS_SIZE - 2) / h)   # jamais plus grand qu'un atlas
+        if k < 1.0:
+            w, h = max(1, int(w * k)), max(1, int(h * k))
+        if (w, h) != im.size:
+            im = im.resize((w, h), Image.LANCZOS)
+        stem = os.path.splitext(f)[0]
+        name = "img_" + re.sub(r"[^0-9A-Za-z_]+", "_", stem)
+        im.save(os.path.join(imgdir, name + ".png"))
+        area = (w + 2) * (h + 2)
+        if cur and cur_area + area > cap:
+            groups.append(cur)
+            cur, cur_area = [], 0
+        cur.append(name)
+        cur_area += area
+    if cur:
+        groups.append(cur)
+
+    for i, g in enumerate(groups, 1):
+        with open(os.path.join(out, f"atlas_{i:02d}.t3s"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(f"--atlas -f {fmt} -z auto\n")
+            for name in g:
+                fh.write(f"img/{name}.png\n")
+    print(f"images : {len(pngs) - skipped} PNG -> {len(groups)} atlas (échelle {scale}, format {fmt})")
+    return len(groups)
+
+
+# ── sons ──────────────────────────────────────────────────────────────────────
+def convert_wav(src_path, dst_path):
+    with wave.open(src_path, "rb") as w:
+        ch, sw, rate, n = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
+        raw = w.readframes(n)
+    if sw == 1:                                         # 8 bits non signé
+        samples = array.array("h", ((b - 128) << 8 for b in raw))
+    elif sw == 2:
+        samples = array.array("h")
+        samples.frombytes(raw)
+        if sys.byteorder == "big":
+            samples.byteswap()
+    else:
+        raise ValueError(f"{sw * 8} bits non géré")
+    if ch > 1:                                          # mixage mono
+        samples = array.array("h", (sum(samples[i:i + ch]) // ch for i in range(0, len(samples) - ch + 1, ch)))
+    if rate > MAX_RATE and len(samples) > 1:            # ré-échantillonnage linéaire
+        ratio = rate / MAX_RATE
+        m = int(len(samples) / ratio)
+        res = array.array("h")
+        for i in range(m):
+            pos = i * ratio
+            j = int(pos)
+            frac = pos - j
+            a = samples[j]
+            b = samples[j + 1] if j + 1 < len(samples) else a
+            res.append(int(a + (b - a) * frac))
+        samples, rate = res, MAX_RATE
+    os.makedirs(os.path.dirname(dst_path), exist_ok=True)
+    with wave.open(dst_path, "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(rate)
+        w.writeframes(samples.tobytes() if sys.byteorder == "little" else
+                      (lambda a: (a.byteswap(), a.tobytes())[1])(array.array("h", samples)))
+    return rate, len(samples) * 2
+
+
+def clean_sound_name(fn):
+    base = fn
+    while base.lower().endswith(".wav"):
+        base = base[:-4]
+    base = re.sub(r"^-?\d+_", "", base)                  # "46_buildscreen_music" -> "buildscreen_music"
+    return re.sub(r"[^0-9A-Za-z_]+", "_", base).strip("_").lower() or "snd"
+
+
+def prepare_sounds(src, dst, overwrite):
+    done, skipped, used = 0, 0, set()
+    for fn in sorted(os.listdir(src), key=lambda f: (leading_int(f.lstrip("-")), f)):
+        if not fn.lower().endswith(".wav"):
+            continue
+        name = clean_sound_name(fn)
+        if name in used:                                 # doublon : on suffixe l'id d'origine
+            name = f"{name}_{leading_int(fn.lstrip('-'))}"
+        used.add(name)
+        target = os.path.join(dst, name + ".wav")
+        if os.path.exists(target) and not overwrite:
+            skipped += 1
+            continue
+        try:
+            rate, size = convert_wav(os.path.join(src, fn), target)
+            if size > 2 * 1024 * 1024:
+                print(f"  ! {name}.wav fait {size // 1024} Ko (> 2 Mo : refusé par audio_3ds.cpp)")
+            done += 1
+        except Exception as e:
+            print(f"  ! {fn}: {e}")
+    print(f"sons   : {done} convertis, {skipped} déjà présents (--overwrite pour remplacer) -> {dst}")
+
+
+# ── manifest ──────────────────────────────────────────────────────────────────
+def parse_t3s(path):
+    names = []
+    with open(path, encoding="utf-8-sig") as f:
+        for raw in f:
+            line = raw.strip()
+            if not line or line.startswith("#") or line.startswith("-"):
+                continue
+            names.append(os.path.splitext(os.path.basename(line.replace("\\", "/")))[0])
+    return names
+
+
+def write_manifest(assets_root, out_path):
+    t3s = []
+    for root, _d, files in os.walk(assets_root):
+        if os.path.sep + "source" in root + os.path.sep and os.path.relpath(root, assets_root).startswith("source"):
+            continue
+        t3s += [os.path.join(root, f) for f in files if f.lower().endswith(".t3s")]
+    t3s.sort()
+    os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
+    total = 0
+    with open(out_path, "w", encoding="utf-8", newline="\n") as out:
+        out.write("# planche\tindex\tnom\n")
+        for p in t3s:
+            sheet = os.path.splitext(os.path.basename(p))[0]
+            for i, name in enumerate(parse_t3s(p)):
+                out.write(f"{sheet}\t{i}\t{name}\n")
+                total += 1
+    print(f"manifest : {len(t3s)} planches, {total} sprites -> {out_path}")
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--root", default=".", help="racine du projet")
+    ap.add_argument("--scale", type=float, default=0.5, help="échelle des images (défaut 0.5)")
+    ap.add_argument("--format", default="rgba8888", help="format tex3ds (rgba8888, rgba4444, rgba5551...)")
+    ap.add_argument("--overwrite", action="store_true", help="remplacer les WAV déjà présents dans romfs/audio")
+    ap.add_argument("--skip-images", action="store_true")
+    ap.add_argument("--skip-sounds", action="store_true")
+    a = ap.parse_args()
+    r = os.path.abspath(a.root)
+
+    if not a.skip_images:
+        src = os.path.join(r, "assets", "source", "images")
+        if os.path.isdir(src):
+            prepare_images(src, os.path.join(r, "assets", "atlases"), a.scale, a.format)
+        else:
+            print("! assets/source/images introuvable")
+    if not a.skip_sounds:
+        src = os.path.join(r, "assets", "source", "sounds")
+        if os.path.isdir(src):
+            prepare_sounds(src, os.path.join(r, "romfs", "audio"), a.overwrite)
+        else:
+            print("! assets/source/sounds introuvable")
+    write_manifest(os.path.join(r, "assets"), os.path.join(r, "romfs", "gfx", "manifest.tsv"))
+
+
+if __name__ == "__main__":
+    main()
+
+----- tools/generate_meta.py (4271 o) -----
+#!/usr/bin/env python3
+"""
+generate_meta.py — Génère l'icône 48x48 et la bannière 256x128 pour le CIA 3DS.
+Utilise uniquement la bibliothèque standard + PIL/Pillow.
+Lance avec : python tools/generate_meta.py
+"""
+
+import os, struct, wave, array, math
+from pathlib import Path
+
+try:
+    from PIL import Image, ImageDraw, ImageFont
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
+    print("[WARN] Pillow non installé — images générées en BMP pur Python")
+
+ROOT = Path(__file__).resolve().parent.parent
+META = ROOT / "meta"
+META.mkdir(exist_ok=True)
+
+# ─── Palette ────────────────────────────────────────────────────────────────
+BG_DARK  = (26,  26,  46)
+YELLOW   = (255, 215,  0)
+ORANGE   = (255, 135,  0)
+WHITE    = (255, 255, 255)
+RED      = (200,  40,  40)
+
+def gen_icon():
+    """Crée icon.png 48×48."""
+    path = META / "icon.png"
+    if HAS_PIL:
+        img = Image.new("RGB", (48, 48), BG_DARK)
+        d = ImageDraw.Draw(img)
+        # Fond dégradé simulé par rectangles
+        d.rectangle([0, 0, 47, 47], outline=ORANGE, width=2)
+        # Lettre P stylisée
+        d.rectangle([12, 10, 18, 38], fill=YELLOW)
+        d.ellipse([12, 10, 32, 24], fill=ORANGE)
+        d.ellipse([13, 11, 29, 23], fill=BG_DARK)
+        # Burger icon en bas
+        d.rounded_rectangle([10, 30, 38, 36], radius=3, fill=ORANGE)
+        d.rounded_rectangle([12, 36, 36, 40], radius=2, fill=YELLOW)
+        d.rounded_rectangle([10, 40, 38, 46], radius=3, fill=ORANGE)
+        img.save(str(path))
+        print(f"[OK] {path}")
+    else:
+        # Fallback : carré orange pur (bannertool accepte BMP et PNG)
+        _write_bmp(path.with_suffix(".bmp"), 48, 48, ORANGE)
+        print(f"[OK] {path.with_suffix('.bmp')} (Pillow absent)")
+
+def gen_banner():
+    """Crée banner.png 256×128."""
+    path = META / "banner.png"
+    if HAS_PIL:
+        img = Image.new("RGB", (256, 128), BG_DARK)
+        d = ImageDraw.Draw(img)
+        # Bordure
+        d.rectangle([0, 0, 255, 127], outline=ORANGE, width=3)
+        # Titre
+        try:
+            font_lg = ImageFont.truetype("arial.ttf", 22)
+            font_sm = ImageFont.truetype("arial.ttf", 13)
+        except Exception:
+            font_lg = ImageFont.load_default()
+            font_sm = font_lg
+        d.text((128, 35), "Papa's Cheeseria", fill=YELLOW, font=font_lg, anchor="mm")
+        d.text((128, 70), "Port 3DS Homebrew", fill=WHITE,  font=font_sm, anchor="mm")
+        d.text((128, 90), "FlashGamesHub",     fill=ORANGE, font=font_sm, anchor="mm")
+        img.save(str(path))
+        print(f"[OK] {path}")
+    else:
+        _write_bmp(path.with_suffix(".bmp"), 256, 128, BG_DARK)
+        print(f"[OK] {path.with_suffix('.bmp')} (Pillow absent)")
+
+def gen_banner_wav():
+    """Génère banner.wav : 1 s de silence 16 bits stéréo 44100 Hz."""
+    path = META / "banner.wav"
+    n_samples = 44100
+    with wave.open(str(path), 'w') as wf:
+        wf.setnchannels(2)
+        wf.setsampwidth(2)
+        wf.setframerate(44100)
+        # Jingle court (ding simple)
+        data = array.array('h')
+        for i in range(n_samples):
+            t = i / 44100
+            if t < 0.3:
+                v = int(8000 * math.sin(2 * math.pi * 880 * t) * math.exp(-10 * t))
+            else:
+                v = 0
+            data.append(v)
+            data.append(v)
+        wf.writeframes(data.tobytes())
+    print(f"[OK] {path}  ({path.stat().st_size} octets)")
+
+def _write_bmp(path, w, h, color):
+    """Écrit un BMP couleur unie (sans Pillow)."""
+    r, g, b = color
+    row_size = ((w * 3 + 3) & ~3)
+    pixel_data = bytes([b, g, r]) * w
+    pixel_data += bytes(row_size - w * 3)
+    pixel_data = pixel_data * h
+    file_size = 54 + len(pixel_data)
+    header = struct.pack('<2sIHHI', b'BM', file_size, 0, 0, 54)
+    info   = struct.pack('<IiiHHIIiiII', 40, w, h, 1, 24, 0, len(pixel_data), 2835, 2835, 0, 0)
+    with open(path, 'wb') as f:
+        f.write(header + info + pixel_data)
+
+if __name__ == "__main__":
+    gen_icon()
+    gen_banner()
+    gen_banner_wav()
+    print("\nFichiers meta générés dans:", META)
+    print("Lancez ensuite : .\\build.ps1 cia")
+
+----- tools/inventory.ps1 (5904 o) -----
+# inventory.ps1 — inventaire complet du projet pour le port 3DS
+# Usage (depuis la racine du projet) :
+#   powershell -ExecutionPolicy Bypass -File inventory.ps1
+# Produit : inventory\report.txt, inventory\files.csv et inventory.zip
+param([string]$Root = (Get-Location).Path, [string]$Out = "inventory")
+$ErrorActionPreference = "SilentlyContinue"
+$Root = (Resolve-Path $Root).Path
+$OutDir = Join-Path $Root $Out
+New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
+
+$sb = New-Object System.Text.StringBuilder
+function W([string]$s) { [void]$sb.AppendLine($s) }
+function Rel([string]$p) { $p.Substring($Root.Length).TrimStart('\','/') }
+
+$skip = '\\(\.git|node_modules|inventory)(\\|$)'
+$files = @(Get-ChildItem -LiteralPath $Root -Recurse -File -Force | Where-Object { $_.FullName -notmatch $skip })
+
+function Get-PngSize([string]$path) {
+    try {
+        $fs = [System.IO.File]::OpenRead($path); $b = New-Object byte[] 24
+        $n = $fs.Read($b, 0, 24); $fs.Close()
+        if ($n -ge 24 -and $b[1] -eq 0x50 -and $b[2] -eq 0x4E -and $b[3] -eq 0x47) {
+            $w = ([int]$b[16] -shl 24) -bor ([int]$b[17] -shl 16) -bor ([int]$b[18] -shl 8) -bor [int]$b[19]
+            $h = ([int]$b[20] -shl 24) -bor ([int]$b[21] -shl 16) -bor ([int]$b[22] -shl 8) -bor [int]$b[23]
+            return @($w, $h)
+        }
+    } catch {}
+    return $null
+}
+function Get-WavInfo([string]$path) {
+    try {
+        $fs = [System.IO.File]::OpenRead($path); $b = New-Object byte[] 44
+        $n = $fs.Read($b, 0, 44); $fs.Close()
+        if ($n -ge 44 -and $b[0] -eq 0x52 -and $b[8] -eq 0x57) {
+            return "ch=$([BitConverter]::ToUInt16($b,22)) rate=$([BitConverter]::ToUInt32($b,24)) bits=$([BitConverter]::ToUInt16($b,34))"
+        }
+    } catch {}
+    return ""
+}
+
+# ── CSV de tous les fichiers (taille, dimensions PNG, infos WAV) ──
+$rows = foreach ($f in $files) {
+    $ext = $f.Extension.ToLower(); $w = ""; $h = ""; $extra = ""
+    if ($ext -eq ".png") { $s = Get-PngSize $f.FullName; if ($s) { $w = $s[0]; $h = $s[1] } }
+    if ($ext -eq ".wav") { $extra = Get-WavInfo $f.FullName }
+    [pscustomobject]@{ path = (Rel $f.FullName); size = $f.Length; ext = $ext; width = $w; height = $h; extra = $extra }
+}
+$rows | Export-Csv -LiteralPath (Join-Path $OutDir "files.csv") -NoTypeInformation -Encoding UTF8
+
+# ── Résumé ──
+$total = ($files | Measure-Object Length -Sum).Sum
+W "=== INVENTAIRE ==="
+W "Racine : $Root"
+W "Fichiers : $($files.Count)   Taille totale : $([math]::Round($total/1MB,1)) Mo"
+W ""
+W "=== DOSSIERS DE PREMIER NIVEAU ==="
+foreach ($d in (Get-ChildItem -LiteralPath $Root -Directory -Force | Where-Object { $_.FullName -notmatch $skip })) {
+    $p = $d.FullName + "\"
+    $sub = @($files | Where-Object { $_.FullName.StartsWith($p) })
+    $mb = [math]::Round((($sub | Measure-Object Length -Sum).Sum) / 1MB, 2)
+    W ("{0,-20} {1,7} fichiers {2,9} Mo" -f $d.Name, $sub.Count, $mb)
+}
+W ""
+W "=== EXTENSIONS (global) ==="
+$files | Group-Object { $_.Extension.ToLower() } | Sort-Object Count -Descending | ForEach-Object {
+    W ("{0,-10} {1,7}" -f $(if ($_.Name) { $_.Name } else { "(aucune)" }), $_.Count)
+}
+W ""
+
+# ── Dossiers contenant des images/sons : stats + échantillon ──
+W "=== DOSSIERS (images / sons) : nombre, tailles PNG min-max, exemples ==="
+$byDir = $rows | Where-Object { $_.ext -in ".png", ".wav", ".mp3", ".ogg", ".t3x", ".svg", ".jpg", ".gif" } |
+    Group-Object { Split-Path $_.path -Parent } | Sort-Object Count -Descending | Select-Object -First 200
+foreach ($g in $byDir) {
+    $pngs = @($g.Group | Where-Object { $_.width -ne "" })
+    $dim = ""
+    if ($pngs.Count -gt 0) {
+        $ws = $pngs | ForEach-Object { [int]$_.width }; $hs = $pngs | ForEach-Object { [int]$_.height }
+        $dim = "  PNG w:$(($ws | Measure-Object -Minimum).Minimum)-$(($ws | Measure-Object -Maximum).Maximum) h:$(($hs | Measure-Object -Minimum).Minimum)-$(($hs | Measure-Object -Maximum).Maximum)"
+    }
+    W ("[{0}] {1} fichiers{2}" -f $g.Name, $g.Count, $dim)
+    ($g.Group | Select-Object -First 12 | ForEach-Object { "    " + (Split-Path $_.path -Leaf) + $(if ($_.width -ne "") { " ($($_.width)x$($_.height))" } else { "" }) + $(if ($_.extra) { " [$($_.extra)]" } else { "" }) }) | ForEach-Object { W $_ }
+}
+W ""
+
+# ── Arborescence détaillée (hors images/sons) ──
+W "=== AUTRES FICHIERS (code, config, docs, outils, scripts AS3...) ==="
+$rows | Where-Object { $_.ext -notin ".png", ".wav", ".mp3", ".ogg", ".jpg", ".gif", ".svg", ".t3x", ".o", ".d" } |
+    Select-Object -First 1500 | ForEach-Object { W ("{0}  ({1} o)" -f $_.path, $_.size) }
+W ""
+
+# ── Contenu des fichiers texte importants ──
+W "=== CONTENU DES FICHIERS CLES ==="
+$textRx = '(^|\\)(Makefile|\.gitignore|build\.ps1)$|\.(rsf|t3s|tsv|md|json|py|ps1|txt|cfg|yml|yaml|toml)$'
+$maxBytes = 30000
+foreach ($f in ($files | Where-Object { (Rel $_.FullName) -match $textRx -and $_.Length -lt 400000 -and $_.FullName -notmatch '\\(build|extracted)\\' } | Sort-Object FullName)) {
+    W ("----- {0} ({1} o) -----" -f (Rel $f.FullName), $f.Length)
+    $txt = Get-Content -LiteralPath $f.FullName -Raw -Encoding UTF8
+    if ($txt.Length -gt $maxBytes) { $txt = $txt.Substring(0, $maxBytes) + "`n[... tronqué ...]" }
+    W $txt
+}
+W ""
+
+# ── Lignes de code ──
+W "=== SOURCES (lignes) ==="
+foreach ($f in ($files | Where-Object { $_.Extension -in ".cpp", ".hpp", ".h", ".c" -and $_.FullName -notmatch '\\(build|extracted)\\' })) {
+    W ("{0,6}  {1}" -f (@(Get-Content -LiteralPath $f.FullName)).Count, (Rel $f.FullName))
+}
+
+[System.IO.File]::WriteAllText((Join-Path $OutDir "report.txt"), $sb.ToString(), (New-Object System.Text.UTF8Encoding($false)))
+$zip = Join-Path $Root "inventory.zip"
+if (Test-Path $zip) { Remove-Item $zip -Force }
+Compress-Archive -Path (Join-Path $OutDir "*") -DestinationPath $zip -Force
+Write-Host "OK -> $zip  (envoie ce fichier)"
+
+----- tools/inventory.py (4658 o) -----
+#!/usr/bin/env python3
+"""Inventaire complet du projet (équivalent de inventory.ps1, sans PowerShell).
+Usage (depuis la racine du projet) :  python inventory.py
+Produit : inventory/report.txt, inventory/files.csv et inventory.zip
+"""
+import csv, os, re, struct, sys, zipfile
+from collections import Counter, defaultdict
+
+root = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else ".")
+out = os.path.join(root, "inventory")
+os.makedirs(out, exist_ok=True)
+SKIP = {".git", "node_modules", "inventory"}
+MEDIA = {".png", ".wav", ".mp3", ".ogg", ".t3x", ".svg", ".jpg", ".gif"}
+HIDE = MEDIA | {".o", ".d"}
+TEXT_RX = re.compile(r"(^|/)(Makefile|\.gitignore|build\.ps1)$|\.(rsf|t3s|tsv|md|json|py|ps1|txt|cfg|yml|yaml|toml)$")
+
+
+def png_size(p):
+    try:
+        with open(p, "rb") as f:
+            b = f.read(24)
+        if b[1:4] == b"PNG":
+            return struct.unpack(">II", b[16:24])
+    except OSError:
+        pass
+    return None
+
+
+def wav_info(p):
+    try:
+        with open(p, "rb") as f:
+            b = f.read(44)
+        if b[:4] == b"RIFF" and b[8:12] == b"WAVE":
+            ch, rate = struct.unpack("<HI", b[22:28])
+            bits = struct.unpack("<H", b[34:36])[0]
+            return f"ch={ch} rate={rate} bits={bits}"
+    except OSError:
+        pass
+    return ""
+
+
+rows = []
+for dp, dn, fn in os.walk(root):
+    dn[:] = [d for d in dn if d not in SKIP]
+    for f in fn:
+        full = os.path.join(dp, f)
+        rel = os.path.relpath(full, root).replace("\\", "/")
+        ext = os.path.splitext(f)[1].lower()
+        w = h = ""
+        extra = ""
+        if ext == ".png":
+            s = png_size(full)
+            if s:
+                w, h = s
+        elif ext == ".wav":
+            extra = wav_info(full)
+        rows.append(dict(path=rel, size=os.path.getsize(full), ext=ext, width=w, height=h, extra=extra))
+rows.sort(key=lambda r: r["path"])
+
+with open(os.path.join(out, "files.csv"), "w", newline="", encoding="utf-8") as fh:
+    wr = csv.DictWriter(fh, fieldnames=["path", "size", "ext", "width", "height", "extra"])
+    wr.writeheader()
+    wr.writerows(rows)
+
+R = []
+W = R.append
+total = sum(r["size"] for r in rows)
+W("=== INVENTAIRE ===")
+W(f"Racine : {root}")
+W(f"Fichiers : {len(rows)}   Taille totale : {total/1048576:.1f} Mo\n")
+
+W("=== DOSSIERS DE PREMIER NIVEAU ===")
+top = defaultdict(lambda: [0, 0])
+for r in rows:
+    k = r["path"].split("/")[0] if "/" in r["path"] else "(racine)"
+    top[k][0] += 1
+    top[k][1] += r["size"]
+for k, (n, sz) in sorted(top.items()):
+    W(f"{k:<20} {n:7d} fichiers {sz/1048576:9.2f} Mo")
+W("\n=== EXTENSIONS (global) ===")
+for e, n in Counter(r["ext"] or "(aucune)" for r in rows).most_common():
+    W(f"{e:<10} {n:7d}")
+
+W("\n=== DOSSIERS (images / sons) : nombre, tailles PNG min-max, exemples ===")
+bydir = defaultdict(list)
+for r in rows:
+    if r["ext"] in MEDIA:
+        bydir[os.path.dirname(r["path"])].append(r)
+for d, g in sorted(bydir.items(), key=lambda kv: -len(kv[1]))[:200]:
+    pngs = [r for r in g if r["width"] != ""]
+    dim = ""
+    if pngs:
+        ws = [r["width"] for r in pngs]; hs = [r["height"] for r in pngs]
+        dim = f"  PNG w:{min(ws)}-{max(ws)} h:{min(hs)}-{max(hs)}"
+    W(f"[{d}] {len(g)} fichiers{dim}")
+    for r in g[:12]:
+        s = "    " + os.path.basename(r["path"])
+        if r["width"] != "":
+            s += f" ({r['width']}x{r['height']})"
+        if r["extra"]:
+            s += f" [{r['extra']}]"
+        W(s)
+
+W("\n=== AUTRES FICHIERS (code, config, docs, outils, scripts AS3...) ===")
+for r in [r for r in rows if r["ext"] not in HIDE][:1500]:
+    W(f"{r['path']}  ({r['size']} o)")
+
+W("\n=== CONTENU DES FICHIERS CLES ===")
+for r in rows:
+    if TEXT_RX.search(r["path"]) and r["size"] < 400000 and not re.match(r"(build|extracted)/", r["path"]):
+        W(f"----- {r['path']} ({r['size']} o) -----")
+        with open(os.path.join(root, r["path"]), encoding="utf-8", errors="replace") as fh:
+            t = fh.read()
+        W(t[:30000] + ("\n[... tronqué ...]" if len(t) > 30000 else ""))
+
+W("\n=== SOURCES (lignes) ===")
+for r in rows:
+    if r["ext"] in (".cpp", ".hpp", ".h", ".c") and not re.match(r"(build|extracted)/", r["path"]):
+        with open(os.path.join(root, r["path"]), encoding="utf-8", errors="replace") as fh:
+            W(f"{sum(1 for _ in fh):6d}  {r['path']}")
+
+with open(os.path.join(out, "report.txt"), "w", encoding="utf-8") as fh:
+    fh.write("\n".join(R) + "\n")
+zp = os.path.join(root, "inventory.zip")
+with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
+    for n in ("report.txt", "files.csv"):
+        z.write(os.path.join(out, n), n)
+print("OK ->", zp, "(envoie ce fichier)")
+
+----- tools/romfs/gfx/manifest.tsv (20 o) -----
+# planche	index	nom
+
+
+=== SOURCES (lignes) ===
+     9  include/audio_3ds.hpp
+    16  include/gallery.hpp
+   139  include/game.hpp
+    21  include/progress_save.hpp
+    25  include/sprites.hpp
+   134  source/audio_3ds.cpp
+   154  source/gallery.cpp
+   185  source/game.cpp
+   593  source/main_3ds.cpp
+   123  source/main_host.cpp
+    98  source/progress_save.cpp
+   173  source/sprites.cpp
+    90  tests/game_test.cpp

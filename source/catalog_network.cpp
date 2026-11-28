@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <malloc.h>
 #include <sys/stat.h>
 
@@ -200,15 +201,22 @@ CURLcode performHttps(CURL* curl) {
     return curl_easy_perform(curl);
 }
 
+// Le CDN de GitHub garde les fichiers "raw" en cache quelques minutes : un parametre
+// different a chaque requete force la version la plus recente (nouvelles versions de jeux).
 bool fetch(CURL* curl, const char* url) {
-    gResponseSize = 0;
-    gResponseBuffer[0] = '\0';
-    curl_easy_setopt(curl, CURLOPT_URL, url);
-    const CURLcode result = performHttps(curl);
-    long responseCode = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-    gResponseBuffer[gResponseSize] = '\0';
-    return result == CURLE_OK && responseCode == 200 && gResponseSize > 0;
+    char freshUrl[240];
+    std::snprintf(freshUrl, sizeof(freshUrl), "%s?t=%lu", url, static_cast<unsigned long>(std::time(nullptr)));
+    for (int attempt = 0; attempt < 2 && !gCancel.load(); ++attempt) {
+        gResponseSize = 0;
+        gResponseBuffer[0] = '\0';
+        curl_easy_setopt(curl, CURLOPT_URL, freshUrl);
+        const CURLcode result = performHttps(curl);
+        long responseCode = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
+        gResponseBuffer[gResponseSize] = '\0';
+        if (result == CURLE_OK && responseCode == 200 && gResponseSize > 0) return true;
+    }
+    return false;
 }
 
 void downloadWorker(void*) {
@@ -224,8 +232,9 @@ void downloadWorker(void*) {
         curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS_STR, "https");
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
-        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 6000L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 15000L);
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 8000L);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 30000L);
+        curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");  // gzip si disponible : catalogue plus rapide a charger
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "FlashGamesHub/0.1");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, receiveResponse);
@@ -326,36 +335,62 @@ void setGamePackageState(GamePackageState state) {
     LightLock_Unlock(&gStateLock);
 }
 
-bool installCiaPackage(const char* path, bool overwrite, u64 expectedTitleId, u64* installedTitleId) {
-    if (!path || std::strncmp(path, "sdmc:/", 6) != 0 || !installedTitleId || R_FAILED(amInit())) return false;
+const char* gPackageError = "";
+
+void failPackage(const char* id, const char* reason, bool isHubUpdate = false) {
+    gPackageError = reason ? reason : "";
+    finishGamePackage(GamePackageState::Failed, id, isHubUpdate);
+}
+
+// Verifie l'espace libre sur la carte SD avant de telecharger / installer.
+// Si la lecture echoue on ne bloque pas : l'ecriture signalera l'erreur elle-meme.
+bool sdHasFreeSpace(u64 neededBytes) {
+    FS_ArchiveResource resource{};
+    if (R_FAILED(FSUSER_GetSdmcArchiveResource(&resource)) || resource.clusterSize == 0) return true;
+    return static_cast<u64>(resource.clusterSize) * resource.freeClusters >= neededBytes;
+}
+
+// Installe un .cia present sur la SD. libctru officiel : AM_TitleEntry et
+// AM_StartCiaInstall (AM remplace tout seul un titre deja installe, ce qui
+// permet les mises a jour sans desinstaller).
+bool installCiaPackage(const char* path, u64 expectedTitleId, u64* installedTitleId, const char** reason) {
+    *reason = "Installation impossible";
+    if (!path || std::strncmp(path, "sdmc:/", 6) != 0 || !installedTitleId) return false;
+    if (R_FAILED(amInit())) {
+        *reason = "Service AM indisponible";
+        return false;
+    }
     const FS_Path archivePath = fsMakePath(PATH_EMPTY, "");
     const FS_Path filePath = fsMakePath(PATH_ASCII, path + 5);
     Handle fileHandle = 0;
     Result result = FSUSER_OpenFileDirectly(&fileHandle, ARCHIVE_SDMC, archivePath, filePath, FS_OPEN_READ, 0);
-    AM_TitleInfo ciaInfo{};
+    AM_TitleEntry ciaInfo{};
     if (R_SUCCEEDED(result)) result = AM_GetCiaFileInfo(MEDIATYPE_SD, &ciaInfo, fileHandle);
     if (fileHandle) FSFILE_Close(fileHandle);
-    if (R_FAILED(result) || ciaInfo.titleID == 0 || (expectedTitleId && expectedTitleId != ciaInfo.titleID)) {
+    if (R_FAILED(result) || ciaInfo.titleID == 0) {
         amExit();
+        *reason = "CIA invalide";
+        return false;
+    }
+    if (expectedTitleId && expectedTitleId != ciaInfo.titleID) {
+        amExit();
+        *reason = "CIA d'un autre jeu";
         return false;
     }
 
     Handle installHandle = 0;
-    result = overwrite ? AM_StartCiaInstallOverwrite(&installHandle, MEDIATYPE_SD)
-                       : AM_StartCiaInstall(MEDIATYPE_SD, &installHandle);
-    if (R_FAILED(result) && overwrite) {
-        result = AM_StartCiaInstall(MEDIATYPE_SD, &installHandle);
-    }
+    result = AM_StartCiaInstall(MEDIATYPE_SD, &installHandle);
     if (R_FAILED(result)) {
         amExit();
+        *reason = "Démarrage de l'installation refusé";
         return false;
     }
     FILE* input = std::fopen(path, "rb");
-    alignas(0x1000) unsigned char buffer[0x10000];
+    unsigned char* buffer = static_cast<unsigned char*>(memalign(0x1000, 0x10000));  // sur le tas : la pile du thread est petite
     u64 offset = 0;
-    bool ok = input != nullptr;
+    bool ok = input != nullptr && buffer != nullptr;
     while (ok) {
-        const std::size_t count = std::fread(buffer, 1, sizeof(buffer), input);
+        const std::size_t count = std::fread(buffer, 1, 0x10000, input);
         if (count == 0) {
             if (std::ferror(input)) ok = false;
             break;
@@ -365,6 +400,7 @@ bool installCiaPackage(const char* path, bool overwrite, u64 expectedTitleId, u6
         if (R_FAILED(result) || written != count) ok = false;
         else offset += written;
     }
+    std::free(buffer);
     if (input && std::fclose(input) != 0) ok = false;
     if (ok) {
         result = FSFILE_Flush(installHandle);
@@ -373,15 +409,121 @@ bool installCiaPackage(const char* path, bool overwrite, u64 expectedTitleId, u6
     } else {
         AM_CancelCIAInstall(installHandle);
     }
-    AM_TitleInfo installedInfo{};
+    AM_TitleEntry installedInfo{};
     u64 verifiedTitleId = ciaInfo.titleID;
     const bool installed = R_SUCCEEDED(result) && ok &&
         R_SUCCEEDED(AM_GetTitleInfo(MEDIATYPE_SD, 1, &verifiedTitleId, &installedInfo)) &&
         installedInfo.titleID == ciaInfo.titleID;
     amExit();
-    if (!installed) return false;
+    if (!installed) {
+        *reason = ok ? "Le système a refusé le CIA" : "Écriture de l'installation échouée";
+        return false;
+    }
     *installedTitleId = ciaInfo.titleID;
     return true;
+}
+
+// Telecharge un paquet en HTTPS, verifie taille + SHA-256 et le laisse dans tempPath.
+// Une seule nouvelle tentative, uniquement pour les erreurs reseau passageres.
+bool downloadVerifiedPackage(const char* url, const char* tempPath, u32 expectedBytes, u32 maxBytes,
+                             const char* expectedSha, const char** reason) {
+    *reason = "Téléchargement échoué";
+    for (int attempt = 0; attempt < 2; ++attempt) {
+        if (gCancel.load()) {
+            *reason = "Annulé";
+            return false;
+        }
+        std::remove(tempPath);
+        FILE* output = std::fopen(tempPath, "wb");
+        if (!output) {
+            *reason = "Écriture SD impossible";
+            return false;
+        }
+        GameFileSink sink{};
+        sink.file = output;
+        sink.expectedBytes = expectedBytes;
+        sink.maxBytes = maxBytes;
+        mbedtls_sha256_init(&sink.hash);
+        const bool hashStarted = mbedtls_sha256_starts_ret(&sink.hash, 0) == 0;
+
+        CURLcode request = CURLE_FAILED_INIT;
+        long responseCode = 0;
+        CURL* curl = hashStarted ? curl_easy_init() : nullptr;
+        if (curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, url);
+            curl_easy_setopt(curl, CURLOPT_CAINFO, resolveCaBundlePath());
+            curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+            curl_easy_setopt(curl, CURLOPT_PROTOCOLS_STR, "https");
+            curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS_STR, "https");
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 5L);
+            curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 10000L);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, kPackageTimeoutMs);
+            curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, kPackageLowSpeedLimit);
+            curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, kPackageLowSpeedTime);
+            curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, kPackageBufferSize);
+            curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
+            curl_easy_setopt(curl, CURLOPT_USERAGENT, "FlashGamesHub/0.1");
+            curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, receiveGamePackage);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &sink);
+            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+            curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, gamePackageProgressCallback);
+            curl_easy_setopt(curl, CURLOPT_MAXFILESIZE_LARGE, static_cast<curl_off_t>(maxBytes));
+            request = curl_easy_perform(curl);
+            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
+            curl_easy_cleanup(curl);
+        }
+        unsigned char digest[32]{};
+        const bool hashFinished = hashStarted && mbedtls_sha256_finish_ret(&sink.hash, digest) == 0;
+        mbedtls_sha256_free(&sink.hash);
+        const bool closed = std::fclose(output) == 0;
+
+        if (gCancel.load()) {
+            std::remove(tempPath);
+            *reason = "Annulé";
+            return false;
+        }
+        if (request == CURLE_OK && responseCode == 200 && !sink.hashFailed && closed && hashFinished) {
+            const bool sizeOk = expectedBytes ? sink.receivedBytes == expectedBytes : sink.receivedBytes > 0;
+            if (!sizeOk) {
+                std::remove(tempPath);
+                *reason = "Taille du fichier inattendue";
+                return false;
+            }
+            if (!digestMatches(digest, expectedSha)) {
+                std::remove(tempPath);
+                *reason = "Fichier corrompu (SHA-256)";
+                return false;
+            }
+            return true;
+        }
+
+        std::remove(tempPath);
+        if (responseCode == 404) {
+            *reason = "Fichier introuvable sur le serveur";
+            return false;
+        }
+        if (request == CURLE_PEER_FAILED_VERIFICATION || request == CURLE_SSL_CACERT_BADFILE ||
+            request == CURLE_SSL_CONNECT_ERROR) {
+            *reason = "Erreur de certificat HTTPS";
+            return false;
+        }
+        if (request == CURLE_WRITE_ERROR || request == CURLE_FILESIZE_EXCEEDED || sink.hashFailed || !closed) {
+            *reason = sink.receivedBytes >= (expectedBytes ? expectedBytes : maxBytes) ? "Taille du fichier inattendue"
+                                                                                       : "Écriture SD impossible";
+            return false;
+        }
+        const bool retryable = request == CURLE_OPERATION_TIMEDOUT || request == CURLE_COULDNT_CONNECT ||
+                               request == CURLE_COULDNT_RESOLVE_HOST || request == CURLE_RECV_ERROR ||
+                               request == CURLE_SEND_ERROR || request == CURLE_PARTIAL_FILE ||
+                               request == CURLE_GOT_NOTHING;
+        *reason = request == CURLE_OPERATION_TIMEDOUT ? "Connexion trop lente" : "Connexion impossible";
+        if (!retryable) return false;
+    }
+    return false;
 }
 
 void gamePackageWorker(void* userData) {
@@ -389,11 +531,11 @@ void gamePackageWorker(void* userData) {
     char packageFormat[12]{};
     std::snprintf(packageFormat, sizeof(packageFormat), "%s", gGamePackageFormat);
     const bool isCia = std::strcmp(packageFormat, "cia") == 0;
+    const bool is3dsx = std::strcmp(packageFormat, "3dsx") == 0;
     const bool ciaIsPrimary = isCia && std::strcmp(game.downloadFormat, "cia") == 0;
     const char* packageUrl = isCia ? (ciaIsPrimary ? game.downloadUrl : game.ciaUrl) : game.downloadUrl;
     const char* packageHash = isCia ? (ciaIsPrimary ? game.sha256 : game.ciaSha256) : game.sha256;
     const u32 packageBytes = isCia ? (ciaIsPrimary ? game.sizeBytes : game.ciaSizeBytes) : game.sizeBytes;
-    GamePackageState resultState = GamePackageState::Failed;
     char gameDirectory[160];
     char targetPath[320];
     char temporaryPath[328];
@@ -412,125 +554,73 @@ void gamePackageWorker(void* userData) {
     const bool registryExists =
         stat("sdmc:/3ds/FlashGamesHub/installed.json", &registryInfo) == 0 ||
         stat("sdmc:/3ds/FlashGamesHub/installed.json.bak", &registryBackupInfo) == 0;
-    const bool registryValid = registryLoaded || !registryExists;
     const bool targetExists = stat(targetPath, &targetInfo) == 0 && targetInfo.st_size > 0;
     const bool isUpdate = isInstalledGame(installedGames, game.id, &installed);
-    const bool packageStateAllowed = game.status == GameStatus::Available || game.status == GameStatus::Development;
-    const bool formatValid = isCia || std::strcmp(packageFormat, "3dsx") == 0;
-    const bool updateValid = !isUpdate || (installed && std::strcmp(installed->format, packageFormat) == 0 &&
-        compareVersions(game.version, installed->version) > 0 && (isCia || targetExists));
-    if (!registryValid || !packageStateAllowed || !formatValid || !game.version[0] || !packageBytes ||
-        !packageHash[0] || !packageUrl[0] || (isUpdate && !updateValid) || (!isUpdate && targetExists && !isCia) || gCancel.load()) {
-        finishGamePackage(resultState, game.id);
-        return;
-    }
+
+    if (!registryLoaded && registryExists) return failPackage(game.id, "Liste des jeux installés illisible");
+    if (game.status != GameStatus::Available && game.status != GameStatus::Development)
+        return failPackage(game.id, "Jeu indisponible");
+    if (!isCia && !is3dsx) return failPackage(game.id, "Format inconnu");
+    // Un .3dsx ne peut venir que d'une entree 3dsx : sinon on telechargerait un CIA sous un nom .3dsx.
+    if (is3dsx && std::strcmp(game.downloadFormat, "3dsx") != 0) return failPackage(game.id, "Pas de version .3dsx");
+    if (!game.version[0] || !packageBytes || !packageHash[0] || !packageUrl[0])
+        return failPackage(game.id, "Informations du jeu incomplètes");
+    if (isUpdate && (!installed || std::strcmp(installed->format, packageFormat) != 0))
+        return failPackage(game.id, "Format différent de l'installation");
+    if (isUpdate && compareVersions(game.version, installed->version) <= 0)
+        return failPackage(game.id, "Déjà à jour");
+    if (gCancel.load()) return failPackage(game.id, "Annulé");
+
+    // Un .3dsx deja present (mise a jour, ou fichier orphelin dont l'entree a disparu)
+    // est remplace en gardant une sauvegarde pour pouvoir revenir en arriere.
+    const bool replaceExisting = is3dsx && targetExists;
+    const u64 needed = static_cast<u64>(packageBytes) * (isCia ? 2 : 1) + 2ULL * 1024 * 1024;
+    if (!sdHasFreeSpace(needed)) return failPackage(game.id, "Espace SD insuffisant");
 
     mkdir("sdmc:/3ds", 0777);
     mkdir("sdmc:/3ds/FlashGamesHub", 0777);
     mkdir(kGamesDirectory, 0777);
-    mkdir(kSavesDirectory, 0777); // Updates never modify per-game save data.
+    mkdir(kSavesDirectory, 0777);  // les mises a jour ne touchent jamais aux sauvegardes
     mkdir(gameDirectory, 0777);
-    std::remove(temporaryPath);
 
-    FILE* output = std::fopen(temporaryPath, "wb");
-    if (!output) {
-        finishGamePackage(resultState, game.id);
-        return;
-    }
-    GameFileSink sink{};
-    sink.file = output;
-    sink.expectedBytes = packageBytes;
-    sink.maxBytes = packageBytes;
-    mbedtls_sha256_init(&sink.hash);
-    bool valid = mbedtls_sha256_starts_ret(&sink.hash, 0) == 0;
-
-    CURL* curl = valid ? curl_easy_init() : nullptr;
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, packageUrl);
-        curl_easy_setopt(curl, CURLOPT_CAINFO, resolveCaBundlePath());
-        curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
-        curl_easy_setopt(curl, CURLOPT_PROTOCOLS_STR, "https");
-        curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS_STR, "https");
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
-        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 8000L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, kPackageTimeoutMs);
-        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, kPackageLowSpeedLimit);
-        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, kPackageLowSpeedTime);
-        curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, kPackageBufferSize);
-        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
-        curl_easy_setopt(curl, CURLOPT_USERAGENT, "FlashGamesHub/0.1");
-        curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, receiveGamePackage);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &sink);
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, gamePackageProgressCallback);
-        curl_easy_setopt(curl, CURLOPT_MAXFILESIZE_LARGE, static_cast<curl_off_t>(packageBytes));
-        long responseCode = 0;
-        const CURLcode request = curl_easy_perform(curl);
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-        valid = request == CURLE_OK && responseCode == 200 && !sink.hashFailed &&
-                sink.receivedBytes == sink.expectedBytes && !gCancel.load();
-        curl_easy_cleanup(curl);
-    } else {
-        valid = false;
-    }
-
-    unsigned char digest[32]{};
-    if (valid) valid = mbedtls_sha256_finish_ret(&sink.hash, digest) == 0 && digestMatches(digest, packageHash);
-    mbedtls_sha256_free(&sink.hash);
-    if (std::fclose(output) != 0) valid = false;
-    if (!valid) {
-        std::remove(temporaryPath);
-        finishGamePackage(resultState, game.id);
-        return;
-    }
+    const char* reason = "Téléchargement échoué";
+    if (!downloadVerifiedPackage(packageUrl, temporaryPath, packageBytes, packageBytes, packageHash, &reason))
+        return failPackage(game.id, reason);
 
     if (isCia) {
         setGamePackageState(GamePackageState::Installing);
         u64 titleId = 0;
         const u64 expectedTitleId = isUpdate && installed ? installed->titleId : 0;
-        if (!installCiaPackage(temporaryPath, isUpdate, expectedTitleId, &titleId)) {
+        if (!installCiaPackage(temporaryPath, expectedTitleId, &titleId, &reason)) {
             std::remove(temporaryPath);
-            finishGamePackage(resultState, game.id);
-            return;
-        }
-        if (!registerInstalledGame(&installedGames, game.id, game.version, packageBytes, "cia", titleId)) {
-            std::remove(temporaryPath);
-            finishGamePackage(resultState, game.id);
-            return;
+            return failPackage(game.id, reason);
         }
         std::remove(temporaryPath);
-        resultState = GamePackageState::Installed;
-        finishGamePackage(resultState, game.id);
+        if (!registerInstalledGame(&installedGames, game.id, game.version, packageBytes, "cia", titleId))
+            return failPackage(game.id, "Installé, liste non mise à jour");
+        gPackageError = "";
+        finishGamePackage(GamePackageState::Installed, game.id);
         return;
     }
 
-    // Keep an installed version recoverable while replacing it. First installs
-    // only promote the verified temporary file into the game's directory.
     std::remove(backupPath);
-    if (isUpdate && std::rename(targetPath, backupPath) != 0) {
+    if (replaceExisting && std::rename(targetPath, backupPath) != 0) {
         std::remove(temporaryPath);
-        finishGamePackage(resultState, game.id);
-        return;
+        return failPackage(game.id, "Impossible de remplacer l'ancienne version");
     }
     if (std::rename(temporaryPath, targetPath) != 0) {
-        if (isUpdate) std::rename(backupPath, targetPath);
+        if (replaceExisting) std::rename(backupPath, targetPath);
         std::remove(temporaryPath);
-        finishGamePackage(resultState, game.id);
-        return;
+        return failPackage(game.id, "Écriture SD impossible");
     }
     if (!registerInstalledGame(&installedGames, game.id, game.version, packageBytes, "3dsx", 0)) {
         std::remove(targetPath);
-        if (isUpdate) std::rename(backupPath, targetPath);
-        finishGamePackage(resultState, game.id);
-        return;
+        if (replaceExisting) std::rename(backupPath, targetPath);
+        return failPackage(game.id, "Liste des jeux non mise à jour");
     }
-    if (isUpdate) std::remove(backupPath);
-    resultState = GamePackageState::Installed;
-    finishGamePackage(resultState, game.id);
+    if (replaceExisting) std::remove(backupPath);
+    gPackageError = "";
+    finishGamePackage(GamePackageState::Installed, game.id);
 }
 
 HubManifest gHubUpdateRequest{};
@@ -539,79 +629,24 @@ void hubUpdateWorker(void* userData) {
     const HubManifest manifest = *static_cast<const HubManifest*>(userData);
     constexpr const char* kHubTempPath = "sdmc:/3ds/FlashGamesHub/FlashGamesHub-update.cia.tmp";
     if (!manifest.published || std::strncmp(manifest.ciaUrl, "https://", 8) != 0 ||
-        std::strlen(manifest.sha256) != 64 || gCancel.load()) {
-        finishGamePackage(GamePackageState::Failed, "hub", true);
-        return;
+        std::strlen(manifest.sha256) != 64) {
+        return failPackage("hub", "Manifeste du Hub invalide", true);
     }
+    if (gCancel.load()) return failPackage("hub", "Annulé", true);
+    if (!sdHasFreeSpace(48ULL * 1024 * 1024)) return failPackage("hub", "Espace SD insuffisant", true);
 
     mkdir("sdmc:/3ds", 0777);
     mkdir(kCacheDirectory, 0777);
-    std::remove(kHubTempPath);
-    FILE* output = std::fopen(kHubTempPath, "wb");
-    if (!output) {
-        finishGamePackage(GamePackageState::Failed, "hub", true);
-        return;
-    }
-
-    GameFileSink sink{};
-    sink.file = output;
-    sink.expectedBytes = 0;
-    sink.maxBytes = kMaxHubCiaBytes;
-    mbedtls_sha256_init(&sink.hash);
-    bool valid = mbedtls_sha256_starts_ret(&sink.hash, 0) == 0;
-
-    CURL* curl = valid ? curl_easy_init() : nullptr;
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, manifest.ciaUrl);
-        curl_easy_setopt(curl, CURLOPT_CAINFO, resolveCaBundlePath());
-        curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
-        curl_easy_setopt(curl, CURLOPT_PROTOCOLS_STR, "https");
-        curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS_STR, "https");
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
-        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 8000L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, kPackageTimeoutMs);
-        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, kPackageLowSpeedLimit);
-        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, kPackageLowSpeedTime);
-        curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, kPackageBufferSize);
-        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
-        curl_easy_setopt(curl, CURLOPT_USERAGENT, "FlashGamesHub/0.1");
-        curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, receiveGamePackage);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &sink);
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, gamePackageProgressCallback);
-        curl_easy_setopt(curl, CURLOPT_MAXFILESIZE_LARGE, static_cast<curl_off_t>(kMaxHubCiaBytes));
-        long responseCode = 0;
-        const CURLcode request = curl_easy_perform(curl);
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-        valid = request == CURLE_OK && responseCode == 200 && !sink.hashFailed &&
-                sink.receivedBytes > 0 && !gCancel.load();
-        curl_easy_cleanup(curl);
-    } else {
-        valid = false;
-    }
-
-    unsigned char digest[32]{};
-    if (valid) valid = mbedtls_sha256_finish_ret(&sink.hash, digest) == 0 && digestMatches(digest, manifest.sha256);
-    mbedtls_sha256_free(&sink.hash);
-    if (std::fclose(output) != 0) valid = false;
-    if (!valid) {
-        std::remove(kHubTempPath);
-        finishGamePackage(GamePackageState::Failed, "hub", true);
-        return;
-    }
+    const char* reason = "Téléchargement échoué";
+    if (!downloadVerifiedPackage(manifest.ciaUrl, kHubTempPath, 0, kMaxHubCiaBytes, manifest.sha256, &reason))
+        return failPackage("hub", reason, true);
 
     setGamePackageState(GamePackageState::Installing);
     u64 titleId = 0;
-    const bool installed = installCiaPackage(kHubTempPath, true, kHubTitleId, &titleId);
+    const bool installed = installCiaPackage(kHubTempPath, kHubTitleId, &titleId, &reason);
     std::remove(kHubTempPath);
-    if (!installed) {
-        finishGamePackage(GamePackageState::Failed, "hub", true);
-        return;
-    }
+    if (!installed) return failPackage("hub", reason, true);
+    gPackageError = "";
     finishGamePackage(GamePackageState::Installed, "hub", true, titleId);
 }
 
@@ -766,7 +801,7 @@ bool startGamePackageDownload(const CatalogGame* game, const char* format) {
     if (!game || !gLockInitialized || !gSocReady || !gCurlReady || !game->id[0] ||
         (game->status != GameStatus::Available && game->status != GameStatus::Development) ||
         !format || (std::strcmp(format, "3dsx") != 0 && std::strcmp(format, "cia") != 0) ||
-        (std::strcmp(format, "3dsx") == 0 && (!game->downloadUrl[0] || !game->sizeBytes || !game->sha256[0])) ||
+        (std::strcmp(format, "3dsx") == 0 && (std::strcmp(game->downloadFormat, "3dsx") != 0 || !game->downloadUrl[0] || !game->sizeBytes || !game->sha256[0])) ||
         (std::strcmp(format, "cia") == 0 &&
          (std::strcmp(game->downloadFormat, "cia") == 0 ?
               (!game->downloadUrl[0] || !game->sizeBytes || !game->sha256[0]) :
@@ -829,6 +864,8 @@ bool startHubUpdateDownload(const HubManifest* manifest) {
     }
     return true;
 }
+
+const char* getGamePackageError() { return gPackageError; }
 
 GamePackageState getGamePackageState() {
     if (!gLockInitialized) return GamePackageState::Idle;

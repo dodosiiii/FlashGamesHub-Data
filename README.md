@@ -17,8 +17,8 @@ Le depot contient le catalogue initial, le manifeste du Hub et la structure
 des dossiers d'images et de publications. Le depot local est dans `data/`.
 Le Hub lit directement les fichiers de la branche `main` : les paquets de test
 sont dans [`github-upload/whg-v1.0.0-test`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/whg-v1.0.0-test),
-et le CIA du Hub v0.1.3-dev est dans
-[`github-upload/flash-games-hub-v0.1.3-dev`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/flash-games-hub-v0.1.3-dev).
+et le CIA du Hub v0.2.0-dev est dans
+[`github-upload/flash-games-hub-v0.2.0-dev`](https://github.com/dodosiiii/FlashGamesHub-Data/tree/main/github-upload/flash-games-hub-v0.2.0-dev).
 Le catalogue et le manifeste doivent être publiés à la racine sous
 `catalog.json` et `hub.json`. Aucun GitHub Release n'est requis.
 

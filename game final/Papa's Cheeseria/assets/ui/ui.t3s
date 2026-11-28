@@ -1,0 +1,4 @@
+--atlas -f rgba4 -z auto
+bg_menu.png
+bg_town.png
+logo_cheeseria.png

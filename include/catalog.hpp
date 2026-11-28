@@ -14,6 +14,8 @@ enum class GameStatus : u8 {
 };
 
 struct CatalogGame {
+    static constexpr std::size_t kMaxScreenshots = 5;
+
     char id[64];
     char name[96];
     char description[256];
@@ -21,7 +23,7 @@ struct CatalogGame {
     char genre[48];
     char developer[64];
     char cover[128];
-    char screenshots[3][128];
+    char screenshots[kMaxScreenshots][128];
     u8 screenshotCount;
     char version[24];
     char downloadFormat[12];

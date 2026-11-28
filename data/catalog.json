@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": 10,
+  "catalog_version": 11,
   "updated_at": "2026-11-28",
   "games": [
     {
@@ -824,21 +824,29 @@
     {
       "id": "age-of-war",
       "name": "Age of War",
-      "genre": "A classer",
-      "developer": null,
+      "genre": "Stratégie / défense",
+      "developer": "spidychoipro",
       "cover": null,
-      "screenshots": [],
-      "status": "unavailable",
+      "screenshots": [
+        "data/screenshots/age-of-war/gameplay-1.t3x",
+        "data/screenshots/age-of-war/gameplay-2.t3x",
+        "data/screenshots/age-of-war/gameplay-3.t3x"
+      ],
+      "status": "development",
       "compatibility": {
-        "3ds": "unverified",
-        "new_3ds": "unverified"
+        "3ds": "supported",
+        "new_3ds": "supported"
       },
-      "version": null,
-      "size_bytes": null,
-      "download_url": null,
-      "sha256": null,
-      "description_fr": "Entrée du catalogue en préparation ; fiche du jeu et portage Nintendo 3DS à confirmer.",
-      "description_en": "Work-in-progress catalog entry; game details and Nintendo 3DS port are yet to be confirmed."
+      "version": "0.3.1",
+      "file_type": "3dsx",
+      "size_bytes": 8309928,
+      "download_url": "https://github.com/spidychoipro/Age-of-War-3DS/releases/download/v0.3.1/aow3ds.3dsx",
+      "sha256": "843714104169f0f54cf8fff1ce10d03cf7dc7478ab977c59a8523833188836ac",
+      "cia_url": "https://github.com/spidychoipro/Age-of-War-3DS/releases/download/v0.3.1/aow3ds.cia",
+      "cia_size_bytes": 8354240,
+      "cia_sha256": "708cb0358650a112847cb3b22217f44ceb2cbf8a76af71faf66eb0cd38d453a1",
+      "description_fr": "Portage fan non officiel d’Age of War pour Nintendo 3DS, créé par spidychoipro. Jeu de stratégie et de défense jouable du début à la fin, encore en développement; les tests sur console réelle restent à faire.",
+      "description_en": "Unofficial fan-made Nintendo 3DS port of Age of War by spidychoipro. A strategy and defense game playable from start to finish, still in development; real-hardware testing remains to be done."
     },
     {
       "id": "dino-run",

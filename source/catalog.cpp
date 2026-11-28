@@ -490,7 +490,7 @@ private:
             skipWhitespace();  // apres une virgule, il peut rester espaces / retours a la ligne
             if (mPosition >= mLength) return false;
             if (mInput[mPosition] == '"') {
-                if (game.screenshotCount < 3) {
+                if (game.screenshotCount < CatalogGame::kMaxScreenshots) {
                     if (!parseString(game.screenshots[game.screenshotCount], sizeof(game.screenshots[0]))) return false;
                     if (game.screenshots[game.screenshotCount][0]) ++game.screenshotCount;
                 } else {
