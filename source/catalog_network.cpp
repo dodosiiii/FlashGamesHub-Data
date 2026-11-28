@@ -567,8 +567,8 @@ void gamePackageWorker(void* userData) {
         return failPackage(game.id, "Informations du jeu incomplètes");
     if (isUpdate && (!installed || std::strcmp(installed->format, packageFormat) != 0))
         return failPackage(game.id, "Format différent de l'installation");
-    if (isUpdate && compareVersions(game.version, installed->version) <= 0)
-        return failPackage(game.id, "Déjà à jour");
+    if (isUpdate && compareVersions(game.version, installed->version) < 0)
+        return failPackage(game.id, "Une version plus récente est déjà installée");
     if (gCancel.load()) return failPackage(game.id, "Annulé");
 
     // Un .3dsx deja present (mise a jour, ou fichier orphelin dont l'entree a disparu)

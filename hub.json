@@ -4,6 +4,6 @@
   "latest_version": "0.2.0-dev",
   "minimum_supported_version": "0.1.2-dev",
   "cia_url": "https://raw.githubusercontent.com/dodosiiii/FlashGamesHub-Data/main/github-upload/flash-games-hub-v0.2.0-dev/FlashGamesHub.cia",
-  "sha256": "4061dcc740abebe355b7da2787a58f9721f8b4b7782dbb4b3400c085399c1f6e",
-  "release_notes": "v0.2.0-dev adds Age of War screenshots, visible credits for spidychoipro, support for up to five screenshots per game, and the latest game releases."
+  "sha256": "9f265639dc3590387c1f8e20c0e63d84f50c60bbc2292f138cfb54a6abd9901f",
+  "release_notes": "v0.2.0-dev adds Age of War credits and screenshots, support for up to five screenshots per game, confirmed reinstalls for installed games, and more reliable search input."
 }

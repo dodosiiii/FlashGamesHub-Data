@@ -144,6 +144,7 @@ bool gQuit = false;
 u64 gRelaunchTitleId = 0;
 bool gDownloading = false;
 bool gConfirmUninstall = false;
+bool gConfirmReinstall = false;
 bool gStoreDetailOpen = false;
 std::size_t gStoreDetailGameIndex = GameCatalog::kMaxGames;
 std::size_t gStoreScreenshotIndex = 0;
@@ -314,6 +315,13 @@ constexpr Translation kTranslations[] = {
     {"Téléchargement  %u %%", "Downloading  %u %%"},
     {"Jeu déjà installé", "Game already installed"},
     {"Déjà installé", "Already installed"},
+    {"Installer", "Install"},
+    {"Réinstallation", "Reinstall"},
+    {"Voulez-vous réinstaller cette application ?", "Do you want to reinstall this app?"},
+    {"Oui", "Yes"},
+    {"Non", "No"},
+    {"Réinstallation annulée", "Reinstallation cancelled"},
+    {"Une version plus récente est déjà installée", "A newer version is already installed"},
     {"Mettre à jour", "Update"},
     {"Hub mis à jour", "Hub updated"},
     {"Échec de la mise à jour du Hub", "Hub update failed"},
@@ -1302,9 +1310,9 @@ bool supportsCurrentModel(const CatalogGame& game) {
     return std::strcmp(compatibility, "supported") == 0;
 }
 
-bool storeGameCanInstall(const CatalogGame* game) {
+bool storeGameCanInstall(const CatalogGame* game, const char* format = nullptr) {
     return game && (game->status == GameStatus::Available || game->status == GameStatus::Development) &&
-           supportsCurrentModel(*game) && hasPackageFormat(game, selectedStoreFormat(game));
+           supportsCurrentModel(*game) && hasPackageFormat(game, format ? format : selectedStoreFormat(game));
 }
 
 void toggleFavoriteId(const char* id) {
@@ -1356,15 +1364,16 @@ void toggleGroupFavorite(std::size_t position) {
 }
 
 void editStoreSearch() {
-    SwkbdState keyboard{};
+    static SwkbdState keyboard{};
+    static char query[sizeof(gSearchQuery)]{};
+    std::memset(&keyboard, 0, sizeof(keyboard));
     swkbdInit(&keyboard, SWKBD_TYPE_NORMAL, 2, 32);
     swkbdSetValidation(&keyboard, SWKBD_ANYTHING, 0, 0);
     swkbdSetHintText(&keyboard, L("Nom, genre ou description"));
-    swkbdSetInitialText(&keyboard, gSearchQuery);
+    copyBoundedText(query, sizeof(query), gSearchQuery);
+    swkbdSetInitialText(&keyboard, query);
     swkbdSetButton(&keyboard, SWKBD_BUTTON_LEFT, L("Effacer"), false);
     swkbdSetButton(&keyboard, SWKBD_BUTTON_RIGHT, L("Chercher"), true);
-    char query[sizeof(gSearchQuery)]{};
-    copyBoundedText(query, sizeof(query), gSearchQuery);
     const SwkbdButton result = swkbdInputText(&keyboard, query, sizeof(query));
     if (result == SWKBD_BUTTON_NONE) {
         const SwkbdResult keyboardResult = swkbdGetResult(&keyboard);
@@ -1375,7 +1384,8 @@ void editStoreSearch() {
     }
     if (result == SWKBD_BUTTON_LEFT) query[0] = '\0';
     if (result == SWKBD_BUTTON_RIGHT || result == SWKBD_BUTTON_LEFT) {
-        std::snprintf(gSearchQuery, sizeof(gSearchQuery), "%s", query);
+        query[sizeof(query) - 1] = '\0';
+        copyBoundedText(gSearchQuery, sizeof(gSearchQuery), query);
         rebuildFilter();
     }
 }
@@ -1526,13 +1536,17 @@ bool storeGameHasUpdate(const CatalogGame* game) {
            compareVersions(game->version, installed->version) > 0;
 }
 
+bool storeGameCanChooseFormat(const CatalogGame* game) {
+    return game && !findInstalledGame(game->id) && hasCiaPackage(game) && hasPackageFormat(game, "3dsx");
+}
+
 bool storeGameAlreadyInstalled(const CatalogGame* game) {
     if (!game) return false;
     const InstalledGame* installed = findInstalledGame(game->id);
     return installed && compareVersions(game->version, installed->version) <= 0;
 }
 
-void requestSelectedStoreDownload() {
+void requestSelectedStoreDownload(bool reinstallConfirmed = false) {
     const CatalogGame* game = activeStoreGame();
     if (!game) return;
     if (getGamePackageState() != GamePackageState::Idle) return;
@@ -1544,15 +1558,19 @@ void requestSelectedStoreDownload() {
         showToast(L("Compatibilité non vérifiée"));
         return;
     }
-    if (storeGameAlreadyInstalled(game)) {
-        showToast(L("Jeu déjà installé"));
-        return;
-    }
     const InstalledGame* installed = findInstalledGame(game->id);
     const char* format = installed && installed->format[0] ? installed->format : selectedStoreFormat(game);
-    if (!storeGameCanInstall(game) ||
+    if (!storeGameCanInstall(game, format) ||
         (!std::strcmp(format, "3dsx") && std::strcmp(game->downloadFormat, "3dsx") != 0)) {
         showToast(L("Téléchargement indisponible"));
+        return;
+    }
+    if (installed && compareVersions(game->version, installed->version) < 0) {
+        showToast(L("Une version plus récente est déjà installée"));
+        return;
+    }
+    if (installed && compareVersions(game->version, installed->version) == 0 && !reinstallConfirmed) {
+        gConfirmReinstall = true;
         return;
     }
     if (!startGamePackageDownload(game, format)) showToast(L("Téléchargement indisponible"));
@@ -2390,21 +2408,26 @@ void drawBottomStoreDetail() {
     }
 
     drawButton(kStoreDetailBackX, kStoreDetailButtonY, 54, kStoreDetailButtonH, L("Retour"), true);
-    const bool dualFormat = hasCiaPackage(game) && hasPackageFormat(game, "3dsx");
+    const bool dualFormat = storeGameCanChooseFormat(game);
     const float downloadX = dualFormat ? kStoreDetailDownloadX : kStoreDetailFormatX;
     const float downloadWidth = dualFormat ? 136.0f : 226.0f;
     if (dualFormat) {
         drawButton(kStoreDetailFormatX, kStoreDetailButtonY, 84, kStoreDetailButtonH,
                    L(gStoreCiaFormat ? "Format .cia" : "Format .3dsx"), true);
     }
-    const char* format = selectedStoreFormat(game);
+    const InstalledGame* installed = findInstalledGame(game->id);
+    const char* format = installed && installed->format[0] ? installed->format : selectedStoreFormat(game);
     const bool alreadyInstalled = storeGameAlreadyInstalled(game);
+    const bool installedAtCatalogVersion =
+        installed && compareVersions(game->version, installed->version) == 0;
     const bool hasUpdate = storeGameHasUpdate(game);
-    const bool canInstall = storeGameCanInstall(game) && !alreadyInstalled;
+    const bool canInstall = storeGameCanInstall(game, format) &&
+                            (!alreadyInstalled || installedAtCatalogVersion);
     const GamePackageState packageState = getGamePackageState();
     const char* action = packageState == GamePackageState::Downloading ? L("Téléchargement...") :
                          packageState == GamePackageState::Installing ? L("Installation CIA...") :
                          hasUpdate ? L("Mettre à jour") :
+                         installedAtCatalogVersion ? L("Installer") :
                          alreadyInstalled ? L("Déjà installé") :
                          game->status == GameStatus::Development && !canInstall ? L("En développement") :
                          game->status == GameStatus::Finished ? L("Terminé") :
@@ -2653,6 +2676,13 @@ void drawBottomScreen() {
         drawCentered(L("A pour confirmer la désinstallation"), 160, 112, 0.34f, kMuted);
         drawButton(20, 142, 126, 28, L("Annuler"), false);
         drawButton(174, 142, 126, 28, L("Désinstaller"), true);
+    } else if (gConfirmReinstall) {
+        drawRect(0, 34, kBottomWidth, 174, C2D_Color32(0, 0, 0, 190));
+        drawCardOutlined(10, 72, 300, 112, kSurface, kBorder);
+        drawCentered(L("Réinstallation"), 160, 88, 0.43f, kText);
+        drawCentered(L("Voulez-vous réinstaller cette application ?"), 160, 112, 0.34f, kMuted);
+        drawButton(20, 142, 126, 28, L("Non"), false);
+        drawButton(174, 142, 126, 28, L("Oui"), true);
     }
 }
 
@@ -2708,15 +2738,16 @@ void handleStoreTouch(const touchPosition& touch) {
     }
     if (gStoreDetailOpen) {
         const CatalogGame* game = activeStoreGame();
+        const bool canChooseFormat = storeGameCanChooseFormat(game);
         if (game && inside(touch, 276, 44, 34, 24)) {
             toggleFavoriteId(game->id);
         } else if (inside(touch, kStoreDetailBackX, kStoreDetailButtonY, 54, kStoreDetailButtonH)) {
             closeStoreDetail();
         } else if (inside(touch, kStoreDetailDownloadX, kStoreDetailButtonY, 136, kStoreDetailButtonH) ||
-                   (!(hasCiaPackage(game) && hasPackageFormat(game, "3dsx")) &&
+                   (!canChooseFormat &&
                     inside(touch, kStoreDetailFormatX, kStoreDetailButtonY, 226, kStoreDetailButtonH))) {
             requestSelectedStoreDownload();
-        } else if (hasCiaPackage(game) && hasPackageFormat(game, "3dsx") &&
+        } else if (canChooseFormat &&
                    inside(touch, kStoreDetailFormatX, kStoreDetailButtonY, 84, kStoreDetailButtonH)) {
             gStoreCiaFormat = !gStoreCiaFormat;
         } else if (gStoreSel < gFilteredCount && gGroupCount[gStoreSel] > 1 &&
@@ -2821,6 +2852,26 @@ void handleInput() {
         }
         return;
     }
+    if (gConfirmReinstall) {
+        if (down & KEY_A) {
+            gConfirmReinstall = false;
+            requestSelectedStoreDownload(true);
+        } else if (down & KEY_B) {
+            gConfirmReinstall = false;
+            showToast(L("Réinstallation annulée"));
+        } else if (down & KEY_TOUCH) {
+            touchPosition touch{};
+            hidTouchRead(&touch);
+            if (inside(touch, 174, 142, 126, 28)) {
+                gConfirmReinstall = false;
+                requestSelectedStoreDownload(true);
+            } else if (inside(touch, 20, 142, 126, 28)) {
+                gConfirmReinstall = false;
+                showToast(L("Réinstallation annulée"));
+            }
+        }
+        return;
+    }
 
     if (down & KEY_START) {
         if (getGamePackageState() == GamePackageState::Installing) showToast(L("Installation en cours..."));
@@ -2863,7 +2914,7 @@ void handleInput() {
             if (down & KEY_B) closeStoreDetail();
             if (down & KEY_Y) {
                 const CatalogGame* game = activeStoreGame();
-                if (hasCiaPackage(game) && hasPackageFormat(game, "3dsx")) {
+                if (storeGameCanChooseFormat(game)) {
                     gStoreCiaFormat = !gStoreCiaFormat;
                     showToast(L(gStoreCiaFormat ? "Format .cia" : "Format .3dsx"));
                 }
